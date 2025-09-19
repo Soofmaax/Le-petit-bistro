@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, Users, Phone, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Reservation: React.FC = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     date: '',
     time: '',
@@ -46,18 +48,22 @@ const Reservation: React.FC = () => {
           <div className="bg-white/90 rounded-xl p-8 shadow-lg">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
             <h2 className="text-3xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
-              Réservation confirmée !
+              {t('reservation.confirm_title')}
             </h2>
             <p className="text-lg text-gray-600 mb-4">
-              Merci {formData.name} ! Votre réservation pour {formData.guests} personne(s) 
-              le {formData.date} à {formData.time} a bien été prise en compte.
+              {t('reservation.confirm_text', {
+                name: formData.name,
+                guests: formData.guests,
+                date: formData.date,
+                time: formData.time
+              })}
             </p>
             <p className="text-gray-600">
-              Nous vous appellerons au {formData.phone} pour confirmer les détails.
+              {t('reservation.confirm_phone', { phone: formData.phone })}
             </p>
             <div className="mt-6 p-4 bg-[#F5E6D3] rounded-lg">
               <p className="text-[#8B4513] font-semibold">
-                Nous avons hâte de vous accueillir au Petit Coin !
+                {t('reservation.confirm_ending')}
               </p>
             </div>
           </div>
@@ -71,11 +77,10 @@ const Reservation: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
-            Réserver une Table
+            {t('reservation.title')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Réservez dès maintenant votre table pour vivre un moment convivial dans notre bistro. 
-            Nous vous garantissons un accueil chaleureux !
+            {t('reservation.subtitle')}
           </p>
         </div>
 
@@ -83,7 +88,7 @@ const Reservation: React.FC = () => {
           {/* Formulaire de réservation */}
           <div className="bg-white/90 rounded-xl p-8 shadow-lg">
             <h3 className="text-2xl font-bold text-[#8B4513] mb-6 font-['Pacifico']">
-              Vos informations
+              {t('reservation.your_info')}
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -91,7 +96,7 @@ const Reservation: React.FC = () => {
                 <div>
                   <label className="block text-sm font-semibold text-[#8B4513] mb-2">
                     <Calendar className="inline w-4 h-4 mr-1" />
-                    Date
+                    {t('reservation.date')}
                   </label>
                   <input
                     type="date"
@@ -107,7 +112,7 @@ const Reservation: React.FC = () => {
                 <div>
                   <label className="block text-sm font-semibold text-[#8B4513] mb-2">
                     <Clock className="inline w-4 h-4 mr-1" />
-                    Heure
+                    {t('reservation.time')}
                   </label>
                   <select
                     name="time"
@@ -116,7 +121,7 @@ const Reservation: React.FC = () => {
                     required
                     className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
                   >
-                    <option value="">Choisir l'heure</option>
+                    <option value="">{t('reservation.choose_time')}</option>
                     <option value="11:30">11h30</option>
                     <option value="12:00">12h00</option>
                     <option value="12:30">12h30</option>
@@ -138,7 +143,7 @@ const Reservation: React.FC = () => {
               <div>
                 <label className="block text-sm font-semibold text-[#8B4513] mb-2">
                   <Users className="inline w-4 h-4 mr-1" />
-                  Nombre de personnes
+                  {t('reservation.guests')}
                 </label>
                 <select
                   name="guests"
@@ -149,16 +154,16 @@ const Reservation: React.FC = () => {
                 >
                   {[1,2,3,4,5,6,7,8,9,10].map(num => (
                     <option key={num} value={num.toString()}>
-                      {num} personne{num > 1 ? 's' : ''}
+                      {t('reservation.person', { count: num })}
                     </option>
                   ))}
-                  <option value="10+">Plus de 10 personnes</option>
+                  <option value="10+">{t('reservation.more_than_ten')}</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                  Nom complet
+                  {t('reservation.full_name')}
                 </label>
                 <input
                   type="text"
@@ -167,7 +172,7 @@ const Reservation: React.FC = () => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  placeholder="Votre nom et prénom"
+                  placeholder={t('reservation.full_name_ph') as string}
                 />
               </div>
 
@@ -182,14 +187,14 @@ const Reservation: React.FC = () => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  placeholder="votre@email.com"
+                  placeholder="you@email.com"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-[#8B4513] mb-2">
                   <Phone className="inline w-4 h-4 mr-1" />
-                  Téléphone
+                  {t('reservation.phone')}
                 </label>
                 <input
                   type="tel"
@@ -198,13 +203,13 @@ const Reservation: React.FC = () => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  placeholder="06 XX XX XX XX"
+                  placeholder={t('reservation.phone_ph') as string}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                  Message (optionnel)
+                  {t('reservation.message_optional')}
                 </label>
                 <textarea
                   name="message"
@@ -212,7 +217,7 @@ const Reservation: React.FC = () => {
                   onChange={handleInputChange}
                   rows={3}
                   className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  placeholder="Allergies, occasion spéciale, demandes particulières..."
+                  placeholder={t('reservation.message_ph') as string}
                 ></textarea>
               </div>
 
@@ -220,7 +225,7 @@ const Reservation: React.FC = () => {
                 type="submit"
                 className="w-full bg-[#D2691E] hover:bg-[#B8551A] text-white py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
               >
-                Confirmer ma réservation
+                {t('reservation.submit')}
               </button>
             </form>
           </div>
@@ -229,53 +234,53 @@ const Reservation: React.FC = () => {
           <div className="space-y-6">
             <div className="bg-white/90 rounded-xl p-6 shadow-lg">
               <h3 className="text-xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
-                Informations pratiques
+                {t('reservation.practical_info')}
               </h3>
               <div className="space-y-3 text-gray-600">
                 <div className="flex items-center space-x-2">
                   <Clock className="w-5 h-5 text-[#D2691E]" />
                   <div>
-                    <p className="font-semibold">Horaires d'ouverture</p>
-                    <p className="text-sm">Lun-Sam: 11h30-14h30 • 18h30-22h30</p>
-                    <p className="text-sm">Dimanche: 11h30-15h00</p>
+                    <p className="font-semibold">{t('reservation.opening_hours')}</p>
+                    <p className="text-sm">{t('reservation.hours_mon_sat')}</p>
+                    <p className="text-sm">{t('reservation.hours_sun')}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Phone className="w-5 h-5 text-[#D2691E]" />
                   <div>
-                    <p className="font-semibold">Réservation téléphonique</p>
+                    <p className="font-semibold">{t('reservation.phone_booking')}</p>
                     <p className="text-sm">04 78 XX XX XX</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Users className="w-5 h-5 text-[#D2691E]" />
                   <div>
-                    <p className="font-semibold">Groupes</p>
-                    <p className="text-sm">Pour plus de 10 personnes, nous contacter directement</p>
+                    <p className="font-semibold">{t('reservation.groups')}</p>
+                    <p className="text-sm">{t('reservation.groups_text')}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="bg-gradient-to-r from-[#D2691E] to-[#B8551A] text-white rounded-xl p-6">
-              <h3 className="text-xl font-bold mb-3 font-['Pacifico']">Bon à savoir</h3>
+              <h3 className="text-xl font-bold mb-3 font-['Pacifico']">{t('reservation.good_to_know')}</h3>
               <ul className="text-sm space-y-2">
-                <li>• Nous acceptons les réservations jusqu'à 21h30</li>
-                <li>• Places en terrasse selon disponibilité</li>
-                <li>• Menus enfants disponibles</li>
-                <li>• Chaises hautes sur demande</li>
-                <li>• Paiement CB accepté dès 10€</li>
+                <li>• {t('reservation.tip_last_booking')}</li>
+                <li>• {t('reservation.tip_terrace')}</li>
+                <li>• {t('reservation.tip_kids')}</li>
+                <li>• {t('reservation.tip_high_chairs')}</li>
+                <li>• {t('reservation.tip_card_payment')}</li>
               </ul>
             </div>
 
             <div className="bg-white/90 rounded-xl p-6 shadow-lg">
               <img 
                 src="https://images.pexels.com/photos/5490778/pexels-photo-5490778.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
-                alt="Ambiance du bistro"
+                alt={t('reservation.ambience_alt')}
                 className="w-full h-48 object-cover rounded-lg mb-4"
               />
               <p className="text-gray-600 text-sm text-center italic">
-                "Une ambiance chaleureuse vous attend au Petit Coin"
+                {t('reservation.ambience_quote')}
               </p>
             </div>
           </div>
