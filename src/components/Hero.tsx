@@ -1,14 +1,19 @@
 import React from 'react';
 import { ChefHat, Heart, Star } from 'lucide-react';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onViewMenu: () => void;
+  onReserve: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onViewMenu, onReserve }) => {
   return (
     <section className="relative min-h-[70vh] flex items-center">
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop)'
+          backgroundImage: 'url(https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920&amp;h=1080&amp;fit=crop)'
         }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
@@ -26,10 +31,16 @@ const Hero: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <button className="bg-[#D2691E] hover:bg-[#B8551A] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg">
+            <button
+              onClick={onViewMenu}
+              className="bg-[#D2691E] hover:bg-[#B8551A] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+            >
               Voir notre carte
             </button>
-            <button className="bg-white/20 backdrop-blur hover:bg-white/30 text-white border border-white/50 px-8 py-3 rounded-lg font-semibold transition-all duration-200">
+            <button
+              onClick={onReserve}
+              className="bg-white/20 backdrop-blur hover:bg-white/30 text-white border border-white/50 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
+            >
               Réserver une table
             </button>
           </div>

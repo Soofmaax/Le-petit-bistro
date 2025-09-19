@@ -16,7 +16,10 @@ function App() {
       
       {activeSection === 'home' && (
         <>
-          <Hero />
+          <Hero
+            onViewMenu={() => setActiveSection('menu')}
+            onReserve={() => setActiveSection('reservation')}
+          />
           <div className="px-4 py-8">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-[#8B4513] text-center mb-8 font-['Pacifico']">
