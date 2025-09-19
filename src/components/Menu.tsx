@@ -13,10 +13,27 @@ const iconsMap = {
   ChefHat: <ChefHat size={20} />
 } as const;
 
+// We keep stable canonical keys in data files.
+// Titles are localized in the JSONs; route doesn't depend on category.
 const useLocalizedMenu = (lng: string): MenuData => {
   const lang = (lng || 'fr').toLowerCase();
   if (lang.startsWith('en')) return menuEn as MenuData;
   return menuFr as MenuData;
+};
+
+const listVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.06, delayChildren: 0.05 }
+  },
+  exit: { opacity: 0 }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.15 } }
 };
 
 const Menu: React.FC = () => {
@@ -44,10 +61,12 @@ const Menu: React.FC = () => {
           {categories.map((category) => {
             const categoryData = menuData[category];
             return (
-              <button
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.98 }}
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
                   activeCategory === category
                     ? 'bg-[#D2691E] text-white shadow-lg'
                     : 'bg-white dark:bg-slate-800 text-[#8B4513] dark:text-[#F5E6D3] hover:bg-[#F5E6D3] dark:hover:bg-slate-700 border border-[#D2691E]/20'
@@ -55,7 +74,7 @@ const Menu: React.FC = () => {
               >
                 <span>{iconsMap[categoryData.icon]}</span>
                 <span>{categoryData.title}</span>
-              </button>
+              </motion.button>
             );
           })}
         </div>
@@ -69,20 +88,18 @@ const Menu: React.FC = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeCategory + (i18n.language || 'fr')}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
+              variants={listVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
               className="grid md:grid-cols-2 gap-6"
             >
               {current.items.map((item, index) => (
                 <motion.div
+                  variants={itemVariants}
                   key={`${item.name}-${index}`}
-                  initial={{ opacity: 0, y: 6 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.2, delay: index * 0.02 }}
-                  className="border-b border-[#D2691E]/20 pb-4 hover:bg-[#F5E6D3]/50 dark:hover:bg-slate-700/40 p-4 rounded-lg transition-all duration-200"
+                  whileHover={{ scale: 1.01, backgroundColor: 'rgba(245,230,211,0.5)' }}
+                  className="border-b border-[#D2691E]/20 pb-4 p-4 rounded-lg"
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h4 className="text-lg font-semibold text-[#8B4513] dark:text-[#F5E6D3] font-['Pacifico']">

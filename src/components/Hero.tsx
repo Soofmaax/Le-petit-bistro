@@ -1,16 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChefHat, Heart, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
+  const [reservePos, setReservePos] = useState({ x: 0, y: 0 });
+
+  const handleMagnet = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    setPos: (p: { x: number; y: number }) => void
+  ) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setPos({
+      x: (e.clientX - r.left - r.width / 2) / 18,
+      y: (e.clientY - r.top - r.height / 2) / 18
+    });
+  };
+
+  const resetMagnet = (setPos: (p: { x: number; y: number }) => void) => {
+    setPos({ x: 0, y: 0 });
+  };
+
   return (
     <section className="relative min-h-[70vh] flex items-center">
       {/* Background Image */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url(/images/hero.jpg)"
@@ -29,20 +48,28 @@ const Hero: React.FC = () => {
             {t('site.hero_sub')}
             <span className="block mt-2 text-[#F5E6D3]">{t('hero.like_home')}</span>
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <button
+            <motion.button
+              onMouseMove={(e) => handleMagnet(e, setMenuPos)}
+              onMouseLeave={() => resetMagnet(setMenuPos)}
+              animate={{ x: menuPos.x, y: menuPos.y }}
+              transition={{ type: 'spring', stiffness: 250, damping: 18 }}
               onClick={() => navigate('/menu')}
-              className="bg-[#D2691E] hover:bg-[#B8551A] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+              className="bg-[#D2691E] hover:bg-[#B8551A] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg"
             >
               {t('site.cta_menu')}
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              onMouseMove={(e) => handleMagnet(e, setReservePos)}
+              onMouseLeave={() => resetMagnet(setReservePos)}
+              animate={{ x: reservePos.x, y: reservePos.y }}
+              transition={{ type: 'spring', stiffness: 250, damping: 18 }}
               onClick={() => navigate('/reservation')}
               className="bg-white/20 backdrop-blur hover:bg-white/30 text-white border border-white/50 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
             >
               {t('site.cta_reserve')}
-            </button>
+            </motion.button>
           </div>
 
           <div className="flex items-center space-x-6 text-[#F5E6D3]">
