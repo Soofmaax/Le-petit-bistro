@@ -30,8 +30,11 @@ const About: React.FC = () => {
           />
           <div className="absolute inset-0 bg-black/30" />
         </motion.div>
-        <div className="relative z-10 h-full flex items-center justify-center">
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-3">
           <h1 className="text-3xl sm:text-4xl text-white font-['Pacifico'] drop-shadow">Le Petit Coin</h1>
+          <p className="text-white/90 text-sm sm:text-base mt-1">
+            {(navigator.language || 'fr').toLowerCase().startsWith('en') ? 'Neighborhood bistro' : 'Bistro de quartier'}
+          </p>
         </div>
       </div>
 

@@ -30,6 +30,8 @@ const Header: React.FC = () => {
     void i18n.changeLanguage(lng);
     document.documentElement.lang = lng;
     localStorage.setItem('lang', lng);
+    const subtitle = lng === 'en' ? 'Neighborhood bistro' : 'Bistro de quartier';
+    document.title = `Le Petit Coin — ${subtitle}`;
   };
 
   React.useEffect(() => {
@@ -43,9 +45,13 @@ const Header: React.FC = () => {
 
     const savedMotion = localStorage.getItem('motion'); // 'reduce' | 'auto'
     document.documentElement.dataset.reduceMotion = savedMotion === 'reduce' ? 'true' : 'false';
+
+    const subtitle = savedLang === 'en' ? 'Neighborhood bistro' : 'Bistro de quartier';
+    document.title = `Le Petit Coin — ${subtitle}`;
   }, [i18n]);
 
   const motionIsReduced = typeof document !== 'undefined' && document.documentElement.dataset.reduceMotion === 'true';
+  const subtitle = (i18n.language || 'fr').startsWith('en') ? 'Neighborhood bistro' : 'Bistro de quartier';
 
   return (
     <header className="bg-white/95 dark:bg-slate-900/90 backdrop-blur-sm shadow-md sticky top-0 z-50">
@@ -58,7 +64,7 @@ const Header: React.FC = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-[#8B4513] dark:text-[#F5E6D3] font-['Pacifico']">Le Petit Coin</h1>
-              <p className="text-sm text-[#808000]">Bistro de quartier</p>
+              <p className="text-sm text-[#808000]">{subtitle}</p>
             </div>
           </div>
 
