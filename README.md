@@ -4,8 +4,8 @@
 <p><strong>Vite + React + TypeScript + Tailwind</strong></p>
 
 <p>
-<a href="https://github.com/OWNER/REPO/actions/workflows/ci.yml">
-<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/OWNER/REPO/ci.yml?branch=main&label=CI&logo=github" />
+<a href="https://github.com/Soofmax/REPO/actions/workflows/ci.yml">
+<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmax/REPO/ci.yml?branch=main&label=CI&logo=github" />
 </a>
 <img alt="Vite" src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" />
 <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=061d2f" />
@@ -35,7 +35,7 @@
 - Dev local: `npm run dev` (http://localhost:5173)
 - Déploiement conseillé: Vercel ou Netlify
 
-Remplacez `OWNER/REPO` dans les badges par votre namespace GitHub.
+Remplacez `REPO` par le nom réel de votre dépôt GitHub (propriétaire: <a href="https://github.com/Soofmax">Soofmax</a>).
 
 ---
 
@@ -133,7 +133,7 @@ CI GitHub Actions: `.github/workflows/ci.yml`
 
 Badge:
 ```
-[![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/Soofmax/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/ci.yml)
 ```
 
 Déploiement conseillé:
