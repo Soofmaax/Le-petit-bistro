@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Custom CSS Variables */
+:root {
+  --color-beige: #F5E6D3;
+  --color-brown: #8B4513;
+  --color-orange: #D2691E;
+  --color-olive: #808000;
+}
+
+/* Global styles */
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+/* Custom classes for the bistro theme */
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Custom button hover effects */
+.btn-bistro {
+  @apply bg-[#D2691E] text-white px-6 py-3 rounded-lg font-semibold;
+  @apply hover:bg-[#B8551A] hover:shadow-lg transform hover:scale-105;
+  @apply transition-all duration-200;
+}
+
+/* Background patterns */
+.bg-pattern {
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(139,69,19,0.1) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-beige);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-orange);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8551A;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
