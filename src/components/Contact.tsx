@@ -1,15 +1,16 @@
 import React from 'react';
 import { MapPin, Phone, Clock, Mail, Car, Train } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }
-};
+import { motion, useReducedMotion } from 'framer-motion';
 
 const Contact: React.FC = () => {
   const { t } = useTranslation();
+  const reduce = useReducedMotion();
+
+  const fadeUp = {
+    hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 16 },
+    show: { opacity: 1, y: 0, transition: { duration: reduce ? 0.1 : 0.35, ease: 'easeOut' } }
+  };
 
   return (
     <section className="py-10 sm:py-12 px-3 sm:px-4">
@@ -24,13 +25,17 @@ const Contact: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
             {t('contact.title')}
           </h2>
-          <motion.div
-            initial={{ width: 0, opacity: 0 }}
-            whileInView={{ width: 120, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
-          />
+          {reduce ? (
+            <div className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3" style={{ width: 120 }} />
+          ) : (
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              whileInView={{ width: 120, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
+            />
+          )}
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2">
             {t('contact.intro')}
           </p>

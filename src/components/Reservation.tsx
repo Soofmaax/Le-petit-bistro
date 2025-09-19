@@ -2,11 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Calendar, Clock, Users, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Lottie from 'lottie-react';
 
 const Reservation: React.FC = () => {
   const { t } = useTranslation();
+  const reduce = useReducedMotion();
   const [formData, setFormData] = useState({
     date: '',
     time: '',
@@ -22,14 +23,15 @@ const Reservation: React.FC = () => {
 
   // Load a lightweight success Lottie animation (external asset)
   useEffect(() => {
+    if (reduce) return; // skip fetching animation if reduced motion
     fetch('https://lottie.host/4e3f5f45-0e1f-4f44-9a8c-0e1f7a6b7b9a/2D1vR5a5zB.json')
       .then((r) => r.json())
       .then(setSuccessAnim)
       .catch(() => setSuccessAnim(null));
-  }, []);
+  }, [reduce]);
 
   useEffect(() => {
-    if (!isSubmitted) return;
+    if (!isSubmitted || reduce) return;
     // Subtle, brand-colored confetti with emoji hearts and squares
     const duration = 900;
     const end = Date.now() + duration;
@@ -49,7 +51,7 @@ const Reservation: React.FC = () => {
       }
     };
     frame();
-  }, [isSubmitted]);
+  }, [isSubmitted, reduce]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,7 +83,7 @@ const Reservation: React.FC = () => {
       <section className="py-12 px-4">
         <div className="max-w-2xl mx-auto text-center">
           <div className="bg-white/90 rounded-xl p-8 shadow-lg">
-            {successAnim ? (
+            {!reduce && successAnim ? (
               <Lottie animationData={successAnim} loop={false} style={{ width: 140, height: 140, margin: '0 auto' }} />
             ) : (
               <div className="w-16 h-16 rounded-full bg-green-500/15 border border-green-500/30 mx-auto mb-4" />
@@ -112,16 +114,19 @@ const Reservation: React.FC = () => {
   }
 
   const underline = useMemo(
-    () => (
-      <motion.div
-        initial={{ width: 0, opacity: 0 }}
-        whileInView={{ width: 140, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-        className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
-      />
-    ),
-    []
+    () =>
+      reduce ? (
+        <div className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3" style={{ width: 140 }} />
+      ) : (
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: 140, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
+        />
+      ),
+    [reduce]
   );
 
   return (

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChefHat, Heart, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const reduce = useReducedMotion();
 
   // Parallax background
   const { scrollY } = useScroll();
@@ -21,6 +22,7 @@ const Hero: React.FC = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     setPos: (p: { x: number; y: number }) => void
   ) => {
+    if (reduce) return;
     const r = e.currentTarget.getBoundingClientRect();
     setPos({
       x: (e.clientX - r.left - r.width / 2) / 18,
@@ -36,10 +38,9 @@ const Hero: React.FC = () => {
     <section className="relative min-h-[70vh] flex items-center">
       {/* Background Image with parallax */}
       <motion.div
-        style={{ y, scale }}
+        style={{ y: reduce ? 0 : y, scale: reduce ? 1 : scale }}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         aria-hidden
-        // Using local asset
         animate={{}}
         transition={{ duration: 0 }}
       >
@@ -65,7 +66,7 @@ const Hero: React.FC = () => {
             <motion.button
               onMouseMove={(e) => handleMagnet(e, setMenuPos)}
               onMouseLeave={() => resetMagnet(setMenuPos)}
-              animate={{ x: menuPos.x, y: menuPos.y }}
+              animate={reduce ? { x: 0, y: 0 } : { x: menuPos.x, y: menuPos.y }}
               transition={{ type: 'spring', stiffness: 250, damping: 18 }}
               onClick={() => navigate('/menu')}
               className="bg-[#D2691E] hover:bg-[#B8551A] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg"
@@ -75,7 +76,7 @@ const Hero: React.FC = () => {
             <motion.button
               onMouseMove={(e) => handleMagnet(e, setReservePos)}
               onMouseLeave={() => resetMagnet(setReservePos)}
-              animate={{ x: reservePos.x, y: reservePos.y }}
+              animate={reduce ? { x: 0, y: 0 } : { x: reservePos.x, y: reservePos.y }}
               transition={{ type: 'spring', stiffness: 250, damping: 18 }}
               onClick={() => navigate('/reservation')}
               className="bg-white/20 backdrop-blur hover:bg-white/30 text-white border border-white/50 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
@@ -102,9 +103,9 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className={`absolute bottom-10 left-1/2 transform -translate-x-1/2 ${reduce ? '' : 'animate-bounce'}`}>
         <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+          <div className={`w-1 h-3 bg-white/70 rounded-full mt-2 ${reduce ? '' : 'animate-pulse'}`}></div>
         </div>
       </div>
     </section>

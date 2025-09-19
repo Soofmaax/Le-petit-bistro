@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -10,12 +10,12 @@ import Reservation from './components/Reservation';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
-const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const Page: React.FC<{ children: React.ReactNode; reduce?: boolean }> = ({ children, reduce }) => (
   <motion.main
-    initial={{ opacity: 0, y: 12 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -12 }}
-    transition={{ duration: 0.25, ease: 'easeOut' }}
+    initial={reduce ? false : { opacity: 0, y: 12 }}
+    animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
+    exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
+    transition={{ duration: reduce ? 0.1 : 0.25, ease: 'easeOut' }}
   >
     {children}
   </motion.main>
@@ -24,10 +24,11 @@ const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 function App() {
   const location = useLocation();
   const { t } = useTranslation();
+  const reduce = useReducedMotion();
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 14 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }
+    hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 14 },
+    show: { opacity: 1, y: 0, transition: { duration: reduce ? 0.1 : 0.35, ease: 'easeOut' } }
   };
 
   return (
@@ -39,7 +40,7 @@ function App() {
             <Route
               path="/"
               element={
-                <Page>
+                <Page reduce={reduce}>
                   <Hero />
                   <div className="px-4 py-8">
                     <div className="max-w-4xl mx-auto">
@@ -78,7 +79,7 @@ function App() {
             <Route
               path="/menu"
               element={
-                <Page>
+                <Page reduce={reduce}>
                   <Menu />
                 </Page>
               }
@@ -86,7 +87,7 @@ function App() {
             <Route
               path="/a-propos"
               element={
-                <Page>
+                <Page reduce={reduce}>
                   <About />
                 </Page>
               }
@@ -94,7 +95,7 @@ function App() {
             <Route
               path="/reservation"
               element={
-                <Page>
+                <Page reduce={reduce}>
                   <Reservation />
                 </Page>
               }
@@ -102,7 +103,7 @@ function App() {
             <Route
               path="/contact"
               element={
-                <Page>
+                <Page reduce={reduce}>
                   <Contact />
                 </Page>
               }
@@ -111,14 +112,16 @@ function App() {
         </motion.div>
 
         {/* Cover transition */}
-        <motion.div
-          key={`cover-${location.pathname}`}
-          className="fixed inset-0 bg-[#D2691E] z-40 pointer-events-none"
-          initial={{ x: '100%' }}
-          animate={{ x: '100%' }}
-          exit={{ x: 0 }}
-          transition={{ duration: 0.35, ease: 'easeInOut' }}
-        />
+        {!reduce && (
+          <motion.div
+            key={`cover-${location.pathname}`}
+            className="fixed inset-0 bg-[#D2691E] z-40 pointer-events-none"
+            initial={{ x: '100%' }}
+            animate={{ x: '100%' }}
+            exit={{ x: 0 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+          />
+        )}
       </AnimatePresence>
       <Footer />
     </div>

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Wine, Coffee, Utensils, ChefHat } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import menuFr from '../data/menu.fr.json';
 import menuEn from '../data/menu.en.json';
@@ -21,28 +21,29 @@ const useLocalizedMenu = (lng: string): MenuData => {
   return menuFr as MenuData;
 };
 
-const listVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.06, delayChildren: 0.05 }
-  },
-  exit: { opacity: 0 }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 8 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.15 } }
-};
-
 const Menu: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const reduce = useReducedMotion();
   const menuData = useLocalizedMenu(i18n.language);
   const categories = useMemo(() => Object.keys(menuData), [menuData]);
   const [activeCategory, setActiveCategory] = useState(categories[0] ?? 'entrees');
 
   const current = menuData[activeCategory];
+
+  const listVariants = useMemo(
+    () =>
+      reduce
+        ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+        : { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.06, delayChildren: 0.05 } }, exit: { opacity: 0 } },
+    [reduce]
+  );
+  const itemVariants = useMemo(
+    () =>
+      reduce
+        ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
+        : { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: 0.2 } }, exit: { opacity: 0, y: -8, transition: { duration: 0.15 } } },
+    [reduce]
+  );
 
   return (
     <section className="py-10 sm:py-12 px-3 sm:px-4">
@@ -51,13 +52,17 @@ const Menu: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] dark:text-[#F5E6D3] mb-3 sm:mb-4 font-['Pacifico']">
             {t('menu.title')}
           </h2>
-          <motion.div
-            initial={{ width: 0, opacity: 0 }}
-            whileInView={{ width: 120, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
-          />
+          {reduce ? (
+            <div className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3" style={{ width: 120 }} />
+          ) : (
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              whileInView={{ width: 120, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
+            />
+          )}
           <p className="text-base sm:text-lg text-gray-600 dark:text-slate-300 max-w-2xl mx-auto px-2">
             {t('menu.intro')}
           </p>
@@ -69,8 +74,8 @@ const Menu: React.FC = () => {
             const categoryData = menuData[category];
             return (
               <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={reduce ? undefined : { scale: 1.04 }}
+                whileTap={reduce ? undefined : { scale: 0.98 }}
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 className={`flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all duration-200 ${
@@ -105,7 +110,7 @@ const Menu: React.FC = () => {
                 <motion.div
                   variants={itemVariants}
                   key={`${item.name}-${index}`}
-                  whileHover={{ scale: 1.01, backgroundColor: 'rgba(245,230,211,0.5)' }}
+                  whileHover={reduce ? undefined : { scale: 1.01, backgroundColor: 'rgba(245,230,211,0.5)' }}
                   className="border-b border-[#D2691E]/20 pb-3 sm:pb-4 p-3 sm:p-4 rounded-lg"
                 >
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-1.5 sm:mb-2 gap-1.5">

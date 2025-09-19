@@ -1,26 +1,27 @@
 import React from 'react';
 import { Users, Award, Heart, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform } from 'framer-motion';
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }
-};
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 
 const About: React.FC = () => {
   const { t } = useTranslation();
+  const reduce = useReducedMotion();
 
   // Parallax banner
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 250], [0, 30]);
   const scale = useTransform(scrollY, [0, 250], [1, 1.04]);
 
+  const fadeUp = {
+    hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 16 },
+    show: { opacity: 1, y: 0, transition: { duration: reduce ? 0.1 : 0.35, ease: 'easeOut' } }
+  };
+
   return (
     <section className="py-10 sm:py-12 px-3 sm:px-4">
       {/* Banner with parallax */}
       <div className="relative h-40 sm:h-56 mb-8 sm:mb-12 rounded-xl overflow-hidden">
-        <motion.div style={{ y, scale }} className="absolute inset-0">
+        <motion.div style={{ y: reduce ? 0 : y, scale: reduce ? 1 : scale }} className="absolute inset-0">
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: "url(/images/about_interior_1200.jpg)" }}
@@ -44,13 +45,17 @@ const About: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
             {t('about.title')}
           </h2>
-          <motion.div
-            initial={{ width: 0, opacity: 0 }}
-            whileInView={{ width: 120, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
-          />
+          {reduce ? (
+            <div className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3" style={{ width: 120 }} />
+          ) : (
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              whileInView={{ width: 120, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
+            />
+          )}
           <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-2">
             {t('about.intro')}
           </p>
