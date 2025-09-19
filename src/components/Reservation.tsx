@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, Clock, Users, Phone, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import confetti from 'canvas-confetti';
 
 const Reservation: React.FC = () => {
   const { t } = useTranslation();
@@ -15,6 +16,28 @@ const Reservation: React.FC = () => {
   });
   
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!isSubmitted) return;
+    // Small confetti celebration
+    const duration = 900;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      confetti({
+        particleCount: 40,
+        spread: 55,
+        origin: { y: 0.2 },
+        startVelocity: 35,
+        scalar: 0.8,
+        colors: ['#D2691E', '#F5E6D3', '#8B4513']
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
+  }, [isSubmitted]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

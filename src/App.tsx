@@ -25,6 +25,11 @@ function App() {
   const location = useLocation();
   const { t } = useTranslation();
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 14 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }
+  };
+
   return (
     <div className="min-h-screen bg-[#F5E6D3] dark:bg-slate-900 dark:text-slate-100">
       <Header />
@@ -42,16 +47,28 @@ function App() {
                         {t('home.preview_title')}
                       </h2>
                       <div className="grid md:grid-cols-2 gap-8 mb-12">
-                        <div className="bg-white/80 dark:bg-slate-800/80 rounded-lg p-6 shadow-md">
+                        <motion.div
+                          variants={fadeUp}
+                          initial="hidden"
+                          whileInView="show"
+                          viewport={{ once: true, amount: 0.3 }}
+                          className="bg-white/80 dark:bg-slate-800/80 rounded-lg p-6 shadow-md"
+                        >
                           <h3 className="text-xl font-semibold text-[#8B4513] dark:text-[#F5E6D3] mb-3">{t('home.dishes_title')}</h3>
                           <p className="text-gray-700 dark:text-slate-300 mb-4">{t('home.dishes_desc')}</p>
                           <span className="text-[#D2691E] font-semibold">{t('home.from_price', { price: '12€' })}</span>
-                        </div>
-                        <div className="bg-white/80 dark:bg-slate-800/80 rounded-lg p-6 shadow-md">
+                        </motion.div>
+                        <motion.div
+                          variants={fadeUp}
+                          initial="hidden"
+                          whileInView="show"
+                          viewport={{ once: true, amount: 0.3 }}
+                          className="bg-white/80 dark:bg-slate-800/80 rounded-lg p-6 shadow-md"
+                        >
                           <h3 className="text-xl font-semibold text-[#8B4513] dark:text-[#F5E6D3] mb-3">{t('home.wine_title')}</h3>
                           <p className="text-gray-700 dark:text-slate-300 mb-4">{t('home.wine_desc')}</p>
                           <span className="text-[#D2691E] font-semibold">{t('home.from_price_glass', { price: '4€' })}</span>
-                        </div>
+                        </motion.div>
                       </div>
                     </div>
                   </div>
