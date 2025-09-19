@@ -2,7 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { Wine, Coffee, Utensils, ChefHat } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import data from '../data/menu.json';
+import menuFr from '../data/menu.fr.json';
+import menuEn from '../data/menu.en.json';
 import type { MenuData } from '../types/menu';
 
 const iconsMap = {
@@ -12,9 +13,15 @@ const iconsMap = {
   ChefHat: <ChefHat size={20} />
 } as const;
 
+const useLocalizedMenu = (lng: string): MenuData => {
+  const lang = (lng || 'fr').toLowerCase();
+  if (lang.startsWith('en')) return menuEn as MenuData;
+  return menuFr as MenuData;
+};
+
 const Menu: React.FC = () => {
-  const { t } = useTranslation();
-  const menuData = data as MenuData;
+  const { t, i18n } = useTranslation();
+  const menuData = useLocalizedMenu(i18n.language);
   const categories = useMemo(() => Object.keys(menuData), [menuData]);
   const [activeCategory, setActiveCategory] = useState(categories[0] ?? 'entrees');
 
@@ -61,7 +68,7 @@ const Menu: React.FC = () => {
 
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeCategory}
+              key={activeCategory + (i18n.language || 'fr')}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
