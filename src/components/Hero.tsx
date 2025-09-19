@@ -1,12 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChefHat, Heart, Star } from 'lucide-react';
 
-interface HeroProps {
-  onViewMenu: () => void;
-  onReserve: () => void;
-}
+const Hero: React.FC = () => {
+  const navigate = useNavigate();
 
-const Hero: React.FC<HeroProps> = ({ onViewMenu, onReserve }) => {
   return (
     <section className="relative min-h-[70vh] flex items-center">
       {/* Background Image */}
@@ -32,13 +30,13 @@ const Hero: React.FC<HeroProps> = ({ onViewMenu, onReserve }) => {
           
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <button
-              onClick={onViewMenu}
+              onClick={() => navigate('/menu')}
               className="bg-[#D2691E] hover:bg-[#B8551A] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
             >
               Voir notre carte
             </button>
             <button
-              onClick={onReserve}
+              onClick={() => navigate('/reservation')}
               className="bg-white/20 backdrop-blur hover:bg-white/30 text-white border border-white/50 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
             >
               Réserver une table
