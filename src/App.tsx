@@ -10,7 +10,7 @@ import Reservation from './components/Reservation';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { useMotionPreference } from './hooks/useMotionPreference';
-import Seo, { buildHomeJsonLd } from './components/SEO';
+import Seo, { buildHomeJsonLd, buildOgImage } from './components/SEO';
 import Legal from './components/legal/Legal';
 import Privacy from './components/legal/Privacy';
 import Terms from './components/legal/Terms';
@@ -57,8 +57,8 @@ function App() {
                         : 'Cuisine française traditionnelle dans un bistro de quartier chaleureux et authentique à Lyon.'
                     }
                     path="/"
-                    ogImage="/images/hero_1600.jpg"
-                    jsonLd={buildHomeJsonLd(origin)}
+                    ogImage={buildOgImage('Le Petit Coin — ' + (lang === 'en' ? 'Neighborhood bistro' : 'Bistro de quartier'))}
+                    jsonLd={buildHomeJsonLd(origin, lang)}
                   />
                   <Hero />
                   <div className="px-4 py-8">
@@ -103,6 +103,7 @@ function App() {
                     title={`Le Petit Coin — ${t('nav.menu')}`}
                     description={lang === 'en' ? 'Explore our seasonal menu.' : 'Découvrez notre carte de saison.'}
                     path="/menu"
+                    ogImage={buildOgImage('Menu — Le Petit Coin')}
                   />
                   <Menu />
                 </Page>
@@ -116,6 +117,21 @@ function App() {
                     title={`Le Petit Coin — ${t('nav.about')}`}
                     description={lang === 'en' ? 'Our story and values.' : 'Notre histoire et nos valeurs.'}
                     path="/a-propos"
+                    ogImage={buildOgImage('About — Le Petit Coin')}
+                  />
+                  <About />
+                </Page>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${t('nav.about')}`}
+                    description={lang === 'en' ? 'Our story and values.' : 'Notre histoire et nos valeurs.'}
+                    path="/about"
+                    ogImage={buildOgImage('About — Le Petit Coin')}
                   />
                   <About />
                 </Page>
@@ -129,6 +145,7 @@ function App() {
                     title={`Le Petit Coin — ${t('nav.reservation')}`}
                     description={lang === 'en' ? 'Book a table online.' : 'Réservez une table en ligne.'}
                     path="/reservation"
+                    ogImage={buildOgImage('Reservation — Le Petit Coin')}
                   />
                   <Reservation />
                 </Page>
@@ -142,6 +159,7 @@ function App() {
                     title={`Le Petit Coin — ${t('nav.contact')}`}
                     description={lang === 'en' ? 'Contact and practical info.' : 'Contact et informations pratiques.'}
                     path="/contact"
+                    ogImage={buildOgImage('Contact — Le Petit Coin')}
                   />
                   <Contact />
                 </Page>
