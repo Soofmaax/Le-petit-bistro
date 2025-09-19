@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Wine, Coffee, Utensils, ChefHat } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import data from '../data/menu.json';
 import type { MenuData } from '../types/menu';
 
@@ -12,6 +13,7 @@ const iconsMap = {
 } as const;
 
 const Menu: React.FC = () => {
+  const { t } = useTranslation();
   const menuData = data as MenuData;
   const categories = useMemo(() => Object.keys(menuData), [menuData]);
   const [activeCategory, setActiveCategory] = useState(categories[0] ?? 'entrees');
@@ -23,11 +25,10 @@ const Menu: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-[#8B4513] dark:text-[#F5E6D3] mb-4 font-['Pacifico']">
-            Notre Carte
+            {t('menu.title')}
           </h2>
           <p className="text-lg text-gray-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Des recettes traditionnelles préparées avec des produits frais du marché. 
-            Chaque plat est cuisiné avec amour dans notre cuisine ouverte.
+            {t('menu.intro')}
           </p>
         </div>
 
@@ -95,9 +96,9 @@ const Menu: React.FC = () => {
 
         {/* Chef's Special */}
         <div className="mt-8 bg-gradient-to-r from-[#D2691E] to-[#B8551A] text-white rounded-xl p-6 text-center">
-          <h3 className="text-2xl font-bold mb-2 font-['Pacifico']">Plat du Chef</h3>
-          <p className="text-lg">Demandez à votre serveur la spécialité du jour !</p>
-          <p className="text-sm mt-2 opacity-90">Préparé selon l'inspiration et les arrivages du marché</p>
+          <h3 className="text-2xl font-bold mb-2 font-['Pacifico']">{t('menu.chef_special')}</h3>
+          <p className="text-lg">{t('menu.chef_special_sub')}</p>
+          <p className="text-sm mt-2 opacity-90">{t('menu.chef_special_note')}</p>
         </div>
       </div>
     </section>

@@ -1,0 +1,49 @@
+{
+  "site": {
+    "title": "Le Petit Coin - Neighborhood bistro in Lyon",
+    "tagline": "Welcome to our place!",
+    "hero_sub": "Discover the authenticity of French cuisine in a warm and friendly atmosphere.",
+    "cta_menu": "View our menu",
+    "cta_reserve": "Book a table"
+  },
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "about": "About",
+    "reservation": "Reservation",
+    "contact": "Contact"
+  },
+  "hero": {
+    "made_with_love": "Homemade cooking",
+    "fresh_products": "Fresh products",
+    "since": "Since 1985",
+    "like_home": "Like at home, but better!"
+  },
+  "home": {
+    "preview_title": "A glimpse of our specialties",
+    "dishes_title": "Traditional dishes",
+    "dishes_desc": "Boeuf bourguignon, coq au vin, cassoulet... Authentic recipes prepared with love.",
+    "wine_title": "Local wines",
+    "wine_desc": "A selection of local wines to perfectly accompany your meals.",
+    "from_price": "From {{price}}",
+    "from_price_glass": "From {{price}} per glass"
+  },
+  "menu": {
+    "title": "Our Menu",
+    "chef_special": "Chef's Special",
+    "chef_special_sub": "Ask your server for today's special!",
+    "chef_special_note": "Prepared according to inspiration and fresh market arrivals",
+    "intro": "Traditional recipes prepared with fresh market products. Every dish is cooked with love in our open kitchen."
+  },
+  "about": {
+    "title": "Our Story"
+  },
+  "reservation": {
+    "title": "Book a Table",
+    "confirm_title": "Reservation confirmed!",
+    "confirm_text": "Thank you {{name}}! Your reservation for {{guests}} person(s) on {{date}} at {{time}} has been recorded."
+  },
+  "contact": {
+    "title": "Find Us"
+  }
+}

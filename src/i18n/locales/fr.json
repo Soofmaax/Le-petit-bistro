@@ -1,0 +1,49 @@
+{
+  "site": {
+    "title": "Le Petit Coin - Bistro de quartier à Lyon",
+    "tagline": "Bienvenue chez nous !",
+    "hero_sub": "Découvrez l'authenticité de la cuisine française dans une ambiance chaleureuse et conviviale.",
+    "cta_menu": "Voir notre carte",
+    "cta_reserve": "Réserver une table"
+  },
+  "nav": {
+    "home": "Accueil",
+    "menu": "Notre Carte",
+    "about": "À Propos",
+    "reservation": "Réserver",
+    "contact": "Contact"
+  },
+  "hero": {
+    "made_with_love": "Cuisine faite maison",
+    "fresh_products": "Produits frais",
+    "since": "Depuis 1985",
+    "like_home": "Comme à la maison, mais en mieux !"
+  },
+  "home": {
+    "preview_title": "Un aperçu de nos spécialités",
+    "dishes_title": "Plats du terroir",
+    "dishes_desc": "Bœuf bourguignon, coq au vin, cassoulet... Des recettes authentiques préparées avec amour.",
+    "wine_title": "Vins de la région",
+    "wine_desc": "Une sélection de vins locaux pour accompagner parfaitement vos repas.",
+    "from_price": "À partir de {{price}}",
+    "from_price_glass": "À partir de {{price}} le verre"
+  },
+  "menu": {
+    "title": "Notre Carte",
+    "chef_special": "Plat du Chef",
+    "chef_special_sub": "Demandez à votre serveur la spécialité du jour !",
+    "chef_special_note": "Préparé selon l'inspiration et les arrivages du marché",
+    "intro": "Des recettes traditionnelles préparées avec des produits frais du marché. Chaque plat est cuisiné avec amour dans notre cuisine ouverte."
+  },
+  "about": {
+    "title": "Notre Histoire"
+  },
+  "reservation": {
+    "title": "Réserver une Table",
+    "confirm_title": "Réservation confirmée !",
+    "confirm_text": "Merci {{name}} ! Votre réservation pour {{guests}} personne(s) le {{date}} à {{time}} a bien été prise en compte."
+  },
+  "contact": {
+    "title": "Nous Trouver"
+  }
+}

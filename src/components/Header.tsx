@@ -1,29 +1,40 @@
 import React from 'react';
 import { Phone, Clock, Moon, Sun } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Header: React.FC = () => {
+  const { t, i18n } = useTranslation();
+
   const navItems = [
-    { to: '/', label: 'Accueil' },
-    { to: '/menu', label: 'Notre Carte' },
-    { to: '/a-propos', label: 'À Propos' },
-    { to: '/reservation', label: 'Réserver' },
-    { to: '/contact', label: 'Contact' }
+    { to: '/', label: t('nav.home') },
+    { to: '/menu', label: t('nav.menu') },
+    { to: '/a-propos', label: t('nav.about') },
+    { to: '/reservation', label: t('nav.reservation') },
+    { to: '/contact', label: t('nav.contact') }
   ];
 
   const toggleDark = () => {
     const el = document.documentElement;
     el.classList.toggle('dark');
-    // Optionnel: persister le choix
     localStorage.setItem('theme', el.classList.contains('dark') ? 'dark' : 'light');
   };
 
+  const changeLang = (lng: 'fr' | 'en') => {
+    void i18n.changeLanguage(lng);
+    document.documentElement.lang = lng;
+    localStorage.setItem('lang', lng);
+  };
+
   React.useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
       document.documentElement.classList.add('dark');
     }
-  }, []);
+    const savedLang = (localStorage.getItem('lang') as 'fr' | 'en' | null) ?? 'fr';
+    void i18n.changeLanguage(savedLang);
+    document.documentElement.lang = savedLang;
+  }, [i18n]);
 
   return (
     <header className="bg-white/95 dark:bg-slate-900/90 backdrop-blur-sm shadow-md sticky top-0 z-50">
@@ -57,6 +68,23 @@ const Header: React.FC = () => {
                 {item.label}
               </NavLink>
             ))}
+
+            {/* Lang switcher */}
+            <div className="ml-2 flex items-center rounded-md overflow-hidden border border-[#D2691E]/30">
+              <button
+                onClick={() => changeLang('fr')}
+                className={`px-2 py-1 text-sm ${i18n.language === 'fr' ? 'bg-[#D2691E] text-white' : 'text-[#8B4513] dark:text-[#F5E6D3]'}`}
+              >
+                FR
+              </button>
+              <button
+                onClick={() => changeLang('en')}
+                className={`px-2 py-1 text-sm ${i18n.language === 'en' ? 'bg-[#D2691E] text-white' : 'text-[#8B4513] dark:text-[#F5E6D3]'}`}
+              >
+                EN
+              </button>
+            </div>
+
             <button
               onClick={toggleDark}
               aria-label="Basculer le thème"
@@ -98,6 +126,23 @@ const Header: React.FC = () => {
               {item.label}
             </NavLink>
           ))}
+
+          {/* Lang switcher */}
+          <div className="flex items-center rounded-md overflow-hidden border border-[#D2691E]/30">
+            <button
+              onClick={() => changeLang('fr')}
+              className={`px-2 py-1 text-sm ${i18n.language === 'fr' ? 'bg-[#D2691E] text-white' : 'text-[#8B4513] dark:text-[#F5E6D3]'}`}
+            >
+              FR
+            </button>
+            <button
+              onClick={() => changeLang('en')}
+              className={`px-2 py-1 text-sm ${i18n.language === 'en' ? 'bg-[#D2691E] text-white' : 'text-[#8B4513] dark:text-[#F5E6D3]'}`}
+            >
+              EN
+            </button>
+          </div>
+
           <button
             onClick={toggleDark}
             aria-label="Basculer le thème"
