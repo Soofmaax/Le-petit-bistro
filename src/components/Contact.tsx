@@ -24,6 +24,13 @@ const Contact: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
             {t('contact.title')}
           </h2>
+          <motion.div
+            initial={{ width: 0, opacity: 0 }}
+            whileInView={{ width: 120, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
+          />
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2">
             {t('contact.intro')}
           </p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Users, Award, Heart, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -11,8 +11,28 @@ const fadeUp = {
 const About: React.FC = () => {
   const { t } = useTranslation();
 
+  // Parallax banner
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 250], [0, 30]);
+  const scale = useTransform(scrollY, [0, 250], [1, 1.04]);
+
   return (
     <section className="py-10 sm:py-12 px-3 sm:px-4">
+      {/* Banner with parallax */}
+      <div className="relative h-40 sm:h-56 mb-8 sm:mb-12 rounded-xl overflow-hidden">
+        <motion.div style={{ y, scale }} className="absolute inset-0">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: "url(/images/about_interior_1200.jpg)" }}
+            aria-hidden
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </motion.div>
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <h1 className="text-3xl sm:text-4xl text-white font-['Pacifico'] drop-shadow">Le Petit Coin</h1>
+        </div>
+      </div>
+
       <div className="max-w-6xl mx-auto">
         <motion.div
           className="text-center mb-8 sm:mb-12"
@@ -24,6 +44,13 @@ const About: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
             {t('about.title')}
           </h2>
+          <motion.div
+            initial={{ width: 0, opacity: 0 }}
+            whileInView={{ width: 120, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
+          />
           <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-2">
             {t('about.intro')}
           </p>
@@ -37,7 +64,8 @@ const About: React.FC = () => {
             viewport={{ once: true, amount: 0.3 }}
           >
             <img 
-              src="/images/about_interior.jpg"
+              src="/images/about_interior_1200.jpg"
+              srcSet="/images/about_interior_800.jpg 800w, /images/about_interior_1200.jpg 1200w"
               alt={t('about.image_alt')}
               className="rounded-xl shadow-lg w-full h-60 sm:h-80 object-cover"
               loading="lazy"
@@ -92,7 +120,8 @@ const About: React.FC = () => {
                 className="text-center"
               >
                 <img 
-                  src={`/images/team_${key}.jpg`}
+                  src={`/images/team_${key}_600.jpg`}
+                  srcSet={`/images/team_${key}_300.jpg 300w, /images/team_${key}_600.jpg 600w`}
                   alt={t(`about.team.${key}_alt`)}
                   className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-3 sm:mb-4 object-cover shadow-md"
                   loading="lazy"

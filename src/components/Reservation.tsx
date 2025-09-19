@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Calendar, Clock, Users, Phone, CheckCircle } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Calendar, Clock, Users, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
+import { motion } from 'framer-motion';
+import Lottie from 'lottie-react';
 
 const Reservation: React.FC = () => {
   const { t } = useTranslation();
@@ -16,22 +18,32 @@ const Reservation: React.FC = () => {
   });
   
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [successAnim, setSuccessAnim] = useState<any | null>(null);
+
+  // Load a lightweight success Lottie animation (external asset)
+  useEffect(() => {
+    fetch('https://lottie.host/4e3f5f45-0e1f-4f44-9a8c-0e1f7a6b7b9a/2D1vR5a5zB.json')
+      .then((r) => r.json())
+      .then(setSuccessAnim)
+      .catch(() => setSuccessAnim(null));
+  }, []);
 
   useEffect(() => {
     if (!isSubmitted) return;
-    // Small confetti celebration
+    // Subtle, brand-colored confetti with emoji hearts and squares
     const duration = 900;
     const end = Date.now() + duration;
 
     const frame = () => {
       confetti({
-        particleCount: 40,
+        particleCount: 30,
         spread: 55,
         origin: { y: 0.2 },
-        startVelocity: 35,
-        scalar: 0.8,
-        colors: ['#D2691E', '#F5E6D3', '#8B4513']
-      });
+        startVelocity: 32,
+        scalar: 0.85,
+        colors: ['#D2691E', '#F5E6D3', '#8B4513'],
+        emojis: ['❤️', '🟫'] as any
+      } as any);
       if (Date.now() < end) {
         requestAnimationFrame(frame);
       }
@@ -69,7 +81,11 @@ const Reservation: React.FC = () => {
       <section className="py-12 px-4">
         <div className="max-w-2xl mx-auto text-center">
           <div className="bg-white/90 rounded-xl p-8 shadow-lg">
-            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            {successAnim ? (
+              <Lottie animationData={successAnim} loop={false} style={{ width: 140, height: 140, margin: '0 auto' }} />
+            ) : (
+              <div className="w-16 h-16 rounded-full bg-green-500/15 border border-green-500/30 mx-auto mb-4" />
+            )}
             <h2 className="text-3xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
               {t('reservation.confirm_title')}
             </h2>
@@ -95,6 +111,19 @@ const Reservation: React.FC = () => {
     );
   }
 
+  const underline = useMemo(
+    () => (
+      <motion.div
+        initial={{ width: 0, opacity: 0 }}
+        whileInView={{ width: 140, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
+      />
+    ),
+    []
+  );
+
   return (
     <section className="py-12 px-4">
       <div className="max-w-4xl mx-auto">
@@ -102,6 +131,7 @@ const Reservation: React.FC = () => {
           <h2 className="text-4xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
             {t('reservation.title')}
           </h2>
+          {underline}
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             {t('reservation.subtitle')}
           </p>
@@ -298,7 +328,8 @@ const Reservation: React.FC = () => {
 
             <div className="bg-white/90 rounded-xl p-6 shadow-lg">
               <img 
-                src="/images/reservation_ambience.jpg"
+                src="/images/reservation_ambience_1200.jpg"
+                srcSet="/images/reservation_ambience_800.jpg 800w, /images/reservation_ambience_1200.jpg 1200w"
                 alt={t('reservation.ambience_alt')}
                 className="w-full h-40 sm:h-48 object-cover rounded-lg mb-4"
                 loading="lazy"
