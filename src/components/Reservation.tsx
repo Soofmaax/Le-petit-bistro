@@ -2,12 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Calendar, Clock, Users, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
+import { useMotionPreference } from '../hooks/useMotionPreference';
 
 const Reservation: React.FC = () => {
   const { t } = useTranslation();
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
   const [formData, setFormData] = useState({
     date: '',
     time: '',

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Users, Award, Heart, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useMotionPreference } from '../hooks/useMotionPreference';
 
 const About: React.FC = () => {
   const { t } = useTranslation();
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
 
   // Parallax banner
   const { scrollY } = useScroll();

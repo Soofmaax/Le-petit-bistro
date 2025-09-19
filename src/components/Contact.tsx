@@ -1,11 +1,12 @@
 import React from 'react';
 import { MapPin, Phone, Clock, Mail, Car, Train } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useMotionPreference } from '../hooks/useMotionPreference';
 
 const Contact: React.FC = () => {
   const { t } = useTranslation();
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
 
   const fadeUp = {
     hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 16 },

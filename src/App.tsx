@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -9,6 +9,7 @@ import About from './components/About';
 import Reservation from './components/Reservation';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { useMotionPreference } from './hooks/useMotionPreference';
 
 const Page: React.FC<{ children: React.ReactNode; reduce?: boolean }> = ({ children, reduce }) => (
   <motion.main
@@ -24,7 +25,7 @@ const Page: React.FC<{ children: React.ReactNode; reduce?: boolean }> = ({ child
 function App() {
   const location = useLocation();
   const { t } = useTranslation();
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
 
   const fadeUp = {
     hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 14 },

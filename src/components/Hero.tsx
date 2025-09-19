@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChefHat, Heart, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useMotionPreference } from '../hooks/useMotionPreference';
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference();
 
   // Parallax background
   const { scrollY } = useScroll();

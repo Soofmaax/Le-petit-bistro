@@ -20,6 +20,12 @@ const Header: React.FC = () => {
     localStorage.setItem('theme', el.classList.contains('dark') ? 'dark' : 'light');
   };
 
+  const toggleMotion = () => {
+    const current = localStorage.getItem('motion') === 'reduce' ? 'auto' : 'reduce';
+    localStorage.setItem('motion', current);
+    document.documentElement.dataset.reduceMotion = current === 'reduce' ? 'true' : 'false';
+  };
+
   const changeLang = (lng: 'fr' | 'en') => {
     void i18n.changeLanguage(lng);
     document.documentElement.lang = lng;
@@ -34,7 +40,12 @@ const Header: React.FC = () => {
     const savedLang = (localStorage.getItem('lang') as 'fr' | 'en' | null) ?? 'fr';
     void i18n.changeLanguage(savedLang);
     document.documentElement.lang = savedLang;
+
+    const savedMotion = localStorage.getItem('motion'); // 'reduce' | 'auto'
+    document.documentElement.dataset.reduceMotion = savedMotion === 'reduce' ? 'true' : 'false';
   }, [i18n]);
+
+  const motionIsReduced = typeof document !== 'undefined' && document.documentElement.dataset.reduceMotion === 'true';
 
   return (
     <header className="bg-white/95 dark:bg-slate-900/90 backdrop-blur-sm shadow-md sticky top-0 z-50">
@@ -94,6 +105,15 @@ const Header: React.FC = () => {
               <Moon className="hidden dark:block" size={18} />
               <Sun className="dark:hidden" size={18} />
             </button>
+
+            <button
+              onClick={toggleMotion}
+              aria-label="Réduire/activer les animations"
+              className="ml-2 px-3 py-2 rounded-md border border-[#D2691E]/30 text-[#8B4513] dark:text-[#F5E6D3] hover:bg-[#F5E6D3] dark:hover:bg-slate-800 text-sm"
+              title={motionIsReduced ? 'Animations réduites (cliquer pour activer)' : 'Animations activées (cliquer pour réduire)'}
+            >
+              {motionIsReduced ? 'Animations: Réduites' : 'Animations: Actives'}
+            </button>
           </nav>
 
           {/* Contact Info */}
@@ -150,6 +170,15 @@ const Header: React.FC = () => {
           >
             <Moon className="hidden dark:block" size={16} />
             <Sun className="dark:hidden" size={16} />
+          </button>
+
+          <button
+            onClick={toggleMotion}
+            aria-label="Réduire/activer les animations"
+            className="px-3 py-2 rounded-md border border-[#D2691E]/30 bg-[#F5E6D3] dark:bg-slate-800 text-[#8B4513] dark:text-[#F5E6D3] text-sm"
+            title={motionIsReduced ? 'Animations réduites (cliquer pour activer)' : 'Animations activées (cliquer pour réduire)'}
+          >
+            {motionIsReduced ? 'Anim. réduites' : 'Anim. actives'}
           </button>
         </nav>
       </div>

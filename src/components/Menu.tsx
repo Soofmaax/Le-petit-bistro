@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { Wine, Coffee, Utensils, ChefHat } from 'lucide-react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import menuFr from '../data/menu.fr.json';
 import menuEn from '../data/menu.en.json';
 import type { MenuData } from '../types/menu';
+import { useMotionPreference } from '../hooks/useMotionPreference';
 
 const iconsMap = {
   Wine: <Wine size={20} />,
@@ -23,7 +24,8 @@ const useLocalizedMenu = (lng: string): MenuData => {
 
 const Menu: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const reduce = useReducedMotion();
+  const reduce = useMotionPreference(new)</;
+
   const menuData = useLocalizedMenu(i18n.language);
   const categories = useMemo(() => Object.keys(menuData), [menuData]);
   const [activeCategory, setActiveCategory] = useState(categories[0] ?? 'entrees');

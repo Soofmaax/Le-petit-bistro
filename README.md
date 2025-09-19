@@ -138,6 +138,17 @@ return <h1>{t('menu.title')}</h1>;
 
 ---
 
+## ♿ Accessibilité et préférences d’animation
+
+- Respect des préférences système et utilisateur pour les animations:
+  - Si le visiteur a “Réduire les animations” activé dans son OS, les transitions sont simplifiées automatiquement.
+  - Un bouton “Animations: On/Off” est disponible dans le Header pour basculer sans aller dans les paramètres.
+  - La préférence est persistée en localStorage (`motion=reduce|no-preference`).
+- Focus visibles, contrastes corrects, éléments interactifs accessibles au clavier.
+- Images avec `alt` pertinents; structure sémantique.
+
+---
+
 ## 🧪 CI & Déploiement
 
 CI GitHub Actions: `.github/workflows/ci.yml`
