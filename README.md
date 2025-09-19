@@ -1,84 +1,142 @@
-# Le Petit Coin — Vite + React + TS + Tailwind
+# Le Petit Coin — Vite + React + TypeScript
 
-Un site vitrine type bistro, conçu pour un portfolio développeur. Stack moderne, architecture propre, i18n, animations, dark mode, routing, et CI.
+Un site vitrine type bistro conçu pour un portfolio développeur. Il met en avant une stack moderne, une architecture propre, l’internationalisation, des animations fluides, un thème sombre et une CI prête à l’emploi.
 
-## Stack
+[![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/ci.yml)
 
-- Vite 5 + React 18 + TypeScript
-- Tailwind CSS 3 (dark mode activé)
-- React Router 6 (URLs propres)
-- Framer Motion (transitions/micro-interactions)
-- react-i18next (internationalisation FR/EN)
-- lucide-react (icônes)
+Remplacez OWNER/REPO par votre namespace GitHub.
 
-## Démarrer
+## Démo
 
-- Installer les dépendances:
+- Dev local: `npm run dev` (http://localhost:5173)
+- Déploiement conseillé: Vercel ou Netlify
+
+## Fonctionnalités
+
+- Routing côté client (React Router 6) avec URLs propres
+- Internationalisation (react-i18next) FR/EN + sélecteur de langue persistant
+- Thème sombre (Tailwind dark mode) avec toggle persistant
+- Animations de pages et de contenus (Framer Motion)
+- Données de carte externalisées (JSON + types TypeScript)
+- CI GitHub Actions (lint, typecheck, build, artefact)
+
+## Prérequis
+
+- Node.js 18+ (recommandé LTS)
+- npm 9+ (ou pnpm/yarn si vous préférez adapter)
+
+## Installation
+
+- Installer:
   - `npm install`
-- Lancer en dev:
+- Lancer en développement:
   - `npm run dev`
-- Linter:
+- Lint:
   - `npm run lint`
 - Build de production:
   - `npm run build`
-- Preview du build:
+- Prévisualiser le build:
   - `npm run preview`
 
-## Structure
+## Scripts
 
-- `src/App.tsx`: routing et transitions de pages
-- `src/components/*`: Header, Hero, Menu, About, Reservation, Contact, Footer
-- `src/data/menu.json`: données de la carte (maintenables)
-- `src/types/menu.ts`: types des données de menu
-- `src/i18n/*`: configuration i18n + traductions FR/EN
-- `tailwind.config.js`: configuration Tailwind (darkMode: 'class')
-- `vite.config.ts`: config Vite + plugin React
+- `dev`: démarre Vite en mode développement
+- `build`: build de production Vite (sortie dans `dist/`)
+- `preview`: sert `dist/` en local
+- `lint`: exécute ESLint
 
-## Internationalisation (react-i18next)
+## Configuration et Structure
 
-- Langues: FR (par défaut), EN
-- Sélecteur de langue dans le Header (persisté via localStorage)
-- Clé HTML `lang` mise à jour dynamiquement
-- Pour ajouter des traductions: modifier `src/i18n/locales/fr.json` et `src/i18n/locales/en.json`
+- Vite: `vite.config.ts`
+- Tailwind: `tailwind.config.js` (darkMode: 'class')
+- Entrée: `index.html`, `src/main.tsx`
+- Routage et transitions: `src/App.tsx`
+- Composants UI: `src/components/`
+  - Header (nav + langue + thème), Hero, Menu, About, Reservation, Contact, Footer
+- Données:
+  - `src/data/menu.json` (contenu de la carte)
+  - `src/types/menu.ts` (types TS)
+- Internationalisation:
+  - `src/i18n/index.ts` (config i18next)
+  - `src/i18n/locales/fr.json`, `src/i18n/locales/en.json`
 
-## Dark Mode
+## Internationalisation
 
-- Toggle dans le Header (persisté via localStorage)
-- Classe `dark` appliquée sur `<html>` (tailwind)
+- Langues disponibles: FR (par défaut), EN
+- Changement de langue: sélecteur dans le Header (persisté via localStorage)
+- HTML `lang` synchronisé
+- Pour ajouter/éditer des textes, modifiez les JSON dans `src/i18n/locales/`
 
-## Animations
+Exemple d’usage:
+```tsx
+import { useTranslation } from 'react-i18next';
+const { t } = useTranslation();
+return <h1>{t('menu.title')}</h1>;
+```
 
-- Transitions de pages et de catégories du menu via Framer Motion
-- Micro-interactions (hover/scale) via Tailwind + Motion
+## Thème sombre
 
-## CI — GitHub Actions
+- Toggle dans le Header: ajoute/retire la classe `dark` sur `<html>`
+- Persistance via localStorage (`theme`)
 
-Un workflow CI minimal est inclus: `.github/workflows/ci.yml`
+## CI – GitHub Actions
 
-- Installe (`npm ci`)
-- Lint (`npm run lint`)
-- Typecheck (`npx tsc --noEmit`)
-- Build (`npm run build`)
-- Upload de l'artefact `dist/`
+Workflow: `.github/workflows/ci.yml`
+- `npm ci`
+- `npm run lint`
+- `npx tsc --noEmit`
+- `npm run build`
+- Upload de l’artefact `dist/`
 
-Badge (ajoutez à votre README après premier run sur `main`):
+Badge:
 ```
 [![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/ci.yml)
 ```
-Remplacez OWNER/REPO par vos valeurs GitHub.
 
 ## Déploiement
 
-- Vercel: import du repo, Framework: Vite, commande build `npm run build`, output `dist`
-- Netlify: build `npm run build`, publish `dist`
-- GitHub Pages: via `peaceiris/actions-gh-pages` ou Netlify/Vercel recommandé pour SPA
+- Vercel
+  - Import du repo
+  - Framework: Vite
+  - Build: `npm run build`
+  - Output: `dist`
 
-## Améliorations futures (portfolio)
+- Netlify
+  - Build command: `npm run build`
+  - Publish directory: `dist`
 
-- Formulaire Réservation: react-hook-form + zod, envoi via Email (Resend/EmailJS) ou stockage Supabase
-- SEO: balises OG dynamiques, Schema.org (Restaurant), images optimisées (WebP/AVIF + sizes)
-- Tests: Vitest + React Testing Library, snapshots i18n
-- PWA: manifest + service worker
+- GitHub Pages (optionnel, SPA)
+  - Recommandé: passer par Vercel/Netlify pour une SPA
+  - Sinon: configurer un workflow de déploiement dédié (ex: actions-gh-pages)
+
+## Accessibilité et Performance
+
+- Styles de focus visibles
+- Contraste amélioré en thème sombre
+- Animations légères et non bloquantes
+- Optimisations Vite/Tailwind (purge des classes)
+
+## Roadmap (suggestions)
+
+- Formulaire de réservation:
+  - react-hook-form + zod, messages d’erreur, masques
+  - Envoi email (Resend/EmailJS) ou stockage Supabase
+- SEO:
+  - Balises OG par route/langue, Schema.org Restaurant
+  - Images optimisées (WebP/AVIF + tailles responsives)
+- Tests:
+  - Vitest + React Testing Library (+ mocks i18n)
+- PWA:
+  - Manifest + Service Worker
+
+## Dépannage
+
+- Problème de modules après un pull:
+  - `rm -rf node_modules package-lock.json && npm install`
+- Erreurs de types:
+  - `npx tsc --noEmit` pour localiser les erreurs TypeScript
+- Problème Tailwind:
+  - Vérifier `content` dans `tailwind.config.js` et l’import de `index.css`
 
 ## Licence
 
