@@ -22,6 +22,7 @@
   <a href="#-installation">Installation</a> •
   <a href="#-structure">Structure</a> •
   <a href="#-internationalisation">Internationalisation</a> •
+  <a href="#-assets-images-locales">Assets (images locales)</a> •
   <a href="#-ci--déploiement">CI & Déploiement</a> •
   <a href="#-roadmap">Roadmap</a>
 </p>
@@ -58,6 +59,7 @@ Prérequis:
 
 Étapes:
 - Installer les deps: `npm install`
+- Récupérer les images locales: `npm run setup:images`
 - Lancer en dev: `npm run dev`
 - Linter: `npm run lint`
 - Typecheck: `npx tsc --noEmit`
@@ -69,27 +71,32 @@ Scripts:
 - `build` — Build de production (dist/)
 - `preview` — Serve dist/
 - `lint` — ESLint
+- `setup:images` — Télécharge des images libres (Pexels) dans `public/images`
 
 ---
 
 ## 🗂️ Structure
 
 ```
+public/
+  images/               # Images locales (remplies par setup:images)
 src/
-  App.tsx                # Routes + transitions
-  main.tsx               # Bootstrap React + Router + i18n
-  index.css              # Tailwind + styles globaux
-  components/            # UI (Header, Hero, Menu, About, Reservation, Contact, Footer)
+  App.tsx               # Routes + transitions
+  main.tsx              # Bootstrap React + Router + i18n
+  index.css             # Tailwind + styles globaux
+  components/           # UI (Header, Hero, Menu, About, Reservation, Contact, Footer)
   data/
-    menu.json            # Données de la carte
+    menu.json           # Données de la carte
   i18n/
-    index.ts             # Config i18next
+    index.ts            # Config i18next
     locales/
       fr.json
       en.json
   types/
-    menu.ts              # Types TS du menu
-tailwind.config.js       # Dark mode activé (class)
+    menu.ts             # Types TS du menu
+scripts/
+  fetch_images.js       # Script de curation d'images
+tailwind.config.js      # Dark mode activé (class)
 vite.config.ts
 ```
 
@@ -114,6 +121,15 @@ return <h1>{t('menu.title')}</h1>;
 
 ---
 
+## 🖼️ Assets (images locales)
+
+- Les images sont stockées localement dans `public/images`
+- Pour les récupérer automatiquement: `npm run setup:images`
+- Curation d’images libres (Pexels) adaptée au style “rustique/familial”
+- Crédits: voir `CREDITS.md`
+
+---
+
 ## 🌓 Thème sombre
 
 - Toggle dans le Header
@@ -125,7 +141,8 @@ return <h1>{t('menu.title')}</h1>;
 ## 🧪 CI & Déploiement
 
 CI GitHub Actions: `.github/workflows/ci.yml`
-- `npm ci`
+- `npm install`
+- `npm run setup:images` (récupère les images pour le build)
 - `npm run lint`
 - `npx tsc --noEmit`
 - `npm run build`

@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920&amp;h=1080&amp;fit=crop)'
+          backgroundImage: "url(/images/hero.jpg)"
         }}
       >
         <div className="absolute inset-0 bg-black/40"></div>

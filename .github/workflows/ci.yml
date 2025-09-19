@@ -25,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Fetch curated images
+        run: npm run setup:images
+
       - name: Lint
         run: npm run lint
 

@@ -20,9 +20,10 @@ const About: React.FC = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
           <div>
             <img 
-              src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop"
+              src="/images/about_interior.jpg"
               alt={t('about.image_alt')}
               className="rounded-xl shadow-lg w-full h-80 object-cover"
+              loading="lazy"
             />
           </div>
           <div>
@@ -52,9 +53,10 @@ const About: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <img 
-                src="https://images.pexels.com/photos/4253302/pexels-photo-4253302.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop"
+                src="/images/team_antoine.jpg"
                 alt={t('about.team.antoine_alt')}
                 className="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-md"
+                loading="lazy"
               />
               <h4 className="text-xl font-semibold text-[#8B4513] font-['Pacifico']">{t('about.team.antoine_name')}</h4>
               <p className="text-[#D2691E] font-semibold">{t('about.team.antoine_role')}</p>
@@ -65,9 +67,10 @@ const About: React.FC = () => {
             
             <div className="text-center">
               <img 
-                src="https://images.pexels.com/photos/3992204/pexels-photo-3992204.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop"
+                src="/images/team_sophie.jpg"
                 alt={t('about.team.sophie_alt')}
                 className="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-md"
+                loading="lazy"
               />
               <h4 className="text-xl font-semibold text-[#8B4513] font-['Pacifico']">{t('about.team.sophie_name')}</h4>
               <p className="text-[#D2691E] font-semibold">{t('about.team.sophie_role')}</p>
@@ -78,9 +81,10 @@ const About: React.FC = () => {
             
             <div className="text-center">
               <img 
-                src="https://images.pexels.com/photos/4253313/pexels-photo-4253313.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop"
+                src="/images/team_paul.jpg"
                 alt={t('about.team.paul_alt')}
                 className="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-md"
+                loading="lazy"
               />
               <h4 className="text-xl font-semibold text-[#8B4513] font-['Pacifico']">{t('about.team.paul_name')}</h4>
               <p className="text-[#D2691E] font-semibold">{t('about.team.paul_role')}</p>
