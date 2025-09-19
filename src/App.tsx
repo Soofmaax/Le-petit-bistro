@@ -10,6 +10,11 @@ import Reservation from './components/Reservation';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { useMotionPreference } from './hooks/useMotionPreference';
+import Seo, { buildHomeJsonLd } from './components/SEO';
+import Legal from './components/legal/Legal';
+import Privacy from './components/legal/Privacy';
+import Terms from './components/legal/Terms';
+import Cookies from './components/legal/Cookies';
 
 const Page: React.FC<{ children: React.ReactNode; reduce?: boolean }> = ({ children, reduce }) => (
   <motion.main
@@ -24,8 +29,10 @@ const Page: React.FC<{ children: React.ReactNode; reduce?: boolean }> = ({ child
 
 function App() {
   const location = useLocation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const reduce = useMotionPreference();
+  const lang = (i18n.language || 'fr').split('-')[0];
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://example.com';
 
   const fadeUp = {
     hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 14 },
@@ -42,6 +49,17 @@ function App() {
               path="/"
               element={
                 <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${lang === 'en' ? 'Neighborhood bistro' : 'Bistro de quartier'}`}
+                    description={
+                      lang === 'en'
+                        ? 'Traditional French cuisine in a warm, authentic neighborhood bistro in Lyon.'
+                        : 'Cuisine française traditionnelle dans un bistro de quartier chaleureux et authentique à Lyon.'
+                    }
+                    path="/"
+                    ogImage="/images/hero_1600.jpg"
+                    jsonLd={buildHomeJsonLd(origin)}
+                  />
                   <Hero />
                   <div className="px-4 py-8">
                     <div className="max-w-4xl mx-auto">
@@ -81,6 +99,11 @@ function App() {
               path="/menu"
               element={
                 <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${t('nav.menu')}`}
+                    description={lang === 'en' ? 'Explore our seasonal menu.' : 'Découvrez notre carte de saison.'}
+                    path="/menu"
+                  />
                   <Menu />
                 </Page>
               }
@@ -89,6 +112,11 @@ function App() {
               path="/a-propos"
               element={
                 <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${t('nav.about')}`}
+                    description={lang === 'en' ? 'Our story and values.' : 'Notre histoire et nos valeurs.'}
+                    path="/a-propos"
+                  />
                   <About />
                 </Page>
               }
@@ -97,6 +125,11 @@ function App() {
               path="/reservation"
               element={
                 <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${t('nav.reservation')}`}
+                    description={lang === 'en' ? 'Book a table online.' : 'Réservez une table en ligne.'}
+                    path="/reservation"
+                  />
                   <Reservation />
                 </Page>
               }
@@ -105,7 +138,76 @@ function App() {
               path="/contact"
               element={
                 <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${t('nav.contact')}`}
+                    description={lang === 'en' ? 'Contact and practical info.' : 'Contact et informations pratiques.'}
+                    path="/contact"
+                  />
                   <Contact />
+                </Page>
+              }
+            />
+            <Route
+              path="/legal"
+              element={
+                <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${lang === 'en' ? 'Legal notice' : 'Mentions légales'}`}
+                    description={lang === 'en' ? 'Legal notice of the website.' : 'Mentions légales du site.'}
+                    path="/legal"
+                  />
+                  <Legal />
+                </Page>
+              }
+            />
+            <Route
+              path="/privacy"
+              element={
+                <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${lang === 'en' ? 'Privacy Policy' : 'Politique de confidentialité'}`}
+                    description={
+                      lang === 'en'
+                        ? 'How we process and protect your personal data.'
+                        : 'Comment nous traitons et protégeons vos données personnelles.'
+                    }
+                    path="/privacy"
+                  />
+                  <Privacy />
+                </Page>
+              }
+            />
+            <Route
+              path="/terms"
+              element={
+                <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${lang === 'en' ? 'Terms of Use' : "Conditions d'utilisation"}`}
+                    description={
+                      lang === 'en'
+                        ? 'Terms of Use of the website.'
+                        : "Conditions d'utilisation du site."
+                    }
+                    path="/terms"
+                  />
+                  <Terms />
+                </Page>
+              }
+            />
+            <Route
+              path="/cookies"
+              element={
+                <Page reduce={reduce}>
+                  <Seo
+                    title={`Le Petit Coin — ${lang === 'en' ? 'Cookie Policy' : 'Politique de cookies'}`}
+                    description={
+                      lang === 'en'
+                        ? 'Cookie information used on this website.'
+                        : 'Informations sur les cookies utilisés sur ce site.'
+                    }
+                    path="/cookies"
+                  />
+                  <Cookies />
                 </Page>
               }
             />

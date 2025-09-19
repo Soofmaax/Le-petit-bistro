@@ -1,9 +1,13 @@
 import React from 'react';
 import { Heart, MapPin, Phone, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 
 const Footer: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = (i18n.language || 'fr').split('-')[0];
+  const termsLabel = lang === 'en' ? 'Terms of Use' : "Conditions d'utilisation";
+  const cookiesLabel = lang === 'en' ? 'Cookies' : 'Cookies';
 
   return (
     <footer className="bg-[#8B4513] text-white py-8 px-4">
@@ -75,8 +79,10 @@ const Footer: React.FC = () => {
               © 2024 Le Petit Coin - {t('footer.rights')}
             </p>
             <div className="flex space-x-4 opacity-75">
-              <a href="#" className="hover:text-[#D2691E] transition-colors">{t('footer.legal')}</a>
-              <a href="#" className="hover:text-[#D2691E] transition-colors">{t('footer.privacy')}</a>
+              <NavLink to="/legal" className="hover:text-[#D2691E] transition-colors">{t('footer.legal')}</NavLink>
+              <NavLink to="/privacy" className="hover:text-[#D2691E] transition-colors">{t('footer.privacy')}</NavLink>
+              <NavLink to="/terms" className="hover:text-[#D2691E] transition-colors">{termsLabel}</NavLink>
+              <NavLink to="/cookies" className="hover:text-[#D2691E] transition-colors">{cookiesLabel}</NavLink>
             </div>
           </div>
         </div>
