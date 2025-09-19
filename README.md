@@ -14,16 +14,17 @@
 <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg" />
 </p>
 
-<p>Un site vitrine type bistro, pensé pour un <strong>portfolio développeur</strong> : UI soignée, <strong>i18n FR/EN</strong>, <strong>dark mode</strong>, <strong>animations</strong>, <strong>routing</strong>, et <strong>CI</strong>.</p>
+<p>A small bistro showcase built for a <strong>developer portfolio</strong>: polished UI, <strong>i18n (FR/EN)</strong>, <strong>dark mode</strong>, <strong>animations</strong>, <strong>routing</strong>, and <strong>CI</strong>.</p>
 
 <p>
-  <a href="#-demo">Démo</a> •
-  <a href="#-fonctionnalités">Fonctionnalités</a> •
+  <a href="#-demo">Demo</a> •
+  <a href="#-features">Features</a> •
   <a href="#-installation">Installation</a> •
-  <a href="#-structure">Structure</a> •
-  <a href="#-internationalisation">Internationalisation</a> •
-  <a href="#-assets-images-locales">Assets (images locales)</a> •
-  <a href="#-ci--déploiement">CI & Déploiement</a> •
+  <a href="#-project-structure">Project structure</a> •
+  <a href="#-internationalization">Internationalization</a> •
+  <a href="#-assets-local-images">Assets (local images)</a> •
+  <a href="#-accessibility--motion-preferences">Accessibility & Motion</a> •
+  <a href="#-ci--deployment">CI & Deployment</a> •
   <a href="#-roadmap">Roadmap</a>
 </p>
 
@@ -31,88 +32,91 @@
 
 ---
 
-## 🚀 Démo
+## 🚀 Demo
 
-- Dev local: `npm run dev` (http://localhost:5173)
-- Déploiement conseillé: Vercel ou Netlify
+- Local dev: `npm run dev` (http://localhost:5173)
+- Suggested hosting: Vercel or Netlify
 
-Remplacez `REPO` par le nom réel de votre dépôt GitHub (propriétaire: <a href="https://github.com/Soofmax">Soofmax</a>).
+Replace `REPO` with your actual GitHub repository name (owner: <a href="https://github.com/Soofmax">Soofmax</a>).
 
 ---
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-- Routing client (React Router 6) — URLs partageables
-- Internationalisation (react-i18next) — FR/EN + persistance
-- Thème sombre (Tailwind dark mode) — toggle persistant
-- Animations (Framer Motion) — transitions de pages & contenus
-- Données externalisées (menu.json) — typées en TypeScript
-- CI GitHub Actions — lint, typecheck, build, artefact
+- Client-side routing (React Router 6) — shareable URLs
+- Internationalization (react-i18next) — FR/EN with persistence
+- Dark mode (Tailwind `dark`) — toggle with persistence
+- Animations (Framer Motion) — page and content transitions
+- Externalized data (menu as JSON) — fully typed with TypeScript
+- GitHub Actions CI — lint, typecheck, build, artifact upload
 
 ---
 
 ## 📦 Installation
 
-Prérequis:
-- Node.js 18+ (LTS recommandé)
+Requirements:
+- Node.js 18+ (LTS recommended)
 - npm 9+
 
-Étapes:
-- Installer les deps: `npm install`
-- Récupérer les images locales: `npm run setup:images`
-- Lancer en dev: `npm run dev`
-- Linter: `npm run lint`
+Steps:
+- Install deps: `npm install`
+- Fetch curated images: `npm run setup:images`
+- Start dev server: `npm run dev`
+- Lint: `npm run lint`
 - Typecheck: `npx tsc --noEmit`
-- Build prod: `npm run build`
-- Prévisualiser: `npm run preview`
+- Production build: `npm run build`
+- Preview build: `npm run preview`
 
 Scripts:
 - `dev` — Vite dev server
-- `build` — Build de production (dist/)
-- `preview` — Serve dist/
+- `build` — Production build (dist/)
+- `preview` — Serve dist/ locally
 - `lint` — ESLint
-- `setup:images` — Télécharge des images libres (Pexels) dans `public/images`
+- `setup:images` — Downloads curated free images (Pexels) into `public/images`
 
 ---
 
-## 🗂️ Structure
+## 🗂️ Project structure
 
 ```
 public/
-  images/               # Images locales (remplies par setup:images)
+  images/               # Local images (filled by setup:images)
 src/
-  App.tsx               # Routes + transitions
+  App.tsx               # Routes + page transitions
   main.tsx              # Bootstrap React + Router + i18n
-  index.css             # Tailwind + styles globaux
-  components/           # UI (Header, Hero, Menu, About, Reservation, Contact, Footer)
+  index.css             # Tailwind + global styles
+  components/           # Header, Hero, Menu, About, Reservation, Contact, Footer
   data/
-    menu.json           # Données de la carte
+    menu.fr.json        # Menu data (FR)
+    menu.en.json        # Menu data (EN)
+  hooks/
+    useMotionPreference.ts
   i18n/
-    index.ts            # Config i18next
+    index.ts            # i18next config
     locales/
       fr.json
       en.json
   types/
-    menu.ts             # Types TS du menu
+    menu.ts             # Menu TS types
 scripts/
-  fetch_images.js       # Script de curation d'images
-tailwind.config.js      # Dark mode activé (class)
+  fetch_images.js       # Image curation/downloader
+tailwind.config.js      # Dark mode enabled (class)
 vite.config.ts
 ```
 
 ---
 
-## 🌍 Internationalisation
+## 🌍 Internationalization
 
-- FR (par défaut) et EN
-- Sélecteur dans le Header (persisté via localStorage)
-- Attribut `<html lang="...">` synchronisé
+- Languages: FR (default) and EN
+- Language selector in the Header (persisted via localStorage)
+- `<html lang="...">` is kept in sync
 
-Ajouter/modifier des textes:
+Add/edit text:
 - `src/i18n/locales/fr.json`
 - `src/i18n/locales/en.json`
 
-Exemple:
+Example:
 ```tsx
 import { useTranslation } from 'react-i18next';
 const { t } = useTranslation();
@@ -121,50 +125,50 @@ return <h1>{t('menu.title')}</h1>;
 
 ---
 
-## 🖼️ Assets (images locales)
+## 🖼️ Assets (local images)
 
-- Les images sont stockées localement dans `public/images`
-- Pour les récupérer automatiquement: `npm run setup:images`
-- Curation d’images libres (Pexels) adaptée au style “rustique/familial”
-- Crédits: voir `CREDITS.md`
-
----
-
-## 🌓 Thème sombre
-
-- Toggle dans le Header
-- Classe `dark` appliquée sur `<html>` (persistée via localStorage)
-- Styles Tailwind `dark:` déjà intégrés
+- Local images live in `public/images`
+- Auto-fetch them with: `npm run setup:images`
+- Curated, free-to-use Pexels images to match the rustic/friendly style
+- Credits: see `CREDITS.md`
 
 ---
 
-## ♿ Accessibilité et préférences d’animation
+## 🌓 Dark mode
 
-- Respect des préférences système et utilisateur pour les animations:
-  - Si le visiteur a “Réduire les animations” activé dans son OS, les transitions sont simplifiées automatiquement.
-  - Un bouton “Animations: On/Off” est disponible dans le Header pour basculer sans aller dans les paramètres.
-  - La préférence est persistée en localStorage (`motion=reduce|no-preference`).
-- Focus visibles, contrastes corrects, éléments interactifs accessibles au clavier.
-- Images avec `alt` pertinents; structure sémantique.
+- Toggle in the Header
+- `dark` class is applied to `<html>` (persisted via localStorage)
+- Tailwind `dark:` variants are already in place
 
 ---
 
-## 🧪 CI & Déploiement
+## ♿ Accessibility & Motion preferences
 
-CI GitHub Actions: `.github/workflows/ci.yml`
+- Respects both system and user motion preferences:
+  - If the OS has “Reduce motion” enabled, animations are simplified automatically.
+  - A Header toggle lets visitors switch animations On/Reduced without touching OS settings.
+  - Preference is persisted in localStorage (`motion=reduce|auto`).
+- Visible focus states, good contrast, keyboard-accessible interactive elements.
+- Images have meaningful `alt`, and pages use semantic structure.
+
+---
+
+## 🧪 CI & Deployment
+
+GitHub Actions: `.github/workflows/ci.yml`
 - `npm install`
-- `npm run setup:images` (récupère les images pour le build)
+- `npm run setup:images` (download images for the build)
 - `npm run lint`
 - `npx tsc --noEmit`
 - `npm run build`
-- Upload de l’artefact `dist/`
+- Upload the `dist/` artifact
 
 Badge:
 ```
 [![CI](https://github.com/Soofmax/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/ci.yml)
 ```
 
-Déploiement conseillé:
+Suggested hosting:
 - Vercel
   - Build: `npm run build`
   - Output: `dist`
@@ -176,15 +180,15 @@ Déploiement conseillé:
 
 ## 🧭 Roadmap
 
-- [ ] Formulaire Réservation: react-hook-form + zod (validations, erreurs, masques)
-- [ ] Envoi email (Resend/EmailJS) ou stockage Supabase
-- [ ] SEO avancé: OG dynamiques, Schema.org (Restaurant), images optimisées (WebP/AVIF)
-- [ ] Tests: Vitest + React Testing Library (+ mocks i18n)
+- [ ] Reservation form: react-hook-form + zod (validation, errors, masks)
+- [ ] Email sending (Resend/EmailJS) or storage (Supabase)
+- [ ] SEO: dynamic OG tags, Schema.org (Restaurant), optimized images (WebP/AVIF)
+- [ ] Tests: Vitest + React Testing Library (with i18n mocks)
 - [ ] PWA: manifest + service worker
-- [ ] Screenshots/GIFs dans ce README
+- [ ] Screenshots/GIFs in this README
 
 ---
 
-## 🔒 Licence
+## 🔒 License
 
 MIT
