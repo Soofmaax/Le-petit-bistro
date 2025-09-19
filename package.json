@@ -16,8 +16,8 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
     "framer-motion": "^11.3.31",
-    "i18next": "^23.11.5",
-    "react-i18next": "^15.0.1"
+    "i18next": "^25.4.1",
+    "react-i18next": "^15.7.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
