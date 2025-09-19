@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChefHat, Heart, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  // Parallax background
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 300], [0, 40]);
+  const scale = useTransform(scrollY, [0, 300], [1, 1.05]);
+
+  // Magnetic buttons
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 });
   const [reservePos, setReservePos] = useState({ x: 0, y: 0 });
 
@@ -28,15 +34,21 @@ const Hero: React.FC = () => {
 
   return (
     <section className="relative min-h-[70vh] flex items-center">
-      {/* Background Image */}
-      <div
+      {/* Background Image with parallax */}
+      <motion.div
+        style={{ y, scale }}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url(/images/hero.jpg)"
-        }}
+        aria-hidden
+        // Using local asset
+        animate={{}}
+        transition={{ duration: 0 }}
       >
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url(/images/hero.jpg)" }}
+        />
         <div className="absolute inset-0 bg-black/40"></div>
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 text-white">

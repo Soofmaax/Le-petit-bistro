@@ -1,6 +1,12 @@
 import React from 'react';
 import { MapPin, Phone, Clock, Mail, Car, Train } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }
+};
 
 const Contact: React.FC = () => {
   const { t } = useTranslation();
@@ -8,18 +14,30 @@ const Contact: React.FC = () => {
   return (
     <section className="py-10 sm:py-12 px-3 sm:px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8 sm:mb-12">
+        <motion.div
+          className="text-center mb-8 sm:mb-12"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
             {t('contact.title')}
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2">
             {t('contact.intro')}
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Informations de contact */}
-          <div className="bg-white/90 rounded-xl p-6 sm:p-8 shadow-lg">
+          <motion.div
+            className="bg-white/90 rounded-xl p-6 sm:p-8 shadow-lg"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+          >
             <h3 className="text-xl sm:text-2xl font-bold text-[#8B4513] mb-4 sm:mb-6 font-['Pacifico']">
               {t('contact.coords')}
             </h3>
@@ -86,10 +104,16 @@ const Contact: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Plan et accès */}
-          <div className="bg-white/90 rounded-xl p-6 sm:p-8 shadow-lg">
+          <motion.div
+            className="bg-white/90 rounded-xl p-6 sm:p-8 shadow-lg"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+          >
             <h3 className="text-xl sm:text-2xl font-bold text-[#8B4513] mb-4 sm:mb-6 font-['Pacifico']">
               {t('contact.how_to_come')}
             </h3>
@@ -126,12 +150,18 @@ const Contact: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Section newsletter et réseaux sociaux */}
         <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
-          <div className="bg-gradient-to-r from-[#D2691E] to-[#B8551A] text-white rounded-xl p-5 sm:p-6">
+          <motion.div
+            className="bg-gradient-to-r from-[#D2691E] to-[#B8551A] text-white rounded-xl p-5 sm:p-6"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+          >
             <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 font-['Pacifico']">{t('contact.stay_informed')}</h3>
             <p className="text-xs sm:text-sm mb-3 sm:mb-4 opacity-90">
               {t('contact.newsletter_text')}
@@ -146,9 +176,15 @@ const Contact: React.FC = () => {
                 {t('contact.subscribe')}
               </button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white/90 rounded-xl p-5 sm:p-6 shadow-lg">
+          <motion.div
+            className="bg-white/90 rounded-xl p-5 sm:p-6 shadow-lg"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+          >
             <h3 className="text-lg sm:text-xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
               {t('contact.follow_us')}
             </h3>
@@ -166,7 +202,7 @@ const Contact: React.FC = () => {
                 in
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
