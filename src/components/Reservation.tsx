@@ -277,8 +277,11 @@ const Reservation: React.FC = () => {
               <img 
                 src="/images/reservation_ambience.jpg"
                 alt={t('reservation.ambience_alt')}
-                className="w-full h-48 object-cover rounded-lg mb-4"
+                className="w-full h-40 sm:h-48 object-cover rounded-lg mb-4"
                 loading="lazy"
+                width="1200"
+                height="800"
+                sizes="(max-width: 640px) 100vw, 600px"
               />
               <p className="text-gray-600 text-sm text-center italic">
                 {t('reservation.ambience_quote')}
