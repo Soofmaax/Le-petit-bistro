@@ -24,9 +24,9 @@ describe('Reservation flow (mocked)', () => {
       </BrowserRouter>
     );
 
-    // Navigate to Reservation
-    const reservationLink = screen.getByRole('link', { name: /réserver|reservation/i });
-    fireEvent.click(reservationLink);
+    // Navigate to Reservation (there are two links: desktop and mobile; click the first)
+    const reservationLinks = screen.getAllByRole('link', { name: /réserver|reservation/i });
+    fireEvent.click(reservationLinks[0]);
 
     const dateInput = await screen.findByLabelText(/date/i);
     const saturdayISO = nextWeekdayISO(6); // 6 = Saturday
