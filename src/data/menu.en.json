@@ -1,0 +1,46 @@
+{
+  "entrees": {
+    "title": "Starters",
+    "icon": "Utensils",
+    "items": [
+      { "name": "Soup of the day", "description": "Prepared with fresh market vegetables", "price": "€6" },
+      { "name": "Warm goat cheese salad", "description": "Mixed greens, walnuts, honey and toasted bread", "price": "€8" },
+      { "name": "Homemade terrine", "description": "With Provence herbs, pickles and country bread", "price": "€7" },
+      { "name": "Burgundy snails", "description": "6 pieces with parsley butter", "price": "€9" }
+    ]
+  },
+  "plats": {
+    "title": "Main Courses",
+    "icon": "ChefHat",
+    "items": [
+      { "name": "Beef bourguignon", "description": "Slow-cooked 24h, homemade mash and seasonal vegetables", "price": "€18" },
+      { "name": "Coq au vin", "description": "Traditional recipe with mushrooms and bacon", "price": "€16" },
+      { "name": "Grilled salmon", "description": "Hollandaise sauce and vegetable risotto", "price": "€17" },
+      { "name": "Pasta primavera", "description": "Fresh pasta, seasonal vegetables and parmesan", "price": "€12" },
+      { "name": "Toulouse cassoulet", "description": "Beans, sausage, duck confit", "price": "€15" },
+      { "name": "Duck breast", "description": "Cherry sauce and potato gratin", "price": "€19" }
+    ]
+  },
+  "desserts": {
+    "title": "Homemade Desserts",
+    "icon": "Coffee",
+    "items": [
+      { "name": "Tarte Tatin", "description": "Caramelized apples and vanilla ice cream", "price": "€7" },
+      { "name": "Chocolate mousse", "description": "70% dark chocolate and homemade whipped cream", "price": "€6" },
+      { "name": "Crème brûlée", "description": "Madagascar vanilla, caramelized to order", "price": "€6" },
+      { "name": "Profiteroles", "description": "Vanilla ice cream and hot chocolate sauce", "price": "€8" }
+    ]
+  },
+  "boissons": {
+    "title": "Drinks",
+    "icon": "Wine",
+    "items": [
+      { "name": "Côtes du Rhône red", "description": "Glass / Bottle", "price": "€5 / €22" },
+      { "name": "Sancerre white", "description": "Glass / Bottle", "price": "€6 / €28" },
+      { "name": "Craft beer", "description": "Blonde or amber, 33cl", "price": "€4" },
+      { "name": "Espresso coffee", "description": "House-roasted arabica", "price": "€2" },
+      { "name": "Hot chocolate", "description": "Dark chocolate and whipped cream", "price": "€4" },
+      { "name": "Ceylon tea", "description": "Selection of fine teas", "price": "€3" }
+    ]
+  }
+}

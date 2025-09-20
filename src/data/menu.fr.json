@@ -1,0 +1,46 @@
+{
+  "entrees": {
+    "title": "Entrées",
+    "icon": "Utensils",
+    "items": [
+      { "name": "Soupe du jour", "description": "Préparée avec les légumes frais du marché", "price": "6€" },
+      { "name": "Salade de chèvre chaud", "description": "Mesclun, noix, miel et toast grillé", "price": "8€" },
+      { "name": "Terrine maison", "description": "Aux herbes de Provence, cornichons et pain de campagne", "price": "7€" },
+      { "name": "Escargots de Bourgogne", "description": "6 pièces au beurre persillé", "price": "9€" }
+    ]
+  },
+  "plats": {
+    "title": "Plats Principaux",
+    "icon": "ChefHat",
+    "items": [
+      { "name": "Bœuf bourguignon", "description": "Mijoté 24h, purée maison et légumes de saison", "price": "18€" },
+      { "name": "Coq au vin", "description": "Recette traditionnelle, champignons et lardons", "price": "16€" },
+      { "name": "Saumon grillé", "description": "Sauce hollandaise et risotto aux petits légumes", "price": "17€" },
+      { "name": "Pasta primavera", "description": "Pâtes fraîches, légumes de saison et parmesan", "price": "12€" },
+      { "name": "Cassoulet toulousain", "description": "Haricots, saucisse, confit de canard", "price": "15€" },
+      { "name": "Magret de canard", "description": "Sauce aux cerises et gratin dauphinois", "price": "19€" }
+    ]
+  },
+  "desserts": {
+    "title": "Desserts Maison",
+    "icon": "Coffee",
+    "items": [
+      { "name": "Tarte tatin", "description": "Pommes caramélisées et glace vanille", "price": "7€" },
+      { "name": "Mousse au chocolat", "description": "Chocolat noir 70% et chantilly maison", "price": "6€" },
+      { "name": "Crème brûlée", "description": "Vanille de Madagascar, caramélisée minute", "price": "6€" },
+      { "name": "Profiteroles", "description": "Glace vanille et sauce chocolat chaud", "price": "8€" }
+    ]
+  },
+  "boissons": {
+    "title": "Boissons",
+    "icon": "Wine",
+    "items": [
+      { "name": "Côtes du Rhône rouge", "description": "Verre / Bouteille", "price": "5€ / 22€" },
+      { "name": "Sancerre blanc", "description": "Verre / Bouteille", "price": "6€ / 28€" },
+      { "name": "Bière artisanale", "description": "Blonde ou ambrée, 33cl", "price": "4€" },
+      { "name": "Café espresso", "description": "Arabica torréfié maison", "price": "2€" },
+      { "name": "Chocolat chaud", "description": "Chocolat noir et chantilly", "price": "4€" },
+      { "name": "Thé de Ceylan", "description": "Sélection de thés fins", "price": "3€" }
+    ]
+  }
+}
