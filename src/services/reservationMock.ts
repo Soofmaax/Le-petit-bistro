@@ -14,8 +14,10 @@ export const LUNCH_TIMES = ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00'
 export const DINNER_TIMES = ['18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'];
 
 function getWeekday(dateStr: string): number {
+  // Parse using UTC to avoid timezone drift
   const [y, m, d] = dateStr.split('-').map(Number);
-  return new Date(y, (m ?? 1) - 1, d).getDay(); // 0 Sun ... 6 Sat
+  const utc = Date.UTC(y, (m ?? 1) - 1, d);
+  return new Date(utc).getUTCDay(); // 0 Sun ... 6 Sat
 }
 
 export function isClosed(dateStr: string): boolean {
@@ -77,6 +79,12 @@ export function getServiceBlock(dateStr: string): 'lunch' | 'dinner' | null {
   if (lunchBlocked) return 'lunch';
   if (dinnerBlocked) return 'dinner';
   return null;
+}
+
+// Backward-compatible helper returning an array of blocked services
+export function getBlockedServices(dateStr: string): ('lunch' | 'dinner')[] {
+  const block = getServiceBlock(dateStr);
+  return block ? [block] : [];
 }
 
 export function getAvailableTimes(dateStr: string): string[] {

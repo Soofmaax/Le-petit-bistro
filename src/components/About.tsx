@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useMotionPreference } from '../hooks/useMotionPreference';
 
 const About: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const reduce = useMotionPreference();
 
   // Parallax banner
@@ -33,7 +33,7 @@ const About: React.FC = () => {
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-3">
           <h1 className="text-3xl sm:text-4xl text-white font-['Pacifico'] drop-shadow">Le Petit Coin</h1>
           <p className="text-white/90 text-sm sm:text-base mt-1">
-            {(navigator.language || 'fr').toLowerCase().startsWith('en') ? 'Neighborhood bistro' : 'Bistro de quartier'}
+            {(i18n.language || 'fr').toLowerCase().startsWith('en') ? 'Neighborhood bistro' : 'Bistro de quartier'}
           </p>
         </div>
       </div>

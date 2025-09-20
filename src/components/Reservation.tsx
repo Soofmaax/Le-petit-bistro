@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Calendar, Clock, Users, Phone, AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
@@ -21,11 +21,11 @@ const Reservation: React.FC = () => {
   });
   
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [successAnim, setSuccessAnim] = useState<any | null>(null);
+  const [successAnim, setSuccessAnim] = useState<unknown>(null);
   const [times, setTimes] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
   const [blocked, setBlocked] = useState<string[]>([]);
-
+  const timeoutRef = useRef<number | null>(null);
   // Load a lightweight success Lottie animation (external asset)
   useEffect(() => {
     if (reduce) return; // skip fetching animation if reduced motion
@@ -109,7 +109,7 @@ const Reservation: React.FC = () => {
         message: formData.message
       });
       setIsSubmitted(true);
-      setTimeout(() => {
+      timeoutRef.current = window.setTimeout(() => {
         setIsSubmitted(false);
         setFormData({
           date: '',
@@ -122,15 +122,17 @@ const Reservation: React.FC = () => {
         });
         setTimes([]);
         setBlocked([]);
+        timeoutRef.current = null;
       }, 3000);
-    } catch (err: any) {
-      if (err?.message === 'slot_full') {
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'unknown';
+      if (msg === 'slot_full') {
         setError(
           (i18n.language || 'fr').startsWith('en')
             ? 'Selected time is fully booked. Please choose another slot.'
             : 'Ce créneau est complet. Merci de choisir un autre horaire.'
         );
-      } else if (err?.message === 'closed_day') {
+      } else if (msg === 'closed_day') {
         setError(
           (i18n.language || 'fr').startsWith('en')
             ? 'The restaurant is closed on this day.'
@@ -152,6 +154,15 @@ const Reservation: React.FC = () => {
       [e.target.name]: e.target.value
     });
   };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const serviceBadge =
     formData.date && blocked.length ? (
@@ -368,7 +379,7 @@ const Reservation: React.FC = () => {
               </div>
 
               {!!error && (
-                <div className="p-3 rounded-lg bg-[#F5E6D3] text-[#8B4513] flex items-start gap-2">
+                <div className="p-3 rounded-lg bg-[#F5E6D3] text-[#8B4513] flex items-start gap-2" role="alert" aria-live="assertive">
                   <AlertTriangle size={18} className="mt-0.5" />
                   <p className="text-sm">{error}</p>
                 </div>
