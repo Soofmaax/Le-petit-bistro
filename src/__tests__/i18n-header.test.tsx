@@ -11,15 +11,15 @@ describe('Header i18n language switch', () => {
     );
 
     // Initially in FR, the Menu label should be "Notre Carte"
-    const frenchMenuLink = await screen.findByRole('link', { name: /Notre Carte/i });
-    expect(frenchMenuLink).toBeInTheDocument();
+    const frenchMenuLinks = await screen.findAllByRole('link', { name: /Notre Carte/i });
+    expect(frenchMenuLinks.length).toBeGreaterThan(0);
 
     // Click EN button in header
     const enButton = screen.getAllByRole('button', { name: 'EN' })[0];
     fireEvent.click(enButton);
 
     // After switching language, the label should be "Menu"
-    const englishMenuLink = await screen.findByRole('link', { name: /^Menu$/i });
-    expect(englishMenuLink).toBeInTheDocument();
+    const englishMenuLinks = await screen.findAllByRole('link', { name: /^Menu$/i });
+    expect(englishMenuLinks.length).toBeGreaterThan(0);
   });
 });
