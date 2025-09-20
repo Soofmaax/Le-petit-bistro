@@ -30,11 +30,12 @@ export function openingTimesFor(dateStr: string): string[] {
   return [...LUNCH_TIMES, ...DINNER_TIMES];
 }
 
-// Mock fully booked slots: some upcoming days/times unavailable
-// Example: next Friday 19:30 full, next Wednesday dinner full
+// Mock fully booked slots: 3 à 4 services complets sur les deux prochains week-ends.
+// Un service = tout le déjeuner (LUNCH_TIMES) ou tout le dîner (DINNER_TIMES).
 const fullyBooked: Record<string, Set<string>> = (() => {
   const map: Record<string, Set<string>> = {};
   const today = new Date();
+
   function addDays(n: number) {
     const d = new Date(today);
     d.setDate(today.getDate() + n);
@@ -47,23 +48,24 @@ const fullyBooked: Record<string, Set<string>> = (() => {
     return `${y}-${m}-${dd}`;
   }
 
-  // Next Wednesday: dinner fully booked
-  for (let i = 1; i <= 14; i++) {
+  let servicesBlocked = 0;
+  for (let i = 1; i <= 14 && servicesBlocked < 4; i++) {
     const d = addDays(i);
-    if (d.getDay() === 3) {
+    const day = d.getDay(); // 0 Sun ... 6 Sat
+    if (day === 6) {
+      // Samedi: bloquer un service (alterner lunch/dinner)
       const key = fmt(d);
-      map[key] = new Set(DINNER_TIMES);
-      break;
-    }
-  }
-  // Next Friday: 19:30 booked
-  for (let i = 1; i <= 14; i++) {
-    const d = addDays(i);
-    if (d.getDay() === 5) {
+      map[key] = map[key] || new Set<string>();
+      const blockDinner = servicesBlocked % 2 === 0;
+      const list = blockDinner ? DINNER_TIMES : LUNCH_TIMES;
+      list.forEach((t) => map[key].add(t));
+      servicesBlocked++;
+    } else if (day === 0) {
+      // Dimanche: uniquement déjeuner
       const key = fmt(d);
-      map[key] = map[key] || new Set();
-      map[key].add('19:30');
-      break;
+      map[key] = map[key] || new Set<string>();
+      LUNCH_TIMES.forEach((t) => map[key].add(t));
+      servicesBlocked++;
     }
   }
   return map;
