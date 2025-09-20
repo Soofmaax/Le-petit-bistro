@@ -18,7 +18,7 @@ const Privacy: React.FC = () => {
         }
         path="/privacy"
       />
-      <h1 className="text-3xl font-bold text-[#8B4513] font-['Pacifico'] mb-4">
+      <h1 className="text-3xl font-bold text-[#8B4513] font-display mb-4">
         {isEN ? 'Privacy Policy' : 'Politique de confidentialité'}
       </h1>
       <div className="prose prose-slate max-w-none">

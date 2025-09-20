@@ -18,7 +18,7 @@ const Terms: React.FC = () => {
         }
         path="/terms"
       />
-      <h1 className="text-3xl font-bold text-[#8B4513] font-['Pacifico'] mb-4">
+      <h1 className="text-3xl font-bold text-[#8B4513] font-display mb-4">
         {isEN ? 'Terms of Use' : "Conditions d'utilisation"}
       </h1>
       <div className="prose prose-slate max-w-none">

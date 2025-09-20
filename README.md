@@ -4,8 +4,8 @@
 <p><strong>Vite + React + TypeScript + Tailwind</strong></p>
 
 <p>
-<a href="https://github.com/Soofmax/REPO/actions/workflows/ci.yml">
-<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmax/REPO/ci.yml?branch=main&label=CI&logo=github" />
+<a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml">
+<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/ci.yml?branch=main&label=CI&logo=github" />
 </a>
 <img alt="Vite" src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" />
 <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=061d2f" />
@@ -165,7 +165,7 @@ GitHub Actions: `.github/workflows/ci.yml`
 
 Badge:
 ```
-[![CI](https://github.com/Soofmax/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml)
 ```
 
 Suggested hosting:
@@ -178,7 +178,20 @@ Suggested hosting:
 
 ---
 
-## 🧭 Roadmap
+## 🧑‍💼 For recruiters: repo hygiene and automations
+
+- Purpose: this is a static demo (frontend-only). To keep the history clean and avoid noise:
+  - Dependabot is disabled (no daily/weekly mass PRs for deps).
+  - A manual cleanup workflow exists to close dependency PRs and delete their branches:
+    - Actions → “Cleanup Dependabot PRs” → Run workflow.
+- Professional setup still visible for evaluation:
+  - CI (lint, typecheck, build) and Tests workflows run on push/PR only (no scheduled runs).
+  - CodeQL is enabled but without cron; it runs on push/PR for code scanning.
+
+Files of interest:
+- .github/workflows/ci.yml — build, typecheck, lint, artifact
+- .github/workflows/tests.yml — unit tests
+- .github/workp
 
 - [ ] Reservation form: react-hook-form + zod (validation, errors, masks)
 - [ ] Email sending (Resend/EmailJS) or storage (Supabase)

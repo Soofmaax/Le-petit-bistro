@@ -51,7 +51,7 @@ const Menu: React.FC = () => {
     <section className="py-10 sm:py-12 px-3 sm:px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] dark:text-[#F5E6D3] mb-3 sm:mb-4 font-['Pacifico']">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] dark:text-[#F5E6D3] mb-3 sm:mb-4 font-display">
             {t('menu.title')}
           </h2>
           {reduce ? (
@@ -95,7 +95,7 @@ const Menu: React.FC = () => {
 
         {/* Menu Items */}
         <div className="bg-white/80 dark:bg-slate-800/80 rounded-xl p-4 sm:p-8 shadow-lg overflow-hidden">
-          <h3 className="text-2xl sm:text-3xl font-bold text-[#8B4513] dark:text-[#F5E6D3] mb-6 sm:mb-8 text-center font-['Pacifico']">
+          <h3 className="text-2xl sm:text-3xl font-bold text-[#8B4513] dark:text-[#F5E6D3] mb-6 sm:mb-8 text-center font-display">
             {current.title}
           </h3>
 
@@ -116,7 +116,7 @@ const Menu: React.FC = () => {
                   className="border-b border-[#D2691E]/20 pb-3 sm:pb-4 p-3 sm:p-4 rounded-lg"
                 >
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-1.5 sm:mb-2 gap-1.5">
-                    <h4 className="text-base sm:text-lg font-semibold text-[#8B4513] dark:text-[#F5E6D3] font-['Pacifico'] leading-snug">
+                    <h4 className="text-base sm:text-lg font-semibold text-[#8B4513] dark:text-[#F5E6D3] font-display leading-snug">
                       {item.name}
                     </h4>
                     <span className="text-base sm:text-lg font-bold text-[#D2691E] md:ml-4 md:flex-shrink-0">
@@ -134,7 +134,7 @@ const Menu: React.FC = () => {
 
         {/* Chef's Special */}
         <div className="mt-6 sm:mt-8 bg-gradient-to-r from-[#D2691E] to-[#B8551A] text-white rounded-xl p-4 sm:p-6 text-center">
-          <h3 className="text-xl sm:text-2xl font-bold mb-1.5 sm:mb-2 font-['Pacifico']">{t('menu.chef_special')}</h3>
+          <h3 className="text-xl sm:text-2xl font-bold mb-1.5 sm:mb-2 font-display">{t('menu.chef_special')}</h3>
           <p className="text-base sm:text-lg">{t('menu.chef_special_sub')}</p>
           <p className="text-xs sm:text-sm mt-2 opacity-90">{t('menu.chef_special_note')}</p>
         </div>
