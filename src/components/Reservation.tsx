@@ -7,6 +7,17 @@ import Lottie from 'lottie-react';
 import { useMotionPreference } from '../hooks/useMotionPreference';
 import { createReservation, getAvailableTimes, isClosed, getBlockedServices } from '../services/reservationMock';
 
+type LottieAnimationData = {
+  v: string; // version
+  fr: number; // frame rate
+  ip: number; // in point
+  op: number; // out point
+  w: number; // width
+  h: number; // height
+  nm: string; // name
+  [key: string]: unknown;
+};
+
 const Reservation: React.FC = () => {
   const { t, i18n } = useTranslation();
   const reduce = useMotionPreference();
@@ -21,7 +32,7 @@ const Reservation: React.FC = () => {
   });
   
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [successAnim, setSuccessAnim] = useState<unknown>(null);
+  const [successAnim, setSuccessAnim] = useState<LottieAnimationData | null>(null);
   const [times, setTimes] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
   const [blocked, setBlocked] = useState<string[]>([]);

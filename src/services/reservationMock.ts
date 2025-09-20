@@ -8,6 +8,8 @@ export type ReservationInput = {
   message?: string;
 };
 
+export type ServiceType = 'lunch' | 'dinner';
+
 // Opening rules
 // Closed on Tuesday. Sunday lunch only (<= 15:00). Mon-Sat 11:30-14:30 and 18:30-22:30
 export const LUNCH_TIMES = ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00'];
@@ -71,7 +73,7 @@ const fullyBooked: Record<string, Set<string>> = (() => {
   return map;
 })();
 
-export function getServiceBlock(dateStr: string): 'lunch' | 'dinner' | null {
+export function getServiceBlock(dateStr: string): ServiceType | null {
   const booked = fullyBooked[dateStr];
   if (!booked) return null;
   const lunchBlocked = LUNCH_TIMES.every((t) => booked.has(t));
@@ -82,7 +84,7 @@ export function getServiceBlock(dateStr: string): 'lunch' | 'dinner' | null {
 }
 
 // Backward-compatible helper returning an array of blocked services
-export function getBlockedServices(dateStr: string): ('lunch' | 'dinner')[] {
+export function getBlockedServices(dateStr: string): ServiceType[] {
   const block = getServiceBlock(dateStr);
   return block ? [block] : [];
 }
