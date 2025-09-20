@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
 import { useMotionPreference } from '../hooks/useMotionPreference';
-import { createReservation, getAvailableTimes, isClosed } from '../services/reservationMock';
+import { createReservation, getAvailableTimes, isClosed, getBlockedServices } from '../services/reservationMock';
 
 const Reservation: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -24,6 +24,7 @@ const Reservation: React.FC = () => {
   const [successAnim, setSuccessAnim] = useState<any | null>(null);
   const [times, setTimes] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
+  const [blocked, setBlocked] = useState<string[]>([]);
 
   // Load a lightweight success Lottie animation (external asset)
   useEffect(() => {
@@ -61,10 +62,12 @@ const Reservation: React.FC = () => {
   useEffect(() => {
     if (!formData.date) {
       setTimes([]);
+      setBlocked([]);
       return;
     }
     if (isClosed(formData.date)) {
       setTimes([]);
+      setBlocked([]);
       setError(
         (i18n.language || 'fr').startsWith('en')
           ? 'The restaurant is closed on the selected day.'
@@ -74,6 +77,7 @@ const Reservation: React.FC = () => {
     }
     const avail = getAvailableTimes(formData.date);
     setTimes(avail);
+    setBlocked(getBlockedServices(formData.date));
     // If currently selected time is no longer available, reset it
     if (formData.time && !avail.includes(formData.time)) {
       setFormData((prev) => ({ ...prev, time: '' }));
@@ -117,6 +121,7 @@ const Reservation: React.FC = () => {
           message: ''
         });
         setTimes([]);
+        setBlocked([]);
       }, 3000);
     } catch (err: any) {
       if (err?.message === 'slot_full') {
@@ -147,6 +152,19 @@ const Reservation: React.FC = () => {
       [e.target.name]: e.target.value
     });
   };
+
+  const serviceBadge =
+    formData.date && blocked.length ? (
+      <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#F5E6D3] px-3 py-1 text-sm text-[#8B4513]">
+        <span className="inline-block w-2 h-2 rounded-full bg-[#D2691E]" />
+        {blocked.includes('lunch') && (
+          <span>{(i18n.language || 'fr').startsWith('en') ? 'Lunch service full' : 'Service déjeuner complet'}</span>
+        )}
+        {blocked.includes('dinner') && (
+          <span>{(i18n.language || 'fr').startsWith('en') ? 'Dinner service full' : 'Service dîner complet'}</span>
+        )}
+      </div>
+    ) : null;
 
   if (isSubmitted) {
     return (
@@ -257,6 +275,7 @@ const Reservation: React.FC = () => {
                       </option>
                     ))}
                   </select>
+                  {serviceBadge}
                   {formData.date && !times.length && !isClosed(formData.date) && (
                     <p className="text-sm text-[#B8551A] mt-1">
                       {(i18n.language || 'fr').startsWith('en')

@@ -10,8 +10,8 @@ export type ReservationInput = {
 
 // Opening rules
 // Closed on Tuesday. Sunday lunch only (<= 15:00). Mon-Sat 11:30-14:30 and 18:30-22:30
-const LUNCH_TIMES = ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00'];
-const DINNER_TIMES = ['18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'];
+export const LUNCH_TIMES = ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00'];
+export const DINNER_TIMES = ['18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'];
 
 function getWeekday(dateStr: string): number {
   const [y, m, d] = dateStr.split('-').map(Number);
@@ -30,8 +30,9 @@ export function openingTimesFor(dateStr: string): string[] {
   return [...LUNCH_TIMES, ...DINNER_TIMES];
 }
 
-// Mock fully booked slots: 3 à 4 services complets sur les deux prochains week-ends.
-// Un service = tout le déjeuner (LUNCH_TIMES) ou tout le dîner (DINNER_TIMES).
+// Mock fully booked slots:
+// - Prochains 2 samedis: DÎNER complet
+// - Prochain 1 dimanche: DÉJEUNER complet
 const fullyBooked: Record<string, Set<string>> = (() => {
   const map: Record<string, Set<string>> = {};
   const today = new Date();
@@ -48,28 +49,35 @@ const fullyBooked: Record<string, Set<string>> = (() => {
     return `${y}-${m}-${dd}`;
   }
 
-  let servicesBlocked = 0;
-  for (let i = 1; i <= 14 && servicesBlocked < 4; i++) {
+  let saturdayCount = 0;
+  let sundayMarked = false;
+
+  for (let i = 1; i <= 14 && (saturdayCount < 2 || !sundayMarked); i++) {
     const d = addDays(i);
-    const day = d.getDay(); // 0 Sun ... 6 Sat
-    if (day === 6) {
-      // Samedi: bloquer un service (alterner lunch/dinner)
-      const key = fmt(d);
+    const day = d.getDay(); // 0 Sun, 6 Sat
+    const key = fmt(d);
+    if (day === 6 && saturdayCount < 2) {
       map[key] = map[key] || new Set<string>();
-      const blockDinner = servicesBlocked % 2 === 0;
-      const list = blockDinner ? DINNER_TIMES : LUNCH_TIMES;
-      list.forEach((t) => map[key].add(t));
-      servicesBlocked++;
-    } else if (day === 0) {
-      // Dimanche: uniquement déjeuner
-      const key = fmt(d);
+      DINNER_TIMES.forEach((t) => map[key].add(t)); // Block dinner
+      saturdayCount++;
+    } else if (day === 0 && !sundayMarked) {
       map[key] = map[key] || new Set<string>();
-      LUNCH_TIMES.forEach((t) => map[key].add(t));
-      servicesBlocked++;
+      LUNCH_TIMES.forEach((t) => map[key].add(t)); // Block lunch
+      sundayMarked = true;
     }
   }
   return map;
 })();
+
+export function getServiceBlock(dateStr: string): 'lunch' | 'dinner' | null {
+  const booked = fullyBooked[dateStr];
+  if (!booked) return null;
+  const lunchBlocked = LUNCH_TIMES.every((t) => booked.has(t));
+  const dinnerBlocked = DINNER_TIMES.every((t) => booked.has(t));
+  if (lunchBlocked) return 'lunch';
+  if (dinnerBlocked) return 'dinner';
+  return null;
+}
 
 export function getAvailableTimes(dateStr: string): string[] {
   if (!dateStr) return [];
