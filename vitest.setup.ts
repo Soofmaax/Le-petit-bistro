@@ -26,3 +26,20 @@ if (!HTMLCanvasElement.prototype.getContext) {
     }
   });
 }
+
+// Polyfill IntersectionObserver for framer-motion InView in tests
+if (typeof (globalThis as any).IntersectionObserver === 'undefined') {
+  class MockIntersectionObserver {
+    readonly root: Element | null = null;
+    readonly rootMargin: string = '0px';
+    readonly thresholds: ReadonlyArray<number> = [0];
+
+    constructor(_callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {}
+
+    observe(_target: Element) {}
+    unobserve(_target: Element) {}
+    disconnect() {}
+    takeRecords(): IntersectionObserverEntry[] { return []; }
+  }
+  (globalThis as any).IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver;
+}
