@@ -17,6 +17,5 @@ vi.mock('canvas-confetti', () => {
 
 // Provide a minimal getContext to avoid errors from libraries that access canvas
 if (!HTMLCanvasElement.prototype.getContext) {
-  // eslint-disable-next-line no-extend-native
-  HTMLCanvasElement.prototype.getContext = (() => ({})) as any;
-}
+  HTMLCanvasElement.prototype.getContext = function (_contextId: string, _options?: unknown): RenderingContext {
+    return {} as
