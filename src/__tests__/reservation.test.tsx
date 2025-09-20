@@ -18,6 +18,12 @@ function nextWeekdayISO(target: number): string {
 
 describe('Reservation flow (mocked)', () => {
   test('Saturday dinner blocked: time select has no dinner slots', async () => {
+    // Stabilise environment: FR language and reduced motion
+    localStorage.setItem('lang', 'fr');
+    localStorage.setItem('motion', 'reduce');
+    document.documentElement.dataset.reduceMotion = 'true';
+    document.documentElement.lang = 'fr';
+
     render(
       <MemoryRouter initialEntries={['/reservation']}>
         <App />
@@ -29,11 +35,12 @@ describe('Reservation flow (mocked)', () => {
     fireEvent.change(dateInput, { target: { value: saturdayISO } });
 
     // Open the time select
-    const timeSelect = await screen.findByLabelText(/heure|time/i);
+    const timeSelect = await screen.findByRole('combobox', { name: /heure|time/i });
 
     // Wait a tick for options to populate
     await waitFor(() => {
-      expect(timeSelect).toBeInTheDocument();
+      const options = timeSelect.querySelectorAll('option');
+      expect(options.length).toBeGreaterThan(1);
     });
 
     // Extract options
