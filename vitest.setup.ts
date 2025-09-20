@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 import { vi } from 'vitest';
+import './src/i18n';
 
 // Mock lottie-react to avoid jsdom canvas issues
 vi.mock('lottie-react', () => {
