@@ -142,20 +142,16 @@ async function run() {
     const target = `${outDir}/${f.name}`;
     if (existsSync(target)) {
       // skip if already exists
-      // eslint-disable-next-line no-console
       console.log(`✔ Skipped (exists): ${f.name}`);
       continue;
     }
-    // eslint-disable-next-line no-console
     console.log(`↓ Downloading ${f.name} ...`);
     await download(f.url, target);
-    // eslint-disable-next-line no-console
     console.log(`✔ Saved: ${target}`);
   }
 }
 
 run().catch((e) => {
-  // eslint-disable-next-line no-console
   console.error(e);
   process.exit(1);
 });
