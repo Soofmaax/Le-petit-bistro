@@ -178,7 +178,20 @@ Suggested hosting:
 
 ---
 
-## 🧭 Roadmap
+## 🧑‍💼 For recruiters: repo hygiene and automations
+
+- Purpose: this is a static demo (frontend-only). To keep the history clean and avoid noise:
+  - Dependabot is disabled (no daily/weekly mass PRs for deps).
+  - A manual cleanup workflow exists to close dependency PRs and delete their branches:
+    - Actions → “Cleanup Dependabot PRs” → Run workflow.
+- Professional setup still visible for evaluation:
+  - CI (lint, typecheck, build) and Tests workflows run on push/PR only (no scheduled runs).
+  - CodeQL is enabled but without cron; it runs on push/PR for code scanning.
+
+Files of interest:
+- .github/workflows/ci.yml — build, typecheck, lint, artifact
+- .github/workflows/tests.yml — unit tests
+- .github/workp
 
 - [ ] Reservation form: react-hook-form + zod (validation, errors, masks)
 - [ ] Email sending (Resend/EmailJS) or storage (Supabase)
