@@ -25,7 +25,7 @@ describe('Reservation flow (mocked)', () => {
     );
 
     // Navigate to Reservation
-    const reservationLink = screen.getByRole('link', { name: /réservation|reservation/i });
+    const reservationLink = screen.getByRole('link', { name: /réserver|reservation/i });
     fireEvent.click(reservationLink);
 
     const dateInput = await screen.findByLabelText(/date/i);
