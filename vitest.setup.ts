@@ -17,11 +17,12 @@ vi.mock('canvas-confetti', () => {
 
 // Provide a minimal getContext to avoid errors from libraries that access canvas
 if (!HTMLCanvasElement.prototype.getContext) {
-  HTMLCanvasElement.prototype.getContext = function (
-    _contextId: string,
-    _options?: unknown
-  ): RenderingContext | null {
-    // Return a minimal object that satisfies libraries checking for a context
-    return {} as unknown as RenderingContext;
-  };
+  Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+    configurable: true,
+    writable: true,
+    value: function (): RenderingContext | null {
+      // Return a minimal object that satisfies libraries checking for a context
+      return {} as unknown as RenderingContext;
+    }
+  });
 }
