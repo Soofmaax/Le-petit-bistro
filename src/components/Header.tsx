@@ -63,7 +63,7 @@ const Header: React.FC = () => {
               <span className="text-white font-bold text-xl font-display">LC</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#8B4513] dark:text-[#F5E6D3] font-display">Le Petit Coin</h1>
+              <h1 className="text-2xl font-bold text-[#8B4513] dark:text-[#F5E6D3] font-display tracking-tight">Le Petit Coin</h1>
               <p className="text-sm text-[#808000]">{subtitle}</p>
             </div>
           </div>
