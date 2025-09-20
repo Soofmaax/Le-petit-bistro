@@ -48,7 +48,7 @@ const Reservation: React.FC = () => {
 
   useEffect(() => {
     if (!isSubmitted || reduce) return;
-    // Subtle, brand-colored confetti with emoji hearts and squares
+    // Subtle, brand-colored confetti
     const duration = 900;
     const end = Date.now() + duration;
 
@@ -59,9 +59,8 @@ const Reservation: React.FC = () => {
         origin: { y: 0.2 },
         startVelocity: 32,
         scalar: 0.85,
-        colors: ['#D2691E', '#F5E6D3', '#8B4513'],
-        emojis: ['❤️', '🟫'] as any
-      } as any);
+        colors: ['#D2691E', '#F5E6D3', '#8B4513']
+      });
       if (Date.now() < end) {
         requestAnimationFrame(frame);
       }
@@ -188,6 +187,22 @@ const Reservation: React.FC = () => {
       </div>
     ) : null;
 
+  const underline = useMemo(
+    () =>
+      reduce ? (
+        <div className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3" style={{ width: 140 }} />
+      ) : (
+        <motion.div
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: 140, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
+        />
+      ),
+    [reduce]
+  );
+
   if (isSubmitted) {
     return (
       <section className="py-12 px-4">
@@ -222,22 +237,6 @@ const Reservation: React.FC = () => {
       </section>
     );
   }
-
-  const underline = useMemo(
-    () =>
-      reduce ? (
-        <div className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3" style={{ width: 140 }} />
-      ) : (
-        <motion.div
-          initial={{ width: 0, opacity: 0 }}
-          whileInView={{ width: 140, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="h-1 bg-[#D2691E] mx-auto rounded-full mb-3"
-        />
-      ),
-    [reduce]
-  );
 
   return (
     <section className="py-12 px-4">

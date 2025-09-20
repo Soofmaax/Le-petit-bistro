@@ -24,7 +24,7 @@ const useLocalizedMenu = (lng: string): MenuData => {
 
 const Menu: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const reduce = useMotionPreference(new)</;
+  const reduce = useMotionPreference();
 
   const menuData = useLocalizedMenu(i18n.language);
   const categories = useMemo(() => Object.keys(menuData), [menuData]);
