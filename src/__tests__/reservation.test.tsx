@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import App from '../App';
+import Reservation from '../components/Reservation';
 
 // Helper to find next Saturday ISO date
 function nextWeekdayISO(target: number): string {
@@ -24,11 +23,7 @@ describe('Reservation flow (mocked)', () => {
     document.documentElement.dataset.reduceMotion = 'true';
     document.documentElement.lang = 'fr';
 
-    render(
-      <MemoryRouter initialEntries={['/reservation']}>
-        <App />
-      </MemoryRouter>
-    );
+    render(<Reservation />);
 
     const dateInput = await screen.findByLabelText(/date/i);
     const saturdayISO = nextWeekdayISO(6); // 6 = Saturday
