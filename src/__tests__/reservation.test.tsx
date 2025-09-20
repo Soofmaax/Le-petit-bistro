@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
 
-// Helper to find next Saturday and next Sunday ISO date
+// Helper to find next Saturday ISO date
 function nextWeekdayISO(target: number): string {
   const today = new Date();
   for (let i = 1; i <= 14; i++) {
@@ -19,14 +19,10 @@ function nextWeekdayISO(target: number): string {
 describe('Reservation flow (mocked)', () => {
   test('Saturday dinner blocked: time select has no dinner slots', async () => {
     render(
-      <BrowserRouter>
+      <MemoryRouter initialEntries={['/reservation']}>
         <App />
-      </BrowserRouter>
+      </MemoryRouter>
     );
-
-    // Navigate to Reservation (there are two links: desktop and mobile; click the first)
-    const reservationLinks = screen.getAllByRole('link', { name: /réserver|reservation/i });
-    fireEvent.click(reservationLinks[0]);
 
     const dateInput = await screen.findByLabelText(/date/i);
     const saturdayISO = nextWeekdayISO(6); // 6 = Saturday
