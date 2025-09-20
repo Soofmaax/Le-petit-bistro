@@ -17,9 +17,9 @@ const Footer: React.FC = () => {
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-[#D2691E] rounded-full flex items-center justify-center">
-                <span className="text-white font-bold font-['Pacifico']">LC</span>
+                <span className="text-white font-bold font-display">LC</span>
               </div>
-              <h3 className="text-xl font-bold font-['Pacifico']">Le Petit Coin</h3>
+              <h3 className="text-xl font-bold font-display">Le Petit Coin</h3>
             </div>
             <p className="text-sm opacity-90 leading-relaxed">
               {t('footer.description')}

@@ -23,7 +23,7 @@ const Contact: React.FC = () => {
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-display">
             {t('contact.title')}
           </h2>
           {reduce ? (
@@ -51,7 +51,7 @@ const Contact: React.FC = () => {
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
           >
-            <h3 className="text-xl sm:text-2xl font-bold text-[#8B4513] mb-4 sm:mb-6 font-['Pacifico']">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#8B4513] mb-4 sm:mb-6 font-display">
               {t('contact.coords')}
             </h3>
             
@@ -127,7 +127,7 @@ const Contact: React.FC = () => {
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
           >
-            <h3 className="text-xl sm:text-2xl font-bold text-[#8B4513] mb-4 sm:mb-6 font-['Pacifico']">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#8B4513] mb-4 sm:mb-6 font-display">
               {t('contact.how_to_come')}
             </h3>
             
@@ -175,7 +175,7 @@ const Contact: React.FC = () => {
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
           >
-            <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 font-['Pacifico']">{t('contact.stay_informed')}</h3>
+            <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 font-display">{t('contact.stay_informed')}</h3>
             <p className="text-xs sm:text-sm mb-3 sm:mb-4 opacity-90">
               {t('contact.newsletter_text')}
             </p>
@@ -198,7 +198,7 @@ const Contact: React.FC = () => {
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
           >
-            <h3 className="text-lg sm:text-xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
+            <h3 className="text-lg sm:text-xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-display">
               {t('contact.follow_us')}
             </h3>
             <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">

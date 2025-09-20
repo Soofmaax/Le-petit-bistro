@@ -64,7 +64,7 @@ function App() {
                   <Hero />
                   <div className="px-4 py-8">
                     <div className="max-w-4xl mx-auto">
-                      <h2 className="text-3xl font-bold text-[#8B4513] dark:text-[#F5E6D3] text-center mb-8 font-['Pacifico']">
+                      <h2 className="text-3xl font-bold text-[#8B4513] dark:text-[#F5E6D3] text-center mb-8 font-display">
                         {t('home.preview_title')}
                       </h2>
                       <div className="grid md:grid-cols-2 gap-8 mb-12">

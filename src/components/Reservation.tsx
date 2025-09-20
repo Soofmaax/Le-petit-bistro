@@ -213,7 +213,7 @@ const Reservation: React.FC = () => {
             ) : (
               <div className="w-16 h-16 rounded-full bg-green-500/15 border border-green-500/30 mx-auto mb-4" />
             )}
-            <h2 className="text-3xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
+            <h2 className="text-3xl font-bold text-[#8B4513] mb-4 font-display">
               {t('reservation.confirm_title')}
             </h2>
             <p className="text-lg text-gray-600 mb-4">
@@ -242,7 +242,7 @@ const Reservation: React.FC = () => {
     <section className="py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
+          <h2 className="text-4xl font-bold text-[#8B4513] mb-4 font-display">
             {t('reservation.title')}
           </h2>
           {underline}
@@ -254,7 +254,7 @@ const Reservation: React.FC = () => {
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Formulaire de réservation */}
           <div className="bg-white/90 rounded-xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-[#8B4513] mb-6 font-['Pacifico']">
+            <h3 className="text-2xl font-bold text-[#8B4513] mb-6 font-display">
               {t('reservation.your_info')}
             </h3>
             
@@ -407,7 +407,7 @@ const Reservation: React.FC = () => {
           {/* Informations pratiques */}
           <div className="space-y-6">
             <div className="bg-white/90 rounded-xl p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
+              <h3 className="text-xl font-bold text-[#8B4513] mb-4 font-display">
                 {t('reservation.practical_info')}
               </h3>
               <div className="space-y-3 text-gray-600">
@@ -437,7 +437,7 @@ const Reservation: React.FC = () => {
             </div>
 
             <div className="bg-gradient-to-r from-[#D2691E] to-[#B8551A] text-white rounded-xl p-6">
-              <h3 className="text-xl font-bold mb-3 font-['Pacifico']">{t('reservation.good_to_know')}</h3>
+              <h3 className="text-xl font-bold mb-3 font-display">{t('reservation.good_to_know')}</h3>
               <ul className="text-sm space-y-2">
                 <li>• {t('reservation.tip_last_booking')}</li>
                 <li>• {t('reservation.tip_terrace')}</li>

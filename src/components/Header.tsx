@@ -60,10 +60,10 @@ const Header: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <div className="w-12 h-12 bg-[#8B4513] rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl font-['Pacifico']">LC</span>
+              <span className="text-white font-bold text-xl font-display">LC</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#8B4513] dark:text-[#F5E6D3] font-['Pacifico']">Le Petit Coin</h1>
+              <h1 className="text-2xl font-bold text-[#8B4513] dark:text-[#F5E6D3] font-display">Le Petit Coin</h1>
               <p className="text-sm text-[#808000]">{subtitle}</p>
             </div>
           </div>

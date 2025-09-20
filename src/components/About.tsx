@@ -31,7 +31,7 @@ const About: React.FC = () => {
           <div className="absolute inset-0 bg-black/30" />
         </motion.div>
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-3">
-          <h1 className="text-3xl sm:text-4xl text-white font-['Pacifico'] drop-shadow">Le Petit Coin</h1>
+          <h1 className="text-3xl sm:text-4xl text-white font-display drop-shadow">Le Petit Coin</h1>
           <p className="text-white/90 text-sm sm:text-base mt-1">
             {(i18n.language || 'fr').toLowerCase().startsWith('en') ? 'Neighborhood bistro' : 'Bistro de quartier'}
           </p>
@@ -46,7 +46,7 @@ const About: React.FC = () => {
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-display">
             {t('about.title')}
           </h2>
           {reduce ? (
@@ -89,7 +89,7 @@ const About: React.FC = () => {
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
           >
-            <h3 className="text-xl sm:text-2xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-['Pacifico']">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#8B4513] mb-3 sm:mb-4 font-display">
               {t('about.family_title')}
             </h3>
             <p className="text-gray-600 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base">
@@ -114,7 +114,7 @@ const About: React.FC = () => {
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
         >
-          <h3 className="text-2xl sm:text-3xl font-bold text-[#8B4513] mb-6 sm:mb-8 text-center font-['Pacifico']">
+          <h3 className="text-2xl sm:text-3xl font-bold text-[#8B4513] mb-6 sm:mb-8 text-center font-display">
             {t('about.team_title')}
           </h3>
           
@@ -137,7 +137,7 @@ const About: React.FC = () => {
                   width="300"
                   height="300"
                 />
-                <h4 className="text-lg sm:text-xl font-semibold text-[#8B4513] font-['Pacifico']">{t(`about.team.${key}_name`)}</h4>
+                <h4 className="text-lg sm:text-xl font-semibold text-[#8B4513] font-display">{t(`about.team.${key}_name`)}</h4>
                 <p className="text-[#D2691E] font-semibold text-sm sm:text-base">{t(`about.team.${key}_role`)}</p>
                 <p className="text-gray-600 text-xs sm:text-sm mt-2">
                   {t(`about.team.${key}_bio`)}

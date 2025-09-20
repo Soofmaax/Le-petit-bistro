@@ -55,7 +55,7 @@ const Hero: React.FC = () => {
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 text-white">
         <div className="max-w-2xl">
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 font-['Pacifico'] leading-tight">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 font-display leading-tight">
             {t('site.tagline')}
           </h2>
           <p className="text-xl md:text-2xl mb-8 leading-relaxed">
