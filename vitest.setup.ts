@@ -29,18 +29,32 @@ if (!HTMLCanvasElement.prototype.getContext) {
 }
 
 // Polyfill IntersectionObserver for framer-motion InView in tests
-if (typeof (globalThis as any).IntersectionObserver === 'undefined') {
-  class MockIntersectionObserver {
-    readonly root: Element | null = null;
+const g = globalThis as unknown as { IntersectionObserver?: typeof IntersectionObserver };
+if (typeof g.IntersectionObserver === 'undefined') {
+  class MockIntersectionObserver implements IntersectionObserver {
+    readonly root: Element | Document | null = null;
     readonly rootMargin: string = '0px';
     readonly thresholds: ReadonlyArray<number> = [0];
 
-    constructor(_callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {}
+    constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+      // mark as used to satisfy lint
+      void callback;
+      void options;
+    }
 
-    observe(_target: Element) {}
-    unobserve(_target: Element) {}
+    observe(target: Element) {
+      void target;
+    }
+
+    unobserve(target: Element) {
+      void target;
+    }
+
     disconnect() {}
-    takeRecords(): IntersectionObserverEntry[] { return []; }
+
+    takeRecords(): IntersectionObserverEntry[] {
+      return [];
+    }
   }
-  (globalThis as any).IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver;
+  g.IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver;
 }
