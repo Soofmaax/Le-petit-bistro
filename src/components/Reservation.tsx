@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Calendar, Clock, Users, Phone } from 'lucide-react';
+import { Calendar, Clock, Users, Phone, AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
 import { useMotionPreference } from '../hooks/useMotionPreference';
+import { createReservation, getAvailableTimes, isClosed } from '../services/reservationMock';
 
 const Reservation: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const reduce = useMotionPreference();
   const [formData, setFormData] = useState({
     date: '',
@@ -21,6 +22,8 @@ const Reservation: React.FC = () => {
   
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [successAnim, setSuccessAnim] = useState<any | null>(null);
+  const [times, setTimes] = useState<string[]>([]);
+  const [error, setError] = useState<string>('');
 
   // Load a lightweight success Lottie animation (external asset)
   useEffect(() => {
@@ -54,22 +57,88 @@ const Reservation: React.FC = () => {
     frame();
   }, [isSubmitted, reduce]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Update available times when date changes
+  useEffect(() => {
+    if (!formData.date) {
+      setTimes([]);
+      return;
+    }
+    if (isClosed(formData.date)) {
+      setTimes([]);
+      setError(
+        (i18n.language || 'fr').startsWith('en')
+          ? 'The restaurant is closed on the selected day.'
+          : 'Le restaurant est fermé le jour sélectionné.'
+      );
+      return;
+    }
+    const avail = getAvailableTimes(formData.date);
+    setTimes(avail);
+    // If currently selected time is no longer available, reset it
+    if (formData.time && !avail.includes(formData.time)) {
+      setFormData((prev) => ({ ...prev, time: '' }));
+    }
+    setError('');
+  }, [formData.date, formData.time, i18n.language]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulation d'envoi
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        date: '',
-        time: '',
-        guests: '2',
-        name: '',
-        email: '',
-        phone: '',
-        message: ''
+    setError('');
+    // client-side guard
+    if (!formData.date || !formData.time) return;
+    if (isClosed(formData.date)) {
+      setError(
+        (i18n.language || 'fr').startsWith('en')
+          ? 'The restaurant is closed on the selected day.'
+          : 'Le restaurant est fermé le jour sélectionné.'
+      );
+      return;
+    }
+    try {
+      await createReservation({
+        date: formData.date,
+        time: formData.time,
+        guests: formData.guests === '10+' ? 10 : parseInt(formData.guests, 10),
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message
       });
-    }, 3000);
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          date: '',
+          time: '',
+          guests: '2',
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
+        });
+        setTimes([]);
+      }, 3000);
+    } catch (err: any) {
+      if (err?.message === 'slot_full') {
+        setError(
+          (i18n.language || 'fr').startsWith('en')
+            ? 'Selected time is fully booked. Please choose another slot.'
+            : 'Ce créneau est complet. Merci de choisir un autre horaire.'
+        );
+      } else if (err?.message === 'closed_day') {
+        setError(
+          (i18n.language || 'fr').startsWith('en')
+            ? 'The restaurant is closed on this day.'
+            : 'Le restaurant est fermé ce jour-là.'
+        );
+      } else {
+        setError(
+          (i18n.language || 'fr').startsWith('en')
+            ? 'An error occurred. Please try again.'
+            : 'Une erreur est survenue. Merci de réessayer.'
+        );
+      }
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -178,24 +247,23 @@ const Reservation: React.FC = () => {
                     value={formData.time}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
+                    disabled={!formData.date || isClosed(formData.date)}
+                    className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all disabled:bg-gray-100 disabled:text-gray-400"
                   >
                     <option value="">{t('reservation.choose_time')}</option>
-                    <option value="11:30">11h30</option>
-                    <option value="12:00">12h00</option>
-                    <option value="12:30">12h30</option>
-                    <option value="13:00">13h00</option>
-                    <option value="13:30">13h30</option>
-                    <option value="14:00">14h00</option>
-                    <option value="18:30">18h30</option>
-                    <option value="19:00">19h00</option>
-                    <option value="19:30">19h30</option>
-                    <option value="20:00">20h00</option>
-                    <option value="20:30">20h30</option>
-                    <option value="21:00">21h00</option>
-                    <option value="21:30">21h30</option>
-                    <option value="22:00">22h00</option>
+                    {times.map((tme) => (
+                      <option key={tme} value={tme}>
+                        {tme}
+                      </option>
+                    ))}
                   </select>
+                  {formData.date && !times.length && !isClosed(formData.date) && (
+                    <p className="text-sm text-[#B8551A] mt-1">
+                      {(i18n.language || 'fr').startsWith('en')
+                        ? 'Some days may be fully booked.'
+                        : 'Certains jours peuvent être complets.'}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -279,6 +347,13 @@ const Reservation: React.FC = () => {
                   placeholder={t('reservation.message_ph') as string}
                 ></textarea>
               </div>
+
+              {!!error && (
+                <div className="p-3 rounded-lg bg-[#F5E6D3] text-[#8B4513] flex items-start gap-2">
+                  <AlertTriangle size={18} className="mt-0.5" />
+                  <p className="text-sm">{error}</p>
+                </div>
+              )}
 
               <button
                 type="submit"
