@@ -4,8 +4,8 @@
 <p><strong>Vite + React + TypeScript + Tailwind</strong></p>
 
 <p>
-<a href="https://github.com/Soofmax/REPO/actions/workflows/ci.yml">
-<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmax/REPO/ci.yml?branch=main&label=CI&logo=github" />
+<a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml">
+<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/ci.yml?branch=main&label=CI&logo=github" />
 </a>
 <img alt="Vite" src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" />
 <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=061d2f" />
@@ -165,7 +165,7 @@ GitHub Actions: `.github/workflows/ci.yml`
 
 Badge:
 ```
-[![CI](https://github.com/Soofmax/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml)
 ```
 
 Suggested hosting:
