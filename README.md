@@ -189,6 +189,28 @@ Suggested hosting:
 
 ---
 
+## 🚀 Déploiement Netlify
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Headers de sécurité: le fichier `public/_headers` est fourni et appliquera automatiquement CSP, HSTS, X-Frame-Options, etc.
+- Conseil: gardez les styles hors de `index.html` (pas de styles inline) pour une CSP stricte sans `'unsafe-inline'`.
+
+## 📊 Couverture de tests (CI)
+
+- Tests via Vitest exécutés en CI (GitHub Actions)
+- Rapports de couverture générés (text + lcov) et uploadés comme artifacts
+- Seuils appliqués (lignes/fonctions/branches/statements) afin de maintenir la qualité
+
+## 📚 Ressources & Documentation
+
+- [SECURITY.md](./SECURITY.md) — Politique de sécurité, CSP, gestion des secrets, RGPD
+- [CONTRIBUTING.md](./CONTRIBUTING.md) — Guide de contribution, CI, tests
+- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) — Code de conduite
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Vue d’ensemble, flux, évolutions recommandées
+- [CHANGELOG.md](./CHANGELOG.md) — Journal des changements
+- [CREDITS.md](./CREDITS.md) — Crédits images (Pexels)
+
 ## 🔒 License
 
 MIT
