@@ -211,6 +211,11 @@ Ajoutez vos captures/GIFs pour la vitrine:
 - Publish directory: `dist`
 - Headers de sécurité: le fichier `public/_headers` est fourni et appliquera automatiquement CSP, HSTS, X-Frame-Options, etc.
 - Conseil: gardez les styles hors de `index.html` (pas de styles inline) pour une CSP stricte sans `'unsafe-inline'`.
+- Analytics (facultatif, opt-in par consentement):
+  - `public/_redirects` fournit deux proxys:
+    - `/js/script.js` → `https://plausible.io/js/script.js`
+    - `/api/event` → `https://plausible.io/api/event`
+  - Cela permet de charger le script et d’émettre les events en “same-origin” pour rester compatible avec la CSP (`script-src 'self'`, `connect-src 'self'`).
 
 ## 📊 Couverture de tests (CI)
 

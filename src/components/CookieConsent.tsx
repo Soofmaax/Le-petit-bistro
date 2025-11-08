@@ -75,6 +75,9 @@ const CookieConsent: React.FC = () => {
       version: 1
     };
     writeConsent(consent);
+    try {
+      window.dispatchEvent(new CustomEvent('cookie:consent', { detail: consent }));
+    } catch {}
     setOpen(false);
   };
 
@@ -87,6 +90,9 @@ const CookieConsent: React.FC = () => {
       version: 1
     };
     writeConsent(consent);
+    try {
+      window.dispatchEvent(new CustomEvent('cookie:consent', { detail: consent }));
+    } catch {}
     setOpen(false);
   };
 
@@ -99,6 +105,9 @@ const CookieConsent: React.FC = () => {
       version: 1
     };
     writeConsent(consent);
+    try {
+      window.dispatchEvent(new CustomEvent('cookie:consent', { detail: consent }));
+    } catch {}
     setOpen(false);
   };
 

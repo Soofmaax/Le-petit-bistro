@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Header from './components/Header';
+import Analytics from './components/Analytics';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
 import About from './components/About';
@@ -43,6 +44,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#F5E6D3] dark:bg-slate-900 dark:text-slate-100">
+      <Analytics />
       <Header />
       <AnimatePresence mode="wait">
         <motion.div key={location.pathname}>
