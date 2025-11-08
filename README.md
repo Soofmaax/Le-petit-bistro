@@ -38,7 +38,7 @@
 ## 🚀 Demo
 
 - Local dev: `npm run dev` (http://localhost:5173)
-- Demo (Netlify): https://your-netlify-site-name.netlify.app (remplacez par l’URL réelle après déploiement)
+- Demo (Netlify): https://le-petit-bristrop.netlify.app
 - Suggested hosting: Vercel or Netlify
 
 Replace `REPO` with your actual GitHub repository name (owner: <a href="https://github.com/Soofmax">Soofmax</a>).
