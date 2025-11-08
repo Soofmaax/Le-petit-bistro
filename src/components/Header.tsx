@@ -71,8 +71,11 @@ const Header: React.FC = () => {
           {/* Navigation Desktop */}
           <nav
             className="hidden md:flex items-center space-x-2"
-            aria-label={(i18n.language || 'fr').startsWith('en') ? 'Primary navigation (desktop)' : 'Navigation principale (bureau)'}
+            aria-labelledby="nav-desktop-label"
           >
+            <h2 id="nav-desktop-label" className="sr-only">
+              {(i18n.language || 'fr').startsWith('en') ? 'Primary navigation (desktop)' : 'Navigation principale (bureau)'}
+            </h2>
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -141,8 +144,11 @@ const Header: React.FC = () => {
         {/* Navigation Mobile */}
         <nav
           className="md:hidden mt-4 flex flex-wrap gap-2 items-center"
-          aria-label={(i18n.language || 'fr').startsWith('en') ? 'Primary navigation (mobile)' : 'Navigation principale (mobile)'}
+          aria-labelledby="nav-mobile-label"
         >
+          <h2 id="nav-mobile-label" className="sr-only">
+            {(i18n.language || 'fr').startsWith('en') ? 'Primary navigation (mobile)' : 'Navigation principale (mobile)'}
+          </h2>
           {navItems.map((item) => (
             <NavLink
               key={item.to}
