@@ -99,8 +99,9 @@ export function getAvailableTimes(dateStr: string): string[] {
 }
 
 export async function createReservation(input: ReservationInput): Promise<{ id: string }> {
-  // Simulate latency
-  await new Promise((r) => setTimeout(r, 600));
+  // Simulate latency (no delay in test mode to avoid timer flakiness)
+  const delay = import.meta.env.MODE === 'test' ? 0 : 600;
+  await new Promise((r) => setTimeout(r, delay));
 
   if (isClosed(input.date)) {
     throw new Error('closed_day');
