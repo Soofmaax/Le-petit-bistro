@@ -6,7 +6,7 @@ import './index.css';
 import './i18n';
 
 // Self-hosted fonts (bundled via @fontsource)
-import '@fontsource/inter/variable.css';
+import '@fontsource/inter/400.css';
 import '@fontsource/pacifico/400.css';
 
 async function enableMocks() {
