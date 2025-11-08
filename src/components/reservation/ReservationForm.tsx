@@ -60,14 +60,15 @@ const ReservationForm: React.FC<Props> = ({
   const submit = (values: ReservationFormValues) => onSubmit(values);
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="space-y-4">
+    <form onSubmit={handleSubmit(submit)} noValidate className="space-y-4">
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-[#8B4513] mb-2">
+          <label htmlFor="reservation-date" className="block text-sm font-semibold text-[#8B4513] mb-2">
             <Calendar className="inline w-4 h-4 mr-1" />
             {t('reservation.date')}
           </label>
           <input
+            id="reservation-date"
             type="date"
             {...register('date')}
             min={minDate}
@@ -77,11 +78,12 @@ const ReservationForm: React.FC<Props> = ({
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-[#8B4513] mb-2">
+          <label htmlFor="reservation-time" className="block text-sm font-semibold text-[#8B4513] mb-2">
             <Clock className="inline w-4 h-4 mr-1" />
             {t('reservation.time')}
           </label>
           <select
+            id="reservation-time"
             {...register('time')}
             disabled={!dateWatch || isClosed}
             className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all disabled:bg-gray-100 disabled:text-gray-400"
@@ -113,11 +115,12 @@ const ReservationForm: React.FC<Props> = ({
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-[#8B4513] mb-2">
+        <label htmlFor="reservation-guests" className="block text-sm font-semibold text-[#8B4513] mb-2">
           <Users className="inline w-4 h-4 mr-1" />
           {t('reservation.guests')}
         </label>
         <select
+          id="reservation-guests"
           {...register('guests')}
           className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
         >
@@ -131,10 +134,11 @@ const ReservationForm: React.FC<Props> = ({
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-[#8B4513] mb-2">
+        <label htmlFor="reservation-name" className="block text-sm font-semibold text-[#8B4513] mb-2">
           {t('reservation.full_name')}
         </label>
         <input
+          id="reservation-name"
           type="text"
           {...register('name')}
           className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
@@ -143,10 +147,11 @@ const ReservationForm: React.FC<Props> = ({
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-[#8B4513] mb-2">
+        <label htmlFor="reservation-email" className="block text-sm font-semibold text-[#8B4513] mb-2">
           Email
         </label>
         <input
+          id="reservation-email"
           type="email"
           {...register('email')}
           className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
@@ -155,11 +160,12 @@ const ReservationForm: React.FC<Props> = ({
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-[#8B4513] mb-2">
+        <label htmlFor="reservation-phone" className="block text-sm font-semibold text-[#8B4513] mb-2">
           <Phone className="inline w-4 h-4 mr-1" />
           {t('reservation.phone')}
         </label>
         <input
+          id="reservation-phone"
           type="tel"
           {...register('phone')}
           className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
@@ -168,10 +174,11 @@ const ReservationForm: React.FC<Props> = ({
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-[#8B4513] mb-2">
+        <label htmlFor="reservation-message" className="block text-sm font-semibold text-[#8B4513] mb-2">
           {t('reservation.message_optional')}
         </label>
         <textarea
+          id="reservation-message"
           {...register('message')}
           rows={3}
           className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
