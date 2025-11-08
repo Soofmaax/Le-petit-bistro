@@ -69,7 +69,10 @@ const Header: React.FC = () => {
           </div>
 
           {/* Navigation Desktop */}
-          <nav className="hidden md:flex items-center space-x-2">
+          <nav
+            className="hidden md:flex items-center space-x-2"
+            aria-label={(i18n.language || 'fr').startsWith('en') ? 'Primary navigation (desktop)' : 'Navigation principale (bureau)'}
+          >
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -136,7 +139,10 @@ const Header: React.FC = () => {
         </div>
 
         {/* Navigation Mobile */}
-        <nav className="md:hidden mt-4 flex flex-wrap gap-2 items-center">
+        <nav
+          className="md:hidden mt-4 flex flex-wrap gap-2 items-center"
+          aria-label={(i18n.language || 'fr').startsWith('en') ? 'Primary navigation (mobile)' : 'Navigation principale (mobile)'}
+        >
           {navItems.map((item) => (
             <NavLink
               key={item.to}

@@ -19,14 +19,15 @@ Configurez les en-têtes suivants sur l’hébergeur (Netlify/Vercel/Nginx). Net
   ```
   default-src 'self';
   img-src 'self' https: data:;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  font-src 'self' https://fonts.gstatic.com;
+  style-src 'self' 'unsafe-inline';
+  font-src 'self';
   script-src 'self';
   connect-src 'self';
   frame-ancestors 'none';
   ```
   - Justification: Framer Motion applique des styles (transform, y, etc.) via attribut `style`. À défaut d’un refactor complet des animations, `'unsafe-inline'` côté styles est nécessaire. Les scripts restent stricts (`script-src 'self'`).
   - Option long terme: refactor animations pour supprimer les styles inline et retirer `'unsafe-inline'`.
+  - Polices: désormais auto‑hébergées via `@fontsource` (Inter, Pacifico). Aucun domaine externe requis.
 
 - Cache-Control (assets): `public, max-age=31536000, immutable` pour `/images/*`, `/assets/*`, `/fonts/*`.
 

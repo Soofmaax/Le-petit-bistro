@@ -67,7 +67,7 @@ describe('Reservation UI flows', () => {
     await screen.findByRole('alert');
   });
 
-  test('second booking of the same slot shows slot_full error', async () => {
+  test('second booking cannot choose the same time; it is removed from options', async () => {
     vi.useFakeTimers();
     render(
       <I18nextProvider i18n={i18n}>
@@ -91,32 +91,23 @@ describe('Reservation UI flows', () => {
     // submit first time -> success screen
     fireEvent.click(screen.getByRole('button', { name: /confirmer|réserver|confirm/i }));
 
-    // advance latency (600ms) to complete booking
-    vi.advanceTimersByTime(600);
-
-    // should show success title
+    // booking completes immediately in test mode; ensure success appears
     await screen.findByText(/confirmée|confirmed/i);
 
     // advance the 3s timer to reset back to form
     vi.advanceTimersByTime(3000);
 
-    // After reset, reacquire inputs
+    // After reset, set same date again and check options
     const dateInput2 = await screen.findByLabelText(/date/i) as HTMLInputElement;
     fireEvent.change(dateInput2, { target: { value: wednesday } });
     const timeSelect2 = await screen.findByLabelText(/heure|time/i) as HTMLSelectElement;
-    fireEvent.change(timeSelect2, { target: { value: '11:30' } });
-    fireEvent.change(screen.getByPlaceholderText(/Votre nom|Your first/i), { target: { value: 'Jean Dupont' } });
-    fireEvent.change(screen.getByPlaceholderText(/you@email/i), { target: { value: 'jean@example.com' } });
-    fireEvent.change(screen.getByPlaceholderText(/06|33/i), { target: { value: '0600000000' } });
 
-    fireEvent.click(screen.getByRole('button', { name: /confirmer|réserver|confirm/i }));
+    // previously booked '11:30' should no longer be in options
+    const options2 = Array.from(timeSelect2.options).map((o) => o.value);
+    expect(options2).not.toContain('11:30');
 
-    // advance latency (600ms) to allow second booking attempt to resolve with slot_full
-    vi.advanceTimersByTime(600);
-
-    // Should display slot full error
-    await screen.findByRole('alert');
-    expect(screen.getByText(/créneau.*complet|fully booked/i)).toBeTruthy();
+    // the select value should be empty (cannot choose the fully booked slot)
+    expect(timeSelect2.value).toBe('');
 
     vi.useRealTimers();
   });
