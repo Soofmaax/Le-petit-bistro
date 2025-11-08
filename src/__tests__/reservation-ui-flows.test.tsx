@@ -3,6 +3,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n';
 import Reservation from '../components/Reservation';
 import { vi } from 'vitest';
+import { act } from 'react-dom/test-utils';
 
 function nextWeekdayISO(target: number): string {
   const today = new Date();
@@ -95,7 +96,9 @@ describe('Reservation UI flows', () => {
     await screen.findByText(/confirmée|confirmed/i);
 
     // advance the 3s timer to reset back to form
-    vi.advanceTimersByTime(3000);
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
 
     // After reset, set same date again and check options
     const dateInput2 = await screen.findByLabelText(/date/i) as HTMLInputElement;
