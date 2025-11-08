@@ -31,10 +31,16 @@ function writeConsent(consent: Consent) {
   }
 }
 
+function dispatchConsent(consent: Consent) {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('cookie:consent', { detail: consent }));
+  }
+}
+
 const CookieConsent: React.FC = () => {
   const { t } = useTranslation();
   // Ne pas afficher la bannière en environnement test
-  const isTest = typeof import.meta !== 'undefined' && (import.meta as any).env?.MODE === 'test';
+  const isTest = import.meta.env.MODE === 'test';
 
   const [open, setOpen] = React.useState(false);
   const [showPrefs, setShowPrefs] = React.useState(false);
@@ -75,9 +81,7 @@ const CookieConsent: React.FC = () => {
       version: 1
     };
     writeConsent(consent);
-    try {
-      window.dispatchEvent(new CustomEvent('cookie:consent', { detail: consent }));
-    } catch {}
+    dispatchConsent(consent);
     setOpen(false);
   };
 
@@ -90,9 +94,7 @@ const CookieConsent: React.FC = () => {
       version: 1
     };
     writeConsent(consent);
-    try {
-      window.dispatchEvent(new CustomEvent('cookie:consent', { detail: consent }));
-    } catch {}
+    dispatchConsent(consent);
     setOpen(false);
   };
 
@@ -105,9 +107,7 @@ const CookieConsent: React.FC = () => {
       version: 1
     };
     writeConsent(consent);
-    try {
-      window.dispatchEvent(new CustomEvent('cookie:consent', { detail: consent }));
-    } catch {}
+    dispatchConsent(consent);
     setOpen(false);
   };
 
