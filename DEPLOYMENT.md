@@ -33,6 +33,18 @@ Headers:
 - Configure a repository variable `STAGING_URL` to point to your staging site (e.g. https://staging-le-petit-bistro.netlify.app).
 - ZAP baseline security scan runs on schedule/dispatch against `STAGING_URL`.
 
+### Security Scanning (OSV, Gitleaks, CodeQL)
+
+- OSV Scanner:
+  - Runs on push/PR/schedule, non-blocking (continue-on-error).
+  - Produces artifacts: `osv-results/results.json` and `osv-results/results.sarif`.
+  - Reduce findings by bumping dev/prod dependencies and regenerating the lockfile:
+    - Use the “Update Lockfile” workflow (Actions → Update Lockfile) to run `npm install` and commit `package-lock.json`.
+- Gitleaks:
+  - Scans full history for secrets, uploads SARIF artifact.
+- CodeQL:
+  - Static code analysis for JS/TS; results in the Security tab.
+
 ## Backend (Optional)
 
 If you add a backend (e.g., Express), recommend:

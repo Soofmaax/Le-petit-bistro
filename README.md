@@ -212,6 +212,16 @@ Suggested hosting:
   - Publish: `dist`
   - Security headers: `public/_headers` (CSP/HSTS/XFO, CORP/COOP/OAC, cache)
 
+### Security scanning policy (OSV Scanner)
+- OSV Scanner runs in CI on push/PR/schedule and is configured as non-blocking (continue-on-error) to keep the pipeline green while still surfacing issues.
+- Artifacts produced:
+  - `osv-results/results.json` (machine-readable output)
+  - `osv-results/results.sarif` (for security tooling ingestion)
+- Interpretation: address High/Critical promptly; schedule Medium/Low via dependency bumps.
+- To reduce findings:
+  - Run the “Update Lockfile” workflow (Actions → Update Lockfile) to regenerate `package-lock.json` after version bumps.
+  - Commit the updated lockfile so the repository scan matches the intended dependency graph.
+
 ---
 
 ## 📸 Captures & Démos
