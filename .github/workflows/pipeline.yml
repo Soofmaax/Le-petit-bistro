@@ -149,14 +149,33 @@ jobs:
 
   osv:
     name: OSV Scanner
+    runs-on: ubuntu-latest
     if: ${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
     continue-on-error: true
-    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.2.4
-    with:
-      scan-args: |-
-        --recursive
-        ./
-    permissions:
-      security-events: write
-      contents: read
-      actions: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run OSV Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v2.2.4
+        with:
+          scan-args: |-
+            --recursive
+            ./
+          output: results.json
+
+      - name: Generate SARIF report
+        uses: google/osv-scanner-action/osv-reporter-action@v2.2.4
+        with:
+          output: results.sarif
+          new: results.json
+          gh-annotations: false
+          fail-on-vuln: false
+
+      - name: Upload OSV results
+        uses: actions/upload-artifact@v4
+        with:
+          name: osv-results
+          path: |
+            results.json
+            results.sarif
