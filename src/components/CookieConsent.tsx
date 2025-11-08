@@ -11,7 +11,7 @@ type Consent = {
 
 const STORAGE_KEY = 'cookieConsent';
 
-function readConsent(): Consent | null {
+export function readConsent(): Consent | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -23,7 +23,7 @@ function readConsent(): Consent | null {
   }
 }
 
-function writeConsent(consent: Consent) {
+export function writeConsent(consent: Consent) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
   } catch {
@@ -31,7 +31,7 @@ function writeConsent(consent: Consent) {
   }
 }
 
-function dispatchConsent(consent: Consent) {
+export function dispatchConsent(consent: Consent) {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent('cookie:consent', { detail: consent }));
   }

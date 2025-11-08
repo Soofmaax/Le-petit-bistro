@@ -11,6 +11,10 @@ on:
     - cron: '0 5 * * 1'  # Gitleaks, Monday 05:00 UTC
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ci:
     name: CI (Lint, Tests, Build) – Node ${{ matrix.node }}
@@ -142,3 +146,16 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+
+  osv:
+    name: OSV Scanner
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.2.4
+    with:
+      scan-args: |-
+        --recursive
+        ./
+    permissions:
+      security-events: write
+      contents: read
+      actions: read

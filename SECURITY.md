@@ -58,6 +58,9 @@ Configurez les en-têtes suivants sur l’hébergeur (Netlify/Vercel/Nginx). Net
   - CSP préservée (`script-src 'self'; connect-src 'self'`), chargement après consentement.
   - `VITE_PLAUSIBLE_DOMAIN` peut fixer le domaine (voir `.env.example`).
 - Politique cookies/privée: mise à jour sous `src/components/legal/*`.
+- DPA & conformité:
+  - Plausible propose un Data Processing Agreement (DPA) et une politique de conservation minimaliste (sans IPs et PII par défaut). Référez-vous à leur DPA et configurez les options conformes.
+  - Retention: privilégier une rétention courte (90 jours max) et aucun identifiant utilisateur persistant côté client.
 
 ## Signalement de vulnérabilités
 

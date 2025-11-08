@@ -7,6 +7,9 @@
 <a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/pipeline.yml">
 <img alt="Pipeline" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/pipeline.yml?branch=main&label=Pipeline&logo=github" />
 </a>
+<a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/pipeline.yml">
+<img alt="OSV Scanner" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/pipeline.yml?branch=main&label=OSV%20Scanner&logo=security" />
+</a>
 <a href="https://codecov.io/gh/Soofmaax/Le-petit-bistro">
 <img alt="Coverage" src="https://codecov.io/gh/Soofmaax/Le-petit-bistro/branch/main/graph/badge.svg" />
 </a>
@@ -38,7 +41,7 @@
 ## 🚀 Demo
 
 - Local dev: `npm run dev` (http://localhost:5173)
-- Demo (Netlify): https://le-petit-bristrop.netlify.app
+- Demo (Netlify): https://le-petit-bistro.netlify.app
 - Suggested hosting: Vercel or Netlify
 
 ---
@@ -133,9 +136,11 @@ return <h1>{t('menu.title')}</h1>;
 - Local images live in `public/images`
 - Auto-fetch them with: `npm run setup:images`
 - Optimize them (WebP/AVIF) with: `npm run optimize:images` (génère `.webp` et `.avif` pour chaque `.jpg/.png`)
-- Components utilisent `<picture>` avec sources AVIF/WebP (fallback JPG)
+- Components utilisent `<picture>` avec sources AVIF/WebP (fallback JPG) et `sizes` adaptés (ex: `sizes="(max-width: 640px) 100vw, 100vw"`)
 - Curated, free-to-use Pexels images to match the rustic/friendly style
 - Credits: see `CREDITS.md`
+
+Note (fonts): précharger des fontes auto‑hébergées via `@fontsource` nécessite de connaître les chemins hashés générés en build; utilisez un plugin (ex: `vite-plugin-fonts`) si vous souhaitez des `<link rel="preload" as="font">` automatiques.
 
 ---
 
@@ -162,7 +167,7 @@ return <h1>{t('menu.title')}</h1>;
 
 GitHub Actions: `.github/workflows/pipeline.yml`
 - Tests + Lint + Build (matrix Node 18/20)
-- Security: npm audit (prod), Gitleaks secret scan, CodeQL analysis
+- Security: npm audit (prod), Gitleaks secret scan, OSV Scanner, CodeQL analysis
 - Coverage upload to Codecov
 
 Badges:
@@ -217,7 +222,9 @@ Ajoutez vos captures/GIFs pour la vitrine:
 
 - Tests via Vitest exécutés en CI (GitHub Actions)
 - Rapports de couverture générés (text + lcov) et uploadés comme artifacts
-- Upload automatique vers Codecov pour suivi des PRs
+- Upload vers Codecov:
+  - Sur `push`: tokenless (selon configuration Codecov)
+  - Sur `pull_request` vers branches protégées: ajoutez `CODECOV_TOKEN` dans Secrets du repo
 - Seuils appliqués (lignes/fonctions/branches/statements) afin de maintenir la qualité
 
 ## 🧪 Tests & Troubleshooting
@@ -247,6 +254,9 @@ Ajoutez vos captures/GIFs pour la vitrine:
 - [CONTRIBUTING.md](./CONTRIBUTING.md) — Guide de contribution, CI, tests
 - [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) — Code de conduite
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — Vue d’ensemble, flux, évolutions recommandées
+- [API.md](./API.md) — Abstraction API, schémas Zod, endpoints et usage
+- [ANIMATIONS.md](./ANIMATIONS.md) — Plan de refactor animations pour CSP strict
+- [SSR-PLAN.md](./SSR-PLAN.md) — Plan de migration SSR/SSG (Next.js recommandé)
 - [CHANGELOG.md](./CHANGELOG.md) — Journal des changements
 - [CREDITS.md](./CREDITS.md) — Crédits images (Pexels)
 
