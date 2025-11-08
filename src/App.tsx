@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Header from './components/Header';
+import Analytics from './components/Analytics';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
 import About from './components/About';
@@ -16,6 +17,7 @@ import Legal from './components/legal/Legal';
 import Privacy from './components/legal/Privacy';
 import Terms from './components/legal/Terms';
 import Cookies from './components/legal/Cookies';
+import CookieConsent from './components/CookieConsent';
 
 const Page: React.FC<{ children: React.ReactNode; reduce?: boolean }> = ({ children, reduce }) => (
   <motion.main
@@ -42,8 +44,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#F5E6D3] dark:bg-slate-900 dark:text-slate-100">
+      <Analytics />
       <Header />
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         <motion.div key={location.pathname}>
           <Routes location={location}>
             <Route
@@ -246,6 +249,7 @@ function App() {
         )}
       </AnimatePresence>
       <Footer />
+      <CookieConsent />
     </div>
   );
 }

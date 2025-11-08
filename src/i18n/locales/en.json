@@ -142,5 +142,20 @@
     "rights": "Neighborhood bistro in Lyon. All rights reserved.",
     "legal": "Legal notice",
     "privacy": "Privacy policy"
+  },
+  "cookie": {
+    "title": "Cookie management",
+    "text": "We use strictly necessary cookies for the proper functioning of the site. You can optionally allow analytics and marketing cookies.",
+    "preferences": "Preferences",
+    "accept_all": "Accept all",
+    "reject_all": "Reject all",
+    "save": "Save my choices",
+    "necessary_label": "Necessary",
+    "necessary_desc": "Required for site operation (security, essential preferences).",
+    "analytics_label": "Analytics",
+    "analytics_desc": "Help us understand usage to improve the site (audience measurement).",
+    "marketing_label": "Marketing",
+    "marketing_desc": "Used for personalization and advertising.",
+    "manage_preferences": "Manage my cookie preferences"
   }
 }

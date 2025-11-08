@@ -1,194 +1,147 @@
 <div align="center">
+  <h1>🚀 Le Petit Coin</h1>
+  <p><strong>Solutions web intelligentes, sécurisées et sur‑mesure – par SmarterLogicWeb</strong></p>
 
-<h1>Le Petit Coin</h1>
-<p><strong>Vite + React + TypeScript + Tailwind</strong></p>
+  <p>
+    <a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/pipeline.yml">
+      <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/pipeline.yml?branch=main&label=CI&logo=github" />
+    </a>
+    <a href="https://codecov.io/gh/Soofmaax/Le-petit-bistro">
+      <img alt="Coverage" src="https://codecov.io/gh/Soofmaax/Le-petit-bistro/branch/main/graph/badge.svg" />
+    </a>
+    <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg" />
+    <img alt="Last Commit" src="https://img.shields.io/github/last-commit/Soofmaax/Le-petit-bistro" />
+    <img alt="Issues" src="https://img.shields.io/github/issues/Soofmaax/Le-petit-bistro" />
+    <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
+    <img alt="Made by SmarterLogicWeb" src="https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F-by%20SmarterLogicWeb-blue" />
+  </p>
 
-<p>
-<a href="https://github.com/Soofmax/REPO/actions/workflows/ci.yml">
-<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmax/REPO/ci.yml?branch=main&label=CI&logo=github" />
-</a>
-<img alt="Vite" src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" />
-<img alt="React" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=061d2f" />
-<img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" />
-<img alt="TailwindCSS" src="https://img.shields.io/badge/Tailwind-3-38B2AC?logo=tailwindcss&logoColor=white" />
-<img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg" />
-</p>
-
-<p>A small bistro showcase built for a <strong>developer portfolio</strong>: polished UI, <strong>i18n (FR/EN)</strong>, <strong>dark mode</strong>, <strong>animations</strong>, <strong>routing</strong>, and <strong>CI</strong>.</p>
-
-<p>
-  <a href="#-demo">Demo</a> •
-  <a href="#-features">Features</a> •
-  <a href="#-installation">Installation</a> •
-  <a href="#-project-structure">Project structure</a> •
-  <a href="#-internationalization">Internationalization</a> •
-  <a href="#-assets-local-images">Assets (local images)</a> •
-  <a href="#-accessibility--motion-preferences">Accessibility & Motion</a> •
-  <a href="#-ci--deployment">CI & Deployment</a> •
-  <a href="#-roadmap">Roadmap</a>
-</p>
-
+  <p>
+    <a href="#features">Features</a> •
+    <a href="#demo">Demo</a> •
+    <a href="#quick-start">Quick Start</a> •
+    <a href="#documentation">Docs</a> •
+    <a href="#support">Support</a>
+  </p>
 </div>
 
 ---
 
-## 🚀 Demo
+## 🎯 Pourquoi ce projet ?
 
-- Local dev: `npm run dev` (http://localhost:5173)
-- Suggested hosting: Vercel or Netlify
+Un template SPA professionnel (Vite + React + TypeScript + Tailwind) entièrement prêt pour la production, sécurisé (CSP/HSTS/headers), et outillé (CI/CD, tests, couverture). Idéal pour démontrer une vitrine gastronomique et la qualité d’un delivery enterprise-ready.
 
-Replace `REPO` with your actual GitHub repository name (owner: <a href="https://github.com/Soofmax">Soofmax</a>).
+Tagline projet: “Template SPA gastronomique, sécurisé et prêt pour la production.”
 
 ---
 
 ## ✨ Features
 
-- Client-side routing (React Router 6) — shareable URLs
-- Internationalization (react-i18next) — FR/EN with persistence
-- Dark mode (Tailwind `dark`) — toggle with persistence
-- Animations (Framer Motion) — page and content transitions
-- Externalized data (menu as JSON) — fully typed with TypeScript
-- GitHub Actions CI — lint, typecheck, build, artifact upload
+- ⚡ Vite + React 18 + TypeScript strict
+- 🧭 Routing client (React Router 6)
+- 🌍 i18n FR/EN (react-i18next), persistance des préférences
+- 🌗 Dark mode (Tailwind `dark`) avec toggle
+- 🎞️ Animations (Framer Motion) – plan CSP strict fourni
+- 🧪 Tests (Vitest + RTL + jest-axe), couverture CI
+- 🔒 Sécurité: CSP/HSTS/XFO, COOP/COEP, opt-in analytics via proxy
+- 🛠️ CI unifiée: lint, typecheck, tests, build, CodeQL, Gitleaks, OSV
+- 🖼️ Images optimisées (WebP/AVIF) via script `sharp`
+- 📄 Docs complètes (Security, Architecture, API, Deployment)
 
 ---
 
-## 📦 Installation
+## 🎥 Demo
 
-Requirements:
-- Node.js 18+ (LTS recommended)
-- npm 9+
-
-Steps:
-- Install deps: `npm install`
-- Fetch curated images: `npm run setup:images`
-- Start dev server: `npm run dev`
-- Lint: `npm run lint`
-- Typecheck: `npx tsc --noEmit`
-- Production build: `npm run build`
-- Preview build: `npm run preview`
-
-Scripts:
-- `dev` — Vite dev server
-- `build` — Production build (dist/)
-- `preview` — Serve dist/ locally
-- `lint` — ESLint
-- `setup:images` — Downloads curated free images (Pexels) into `public/images`
+- Dev local: `npm run dev` → http://localhost:5173
+- Demo (Netlify): https://le-petit-bistro.netlify.app
 
 ---
 
-## 🗂️ Project structure
+## 🚀 Quick Start
 
+1. Installer:
+   ```
+   npm install
+   ```
+2. (Optionnel) Images:
+   ```
+   npm run setup:images
+   npm run optimize:images
+   ```
+3. Démarrer:
+   ```
+   npm run dev
+   ```
+
+Backend baseline (optionnel):
 ```
-public/
-  images/               # Local images (filled by setup:images)
-src/
-  App.tsx               # Routes + page transitions
-  main.tsx              # Bootstrap React + Router + i18n
-  index.css             # Tailwind + global styles
-  components/           # Header, Hero, Menu, About, Reservation, Contact, Footer
-  data/
-    menu.fr.json        # Menu data (FR)
-    menu.en.json        # Menu data (EN)
-  hooks/
-    useMotionPreference.ts
-  i18n/
-    index.ts            # i18next config
-    locales/
-      fr.json
-      en.json
-  types/
-    menu.ts             # Menu TS types
-scripts/
-  fetch_images.js       # Image curation/downloader
-tailwind.config.js      # Dark mode enabled (class)
-vite.config.ts
+npm run server:start
 ```
 
 ---
 
-## 🌍 Internationalization
+## 📚 Documentation
 
-- Languages: FR (default) and EN
-- Language selector in the Header (persisted via localStorage)
-- `<html lang="...">` is kept in sync
-
-Add/edit text:
-- `src/i18n/locales/fr.json`
-- `src/i18n/locales/en.json`
-
-Example:
-```tsx
-import { useTranslation } from 'react-i18next';
-const { t } = useTranslation();
-return <h1>{t('menu.title')}</h1>;
-```
+- [SECURITY.md](./SECURITY.md) – Politique de sécurité, CSP, scans
+- [ARCHITECTURE.md](./ARCHITECTURE.md) – Structure et bonnes pratiques
+- [API.md](./API.md) – Abstraction API et schémas Zod
+- [DEPLOYMENT.md](./DEPLOYMENT.md) – Déploiement Vercel/Netlify, ZAP
+- [CONTRIBUTING.md](./CONTRIBUTING.md) – Contribution & style
+- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) – Comportement
+- [CHANGELOG.md](./CHANGELOG.md) – Historique
+- Docs étendues: `docs/` (Getting Started, API, Architecture, Deployment, Troubleshooting)
 
 ---
 
-## 🖼️ Assets (local images)
+## 🛠️ Tech Stack
 
-- Local images live in `public/images`
-- Auto-fetch them with: `npm run setup:images`
-- Curated, free-to-use Pexels images to match the rustic/friendly style
-- Credits: see `CREDITS.md`
-
----
-
-## 🌓 Dark mode
-
-- Toggle in the Header
-- `dark` class is applied to `<html>` (persisted via localStorage)
-- Tailwind `dark:` variants are already in place
+- Frontend: Vite, React 18, TypeScript, TailwindCSS, Framer Motion
+- Tests: Vitest, React Testing Library, jest-axe
+- CI/CD: GitHub Actions (pipeline unifiée)
+- Sécurité: CodeQL, Gitleaks, OSV Scanner, ZAP Baseline (staging)
+- Backend (optionnel): Express + Helmet + Rate Limit + CORS + CSRF + Pino
 
 ---
 
-## ♿ Accessibility & Motion preferences
+## 🔒 CI & Security Scans
 
-- Respects both system and user motion preferences:
-  - If the OS has “Reduce motion” enabled, animations are simplified automatically.
-  - A Header toggle lets visitors switch animations On/Reduced without touching OS settings.
-  - Preference is persisted in localStorage (`motion=reduce|auto`).
-- Visible focus states, good contrast, keyboard-accessible interactive elements.
-- Images have meaningful `alt`, and pages use semantic structure.
-
----
-
-## 🧪 CI & Deployment
-
-GitHub Actions: `.github/workflows/ci.yml`
-- `npm install`
-- `npm run setup:images` (download images for the build)
-- `npm run lint`
-- `npx tsc --noEmit`
-- `npm run build`
-- Upload the `dist/` artifact
-
-Badge:
-```
-[![CI](https://github.com/Soofmax/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/ci.yml)
-```
-
-Suggested hosting:
-- Vercel
-  - Build: `npm run build`
-  - Output: `dist`
-- Netlify
-  - Build: `npm run build`
-  - Publish: `dist`
+- NPM Audit (prod-only) weekly
+- Gitleaks: secret scan (full history), SARIF artefacts
+- CodeQL: analysis (Security tab)
+- OSV Scanner (non bloquant):
+  - Artefacts: `osv-results/results.json`, `osv-results/results.sarif`
+  - Bumps + “Update Lockfile” workflow pour réduire findings
 
 ---
 
-## 🧭 Roadmap
+## 🤝 Contributing
 
-- [ ] Reservation form: react-hook-form + zod (validation, errors, masks)
-- [ ] Email sending (Resend/EmailJS) or storage (Supabase)
-- [ ] SEO: dynamic OG tags, Schema.org (Restaurant), optimized images (WebP/AVIF)
-- [ ] Tests: Vitest + React Testing Library (with i18n mocks)
-- [ ] PWA: manifest + service worker
-- [ ] Screenshots/GIFs in this README
+Voir [CONTRIBUTING.md](./CONTRIBUTING.md). PRs bienvenues.
 
 ---
 
-## 🔒 License
+## 📝 License
 
-MIT
+MIT – © 2025 SmarterLogicWeb.
+
+---
+
+## 📧 Support
+
+- Website: https://smarterlogicweb.com
+- Contact: [email]
+- LinkedIn: https://linkedin.com/company/smarterlogicweb
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by <strong>SmarterLogicWeb</strong></p>
+  <p>
+    🌐 <a href="https://smarterlogicweb.com">Website</a> •
+    📧 <a href="mailto:[email]">Contact</a> •
+    💼 <a href="https://linkedin.com/company/smarterlogicweb">LinkedIn</a>
+  </p>
+  <p>
+    <sub>© 2025 SmarterLogicWeb. All rights reserved.</sub>
+  </p>
+</div>

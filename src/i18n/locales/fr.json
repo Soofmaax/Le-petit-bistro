@@ -142,5 +142,20 @@
     "rights": "Bistro de quartier à Lyon. Tous droits réservés.",
     "legal": "Mentions légales",
     "privacy": "Politique de confidentialité"
+  },
+  "cookie": {
+    "title": "Gestion des cookies",
+    "text": "Nous utilisons des cookies strictement nécessaires au bon fonctionnement du site. Vous pouvez autoriser en option des cookies d’analytics et de marketing.",
+    "preferences": "Préférences",
+    "accept_all": "Tout accepter",
+    "reject_all": "Tout refuser",
+    "save": "Enregistrer mes choix",
+    "necessary_label": "Nécessaires",
+    "necessary_desc": "Requis pour le fonctionnement du site (sécurité, préférences essentielles).",
+    "analytics_label": "Analytics",
+    "analytics_desc": "Nous aident à comprendre l’usage du site pour l’améliorer (mesure d’audience).",
+    "marketing_label": "Marketing",
+    "marketing_desc": "Utilisés pour la personnalisation et la publicité.",
+    "manage_preferences": "Gérer mes préférences cookies"
   }
 }

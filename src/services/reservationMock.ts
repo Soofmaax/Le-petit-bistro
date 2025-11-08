@@ -34,10 +34,10 @@ export function openingTimesFor(dateStr: string): string[] {
   return [...LUNCH_TIMES, ...DINNER_TIMES];
 }
 
-// Mock fully booked slots:
-// - Prochains 2 samedis: DÎNER complet
-// - Prochain 1 dimanche: DÉJEUNER complet
-const fullyBooked: Record<string, Set<string>> = (() => {
+// Mock fully booked slots generator:
+// - Next 2 Saturdays: dinner blocked
+// - Next 1 Sunday: lunch blocked
+function initFullyBooked(): Record<string, Set<string>> {
   const map: Record<string, Set<string>> = {};
   const today = new Date();
 
@@ -71,7 +71,14 @@ const fullyBooked: Record<string, Set<string>> = (() => {
     }
   }
   return map;
-})();
+}
+
+let fullyBooked: Record<string, Set<string>> = initFullyBooked();
+
+// Exposed for test isolation
+export function resetMockState() {
+  fullyBooked = initFullyBooked();
+}
 
 export function getServiceBlock(dateStr: string): ServiceType | null {
   const booked = fullyBooked[dateStr];
@@ -99,8 +106,9 @@ export function getAvailableTimes(dateStr: string): string[] {
 }
 
 export async function createReservation(input: ReservationInput): Promise<{ id: string }> {
-  // Simulate latency
-  await new Promise((r) => setTimeout(r, 600));
+  // Simulate latency (no delay in test mode to avoid timer flakiness)
+  const delay = import.meta.env.MODE === 'test' ? 0 : 600;
+  await new Promise((r) => setTimeout(r, delay));
 
   if (isClosed(input.date)) {
     throw new Error('closed_day');

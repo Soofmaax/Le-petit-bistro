@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: Le Petit Coin API
+  version: "1.0.0"
+  description: Baseline API for reservations and authentication (demo).
+servers:
+  - url: https://api.example.com
+paths:
+  /v1/auth/login:
+    post:
+      summary: Demo login (issues JWT in cookie)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required: [username, password]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+        "400":
+          description: Invalid credentials
+  /v1/csrf:
+    get:
+      summary: CSRF token endpoint (cookie-based flows)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  csrfToken:
+                    type: string
+  /v1/reservations:
+    post:
+      summary: Create reservation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date: { type: string, format: date }
+                time: { type: string, pattern: "^\\d{2}:\\d{2}$" }
+                guests: { type: integer, minimum: 1, maximum: 10 }
+                name: { type: string }
+                email: { type: string, format: email }
+                phone: { type: string }
+                message: { type: string }
+              required: [date, time, guests, name, email, phone]
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+        "400":
+          description: Invalid input
+        "401":
+          description: Unauthorized
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

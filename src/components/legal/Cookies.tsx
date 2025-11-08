@@ -3,9 +3,17 @@ import Seo from '../SEO';
 import { useTranslation } from 'react-i18next';
 
 const Cookies: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const lang = (i18n.language || 'fr').split('-')[0];
   const isEN = lang === 'en';
+
+  const openPrefs = () => {
+    try {
+      window.dispatchEvent(new CustomEvent('cookie:open'));
+    } catch {
+      // ignore
+    }
+  };
 
   return (
     <section className="py-10 px-4 max-w-4xl mx-auto">
@@ -41,6 +49,14 @@ const Cookies: React.FC = () => {
             </p>
           </>
         )}
+        <div className="mt-6">
+          <button
+            onClick={openPrefs}
+            className="px-4 py-2 rounded-md bg-[#D2691E] text-white hover:bg-[#B8551A] text-sm font-semibold"
+          >
+            {t('cookie.manage_preferences')}
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -40,15 +40,31 @@ const Hero: React.FC = () => {
       {/* Background Image with parallax */}
       <motion.div
         style={{ y: reduce ? 0 : y, scale: reduce ? 1 : scale }}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0"
         aria-hidden
         animate={{}}
         transition={{ duration: 0 }}
       >
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url(/images/hero.jpg)" }}
-        />
+        <picture>
+          <source
+            type="image/avif"
+            srcSet="/images/hero_800.avif 800w, /images/hero_1600.avif 1600w, /images/hero.avif 1920w"
+          />
+          <source
+            type="image/webp"
+            srcSet="/images/hero_800.webp 800w, /images/hero_1600.webp 1600w, /images/hero.webp 1920w"
+          />
+          <img
+            src="/images/hero.jpg"
+            srcSet="/images/hero_800.jpg 800w, /images/hero_1600.jpg 1600w, /images/hero.jpg 1920w"
+            sizes="(max-width: 640px) 100vw, 100vw"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            width="1920"
+            height="1080"
+          />
+        </picture>
         <div className="absolute inset-0 bg-black/40"></div>
       </motion.div>
 
