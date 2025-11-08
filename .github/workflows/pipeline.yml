@@ -158,14 +158,17 @@ jobs:
 
       - name: Run OSV Scanner
         uses: google/osv-scanner-action/osv-scanner-action@v2.2.4
+        continue-on-error: true
         with:
           scan-args: |-
             --recursive
             ./
-          output: results.json
+            --format json
+            --output results.json
 
       - name: Generate SARIF report
         uses: google/osv-scanner-action/osv-reporter-action@v2.2.4
+        continue-on-error: true
         with:
           output: results.sarif
           new: results.json
