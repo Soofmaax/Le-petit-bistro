@@ -40,8 +40,11 @@ const Analytics: React.FC = () => {
         s.src = '/js/script.js';
         s.setAttribute('data-api', '/api/event');
 
-        // domain: prefer window.location.hostname, fallback example.com
-        const domain = typeof window !== 'undefined' ? window.location.hostname : 'example.com';
+        // domain: use explicit env if provided, else window.location.hostname
+        const envDomain = import.meta.env.VITE_PLAUSIBLE_DOMAIN as string | undefined;
+        const domain = envDomain && envDomain.trim().length > 0
+          ? envDomain
+          : (typeof window !== 'undefined' ? window.location.hostname : 'example.com');
         s.setAttribute('data-domain', domain);
 
         document.head.appendChild(s);

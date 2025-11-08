@@ -33,10 +33,10 @@ const Reservation: React.FC = () => {
 
   const timeoutRef = useRef<number | null>(null);
 
-  // Load a lightweight success Lottie animation (external asset)
+  // Load a lightweight success Lottie animation (local asset, CSP-friendly)
   useEffect(() => {
     if (reduce) return;
-    fetch('https://lottie.host/4e3f5f45-0e1f-4f44-9a8c-0e1f7a6b7b9a/2D1vR5a5zB.json')
+    fetch('/animations/success.json')
       .then((r) => r.json())
       .then(setSuccessAnim)
       .catch(() => setSuccessAnim(null));

@@ -4,37 +4,44 @@ Ce projet est un template frontend (Vite + React + TypeScript). Même sans backe
 
 ## En-têtes HTTP (hébergement)
 
-Configurez les en-têtes suivants sur l’hébergeur (Netlify/Vercel/Nginx):
+Configurez les en-têtes suivants sur l’hébergeur (Netlify/Vercel/Nginx). Netlify `public/_headers` est fourni.
 
 - Strict-Transport-Security: `max-age=31536000; includeSubDomains; preload`
 - X-Frame-Options: `DENY`
 - X-Content-Type-Options: `nosniff`
 - Referrer-Policy: `no-referrer`
 - Permissions-Policy: `camera=(), geolocation=(), microphone=(), interest-cohort=()`
-- Content-Security-Policy (CSP) stricte:
+- Cross-Origin-Resource-Policy: `same-origin`
+- Cross-Origin-Opener-Policy: `same-origin`
+- Origin-Agent-Cluster: `?1`
+- X-DNS-Prefetch-Control: `off`
+- Content-Security-Policy (CSP) adaptée au runtime:
   ```
   default-src 'self';
   img-src 'self' https: data:;
-  style-src 'self' https://fonts.googleapis.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
   script-src 'self';
   connect-src 'self';
   frame-ancestors 'none';
   ```
+  - Justification: Framer Motion applique des styles (transform, y, etc.) via attribut `style`. À défaut d’un refactor complet des animations, `'unsafe-inline'` côté styles est nécessaire. Les scripts restent stricts (`script-src 'self'`).
+  - Option long terme: refactor animations pour supprimer les styles inline et retirer `'unsafe-inline'`.
 
-Note: Évitez les styles inline pour garder une CSP stricte sans `'unsafe-inline'`. Les styles ont été déplacés vers `src/index.css`.
+- Cache-Control (assets): `public, max-age=31536000, immutable` pour `/images/*`, `/assets/*`, `/fonts/*`.
 
 ## Secrets et variables d’environnement
 
 - Ne **committez jamais** de clés sensibles, tokens ou credentials.
 - Ne **placez jamais** de clés “service role” côté frontend (ex: Supabase).
 - Utilisez un fichier `.env` local (non committé) uniquement pour des valeurs non sensibles destinées au build.
-- Ajoutez un **scan de secrets** en CI (ex: gitleaks/trufflehog) et bloquez les PR contenant des fuites.
+- Ajoutez un **scan de secrets** en CI:
+  - Action Gitleaks incluse (`.github/workflows/gitleaks.yml`): scanne push/PR et hebdo; examine l’historique complet.
 
 ## Dépendances et CVE
 
 - Activez **Dependabot** (déjà configuré) pour les mises à jour.
-- Ajoutez un job hebdomadaire `npm audit --production` (ou Snyk/OSS Index) en CI.
+- Ajoutez un job hebdomadaire `npm audit --production` (déjà inclus) ou Snyk/OSS Index en complément.
 - Review des mises à jour majeures et compatibilité.
 
 ## Logs et mode production
@@ -42,11 +49,14 @@ Note: Évitez les styles inline pour garder une CSP stricte sans `'unsafe-inline
 - Ne pas afficher de logs verbeux en production.
 - Vérifiez que les mocks MSW ne sont **activés que** en développement (déjà le cas).
 
-## Cookies et RGPD
+## Cookies, Analytics et RGPD
 
-- Actuellement, pas de cookies d’analytics/marketing.
-- Si vous ajoutez des analytics: installez une **bannière de consentement** et mettez à jour `src/components/legal/*`.
-- Documentez vos bases légales et durées de conservation dans la politique de confidentialité.
+- Bannière de consentement: `src/components/CookieConsent.tsx`.
+- Analytics (Plausible) **opt-in** uniquement:
+  - Script proxy `/js/script.js` → plausible.io (Netlify `_redirects`), events `/api/event` → plausible.io.
+  - CSP préservée (`script-src 'self'; connect-src 'self'`), chargement après consentement.
+  - `VITE_PLAUSIBLE_DOMAIN` peut fixer le domaine (voir `.env.example`).
+- Politique cookies/privée: mise à jour sous `src/components/legal/*`.
 
 ## Signalement de vulnérabilités
 
