@@ -1,14 +1,14 @@
-# Guide de contribution
+# Guide de contribution — SmarterLogicWeb
 
-Merci de contribuer à ce template. Voici les bonnes pratiques pour maintenir une qualité “production-grade”.
+Merci de contribuer à ce template professionnel. Notre objectif: qualité enterprise-grade, sécurité, maintenabilité.
 
 ## Prérequis
 
 - Node.js 18+ (LTS recommandé)
 - npm 9+
-- OS : Linux/macOS/Windows
+- OS: Linux/macOS/Windows
 
-## Installation et démarrage
+## Installation & démarrage
 
 ```
 npm install
@@ -16,39 +16,45 @@ npm run setup:images
 npm run dev
 ```
 
-## Qualité et style
+## Qualité & style
 
 - TypeScript strict (`tsconfig.app.json`)
 - ESLint (`npm run lint`) avant tout commit
-- Ajoutez **Prettier** (optionnel) si vous contribuez aux styles
-- Respectez la structure du projet (composants modulaires, i18n dans `src/i18n`, données dans `src/data`)
+- Prettier (`npm run format`) pour uniformiser le style
+- Respectez la structure du projet (composants modulaires, i18n, data)
+- N’ajoutez pas de styles inline (CSP stricte visée)
 
 ## Tests
 
-- Framework : Vitest + React Testing Library
-- Lancer les tests :
-  ```
-  npm run test
-  ```
-- Couverture en CI : un seuil est appliqué. Ajoutez des tests conséquents pour toute nouvelle fonctionnalité.
-- Évitez les tests flakys (dépendants du temps ou du réseau)
+- Vitest + React Testing Library + jest-axe
+- Lancer: `npm run test` (CI) ou `npm run test:watch` (dev)
+- Couverture: seuils en CI; ajoutez des tests pour toute nouvelle feature
 
 ## Sécurité
 
-- Ne commitez **aucun secret** (.env, clés, tokens)
-- Respectez la **CSP** et évitez les styles inline
-- Si vous ajoutez des providers externes, documentez leur origine et l’ajustement CSP
+- Aucun secret committé (.env, tokens)
+- CSP stricte (voir SECURITY.md); évitez scripts/styles inline
+- Documentez tout provider externe et ajustement CSP requis
+- Dépendances: surveillez OSV/CodeQL/Gitleaks
 
-## PRs
+## Processus de Pull Request
 
-- Créez une branche feature
-- Ajoutez un résumé clair (contexte, changements, impact)
-- Ajoutez des tests et mettez à jour la doc si nécessaire
-- Assurez-vous que CI passe (lint, build, tests, coverage)
+- Branche: `feature/xxx` ou `fix/xxx`
+- Description: contexte, solution, impacts (sécurité/perf)
+- Checklist: lint/tests/build/doc/scans
+- Revue: CODEOWNERS; approbations requises si branches protégées
 
-## Versioning / Changelog
+## Code de conduite
 
-- Mises à jour et corrections documentées dans `CHANGELOG.md`
-- Respectez le semantic versioning si vous publiez un dérivé (major/minor/patch)
+Consultez `CODE_OF_CONDUCT.md` pour les attentes et processus de signalement.
+
+## Versioning & Changelog
+
+- Format Keep a Changelog (CHANGELOG.md)
+- Semantic Versioning (major/minor/patch)
+
+## Questions
+
+Contact: [email] — SmarterLogicWeb
 
 Merci pour votre contribution !

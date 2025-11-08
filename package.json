@@ -2,6 +2,18 @@
   "name": "vite-react-typescript-starter",
   "private": true,
   "version": "0.0.0",
+  "description": "Professional SPA template (Vite + React + TS + Tailwind) by SmarterLogicWeb; production-ready, secure, CI/CD-enabled.",
+  "license": "MIT",
+  "author": "SmarterLogicWeb",
+  "homepage": "https://smarterlogicweb.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Soofmaax/Le-petit-bistro"
+  },
+  "bugs": {
+    "url": "https://github.com/Soofmaax/Le-petit-bistro/issues",
+    "email": "[email]"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -1,4 +1,4 @@
-# Politique de Sécurité
+# Politique de Sécurité — SmarterLogicWeb
 
 Ce projet est un template frontend (Vite + React + TypeScript). Même sans backend, il doit respecter des bonnes pratiques de sécurité pour être prêt en production.
 
@@ -31,6 +31,12 @@ Configurez les en-têtes suivants sur l’hébergeur (Netlify/Vercel/Nginx). Net
   - Polices: désormais auto‑hébergées via `@fontsource` (Inter, Pacifico). Aucun domaine externe requis.
 
 - Cache-Control (assets): `public, max-age=31536000, immutable` pour `/images/*`, `/assets/*`, `/fonts/*`.
+
+## Versions supportées
+
+- Frontend: Node.js 18/20 (CI matrix), React 18, TypeScript 5, Vite 5
+- CI: GitHub Actions
+- Backend baseline (optionnel): Node.js 18/20
 
 ## Secrets et variables d’environnement
 
@@ -90,12 +96,14 @@ Configurez les en-têtes suivants sur l’hébergeur (Netlify/Vercel/Nginx). Net
 
 ## Signalement de vulnérabilités
 
-Si vous découvrez une vulnérabilité, merci d’ouvrir un ticket privé ou de contacter le mainteneur. Décrivez:
-- La version, la reproduction et l’impact
-- Un proof-of-concept minimal si possible
-- Toute mesure de mitigation temporaire
+Si vous découvrez une vulnérabilité, merci d’ouvrir un ticket privé ou de contacter SmarterLogicWeb.
 
-Nous nous engageons à:
+- Email: [email]
+- Détails: version, reproduction, impact; PoC minimal; mitigation temporaire
+
+Engagements:
 - Accuser réception rapidement
 - Évaluer la sévérité
-- Corriger dans des délais raisonnables selon l’impact
+- Corriger selon l’impact (SLA interne)
+
+SmarterLogicWeb — https://smarterlogicweb.com
