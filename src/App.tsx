@@ -46,7 +46,7 @@ function App() {
     <div className="min-h-screen bg-[#F5E6D3] dark:bg-slate-900 dark:text-slate-100">
       <Analytics />
       <Header />
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         <motion.div key={location.pathname}>
           <Routes location={location}>
             <Route

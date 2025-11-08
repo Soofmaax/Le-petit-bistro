@@ -4,11 +4,14 @@
 <p><strong>Vite + React + TypeScript + Tailwind</strong></p>
 
 <p>
-<a href="https://github.com/Soofmax/REPO/actions/workflows/ci.yml">
-<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmax/REPO/ci.yml?branch=main&label=CI&logo=github" />
+<a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml">
+<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/ci.yml?branch=main&label=CI&logo=github" />
 </a>
-<a href="https://github.com/Soofmax/REPO/actions/workflows/security-audit.yml">
-<img alt="Security Audit" src="https://img.shields.io/github/actions/workflow/status/Soofmax/REPO/security-audit.yml?branch=main&label=Security%20Audit&logo=github" />
+<a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/security-audit.yml">
+<img alt="Security Audit" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/security-audit.yml?branch=main&label=Security%20Audit&logo=github" />
+</a>
+<a href="https://codecov.io/gh/Soofmaax/Le-petit-bistro">
+<img alt="Coverage" src="https://codecov.io/gh/Soofmaax/Le-petit-bistro/branch/main/graph/badge.svg" />
 </a>
 <img alt="Vite" src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" />
 <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=061d2f" />
@@ -40,8 +43,6 @@
 - Local dev: `npm run dev` (http://localhost:5173)
 - Demo (Netlify): https://le-petit-bristrop.netlify.app
 - Suggested hosting: Vercel or Netlify
-
-Replace `REPO` with your actual GitHub repository name (owner: <a href="https://github.com/Soofmax">Soofmax</a>).
 
 ---
 
@@ -87,9 +88,10 @@ public/
   images/               # Local images (filled by setup:images)
 src/
   App.tsx               # Routes + page transitions
-  main.tsx              # Bootstrap React + Router + i18n
+  main.tsx              # Bootstrap React + Router + i18n + @fontsource fonts
   index.css             # Tailwind + global styles
   components/           # Header, Hero, Menu, About, Reservation, Contact, Footer
+  api/                  # Client + schemas + adapters (future backend)
   data/
     menu.fr.json        # Menu data (FR)
     menu.en.json        # Menu data (EN)
@@ -161,18 +163,17 @@ return <h1>{t('menu.title')}</h1>;
 
 ## 🧪 CI & Deployment
 
-GitHub Actions: `.github/workflows/ci.yml`
+GitHub Actions: `.github/workflows/tests.yml`
 - `npm install`
-- `npm run setup:images` (download images for the build)
 - `npm run lint`
-- `npx tsc --noEmit`
-- `npm run build`
-- Upload the `dist/` artifact
+- `npx vitest --run --coverage` + upload artifact
+- Upload coverage to Codecov (public repos: token-less)
 
 Badges:
 ```
-[![CI](https://github.com/Soofmax/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/ci.yml)
-[![Security Audit](https://github.com/Soofmax/REPO/actions/workflows/security-audit.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/security-audit.yml)
+[![CI](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml)
+[![Security Audit](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/security-audit.yml/badge.svg)](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/security-audit.yml)
+[![codecov](https://codecov.io/gh/Soofmaax/Le-petit-bistro/branch/main/graph/badge.svg)](https://codecov.io/gh/Soofmaax/Le-petit-bistro)
 ```
 
 Suggested hosting:
@@ -182,6 +183,7 @@ Suggested hosting:
 - Netlify
   - Build: `npm run build`
   - Publish: `dist`
+  - Security headers: `public/_headers` (CSP/HSTS/XFO, CORP/COOP/OAC, cache)
 
 ---
 
@@ -210,7 +212,6 @@ Ajoutez vos captures/GIFs pour la vitrine:
 - Build command: `npm run build`
 - Publish directory: `dist`
 - Headers de sécurité: le fichier `public/_headers` est fourni et appliquera automatiquement CSP, HSTS, X-Frame-Options, etc.
-- Conseil: gardez les styles hors de `index.html` (pas de styles inline) pour une CSP stricte sans `'unsafe-inline'`.
 - Analytics (facultatif, opt-in par consentement):
   - `public/_redirects` fournit deux proxys:
     - `/js/script.js` → `https://plausible.io/js/script.js`
@@ -221,6 +222,7 @@ Ajoutez vos captures/GIFs pour la vitrine:
 
 - Tests via Vitest exécutés en CI (GitHub Actions)
 - Rapports de couverture générés (text + lcov) et uploadés comme artifacts
+- Upload automatique vers Codecov pour suivi des PRs
 - Seuils appliqués (lignes/fonctions/branches/statements) afin de maintenir la qualité
 
 ## 🧪 Tests & Troubleshooting
@@ -230,7 +232,7 @@ Ajoutez vos captures/GIFs pour la vitrine:
   - `npm run test:watch` (dev)
 - Environnement: jsdom + @testing-library/react. Les animations (Lottie/confetti) sont mockées dans `vitest.setup.ts`.
 - Timers:
-  - Utilisez `vi.useFakeTimers()` et `vi.runAllTimers()` pour simuler les délais (ex: reset de 3s après succès).
+  - En mode test, la latence de la réservation est nulle; sinon utilisez `vi.useFakeTimers()` et `vi.advanceTimersByTime()` pour simuler les délais.
 - Couverture:
   - Seuils: lignes 75%, fonctions 75%, statements 75%, branches 65%.
 - Cookies:
@@ -240,7 +242,7 @@ Ajoutez vos captures/GIFs pour la vitrine:
     window.dispatchEvent(new CustomEvent('cookie:open'));
     ```
 - i18n:
-  - Si un test dépend de libellés, attendez les éléments via `findBy*` et regex FR/EN.
+  - Si un test dépend des libellés, attendez les éléments via `findBy*` et regex FR/EN.
 - Réseau:
   - Les appels réseau réels sont inexistants; la logique réservation est mockée en local.
 

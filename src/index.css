@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Self-hosted fonts are imported from node_modules via main.tsx:
+   - @fontsource/inter/variable.css
+   - @fontsource/pacifico/400.css
+   Fallbacks ensure graceful degradation if fonts are unavailable. */
 
 /* Custom CSS Variables */
 :root {
@@ -14,13 +17,13 @@
 
 /* Global styles */
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
 }
 
 /* Custom classes for the bistro theme */
 .font-pacifico {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Pacifico', "Brush Script MT", "Segoe Script", cursive;
 }
 
 /* Smooth transitions */
