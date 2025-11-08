@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import ReservationForm, { ReservationFormValues } from '../components/reservation/ReservationForm';
 import { vi } from 'vitest';
+import type { Mock } from 'vitest';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n';
 
@@ -61,7 +62,8 @@ describe('ReservationForm validation (zod + RHF)', () => {
     fireEvent.click(submitBtn);
 
     expect(props.onSubmit).toHaveBeenCalledTimes(1);
-    const arg = (props.onSubmit as any).mock.calls[0][0] as ReservationFormValues;
+    const mock = props.onSubmit as unknown as Mock;
+    const arg = mock.mock.calls[0][0] as ReservationFormValues;
     expect(arg.date).toBe(today);
     expect(arg.time).toBe('11:30');
   });

@@ -40,7 +40,7 @@ const ReservationForm: React.FC<Props> = ({
 }) => {
   const { t, i18n } = useTranslation();
 
-  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<ReservationFormValues>({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<ReservationFormValues>({
     resolver: zodResolver(schema),
     defaultValues
   });
