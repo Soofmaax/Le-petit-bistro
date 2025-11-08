@@ -40,10 +40,15 @@ const ReservationForm: React.FC<Props> = ({
 }) => {
   const { t, i18n } = useTranslation();
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<ReservationFormValues>({
+  const { register, handleSubmit, formState: { errors }, watch, reset } = useForm<ReservationFormValues>({
     resolver: zodResolver(schema),
     defaultValues
   });
+
+  // sync RHF state when parent defaultValues change (e.g., reset time if unavailable)
+  React.useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   // keep external state in sync when date changes
   const dateWatch = watch('date');
