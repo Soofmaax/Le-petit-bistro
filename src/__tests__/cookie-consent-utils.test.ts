@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import { readConsent, writeConsent, dispatchConsent } from '../components/CookieConsent';
+import { readConsent, writeConsent, dispatchConsent } from '../utils/cookieConsent';
 
 describe('CookieConsent utils', () => {
   test('writeConsent and readConsent round-trip', () => {

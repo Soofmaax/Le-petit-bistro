@@ -21,7 +21,7 @@ const Reservation: React.FC = () => {
   const [times, setTimes] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
   const [blocked, setBlocked] = useState<string[]>([]);
-  const { status, error: submitError, submit } = useReservation();
+  const { status, submit } = useReservation();
   const [formValues, setFormValues] = useState<ReservationFormValues>({
     date: '',
     time: '',
