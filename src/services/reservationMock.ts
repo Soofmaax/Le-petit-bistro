@@ -34,10 +34,10 @@ export function openingTimesFor(dateStr: string): string[] {
   return [...LUNCH_TIMES, ...DINNER_TIMES];
 }
 
-// Mock fully booked slots:
-// - Prochains 2 samedis: DÎNER complet
-// - Prochain 1 dimanche: DÉJEUNER complet
-const fullyBooked: Record<string, Set<string>> = (() => {
+// Mock fully booked slots generator:
+// - Next 2 Saturdays: dinner blocked
+// - Next 1 Sunday: lunch blocked
+function initFullyBooked(): Record<string, Set<string>> {
   const map: Record<string, Set<string>> = {};
   const today = new Date();
 
@@ -71,7 +71,14 @@ const fullyBooked: Record<string, Set<string>> = (() => {
     }
   }
   return map;
-})();
+}
+
+let fullyBooked: Record<string, Set<string>> = initFullyBooked();
+
+// Exposed for test isolation
+export function resetMockState() {
+  fullyBooked = initFullyBooked();
+}
 
 export function getServiceBlock(dateStr: string): ServiceType | null {
   const booked = fullyBooked[dateStr];

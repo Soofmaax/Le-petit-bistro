@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { useReservation } from '../hooks/useReservation';
 import type { ReservationInputDTO } from '../api/schemas';
+import { resetMockState } from '../services/reservationMock';
 
 function nextWeekdayISO(targetDay: number) {
   const today = new Date();
@@ -33,6 +34,7 @@ function TestComp({ input }: { input: ReservationInputDTO }) {
 
 describe('useReservation hook', () => {
   test('successful reservation sets status=success and id', async () => {
+    resetMockState();
     const input: ReservationInputDTO = {
       date: nextWeekdayISO(3), // next Wednesday
       time: '11:30',
@@ -50,6 +52,7 @@ describe('useReservation hook', () => {
   });
 
   test('closed day returns error', async () => {
+    resetMockState();
     const input: ReservationInputDTO = {
       date: nextWeekdayISO(2), // next Tuesday (closed)
       time: '11:30',
@@ -66,6 +69,7 @@ describe('useReservation hook', () => {
   });
 
   test('booking same slot twice returns slot_full', async () => {
+    resetMockState();
     const date = nextWeekdayISO(3); // Wednesday
     const input: ReservationInputDTO = {
       date,
