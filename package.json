@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "setup:images": "node scripts/fetch_images.js",
+    "optimize:images": "node scripts/optimize_images.mjs",
     "test": "vitest --run",
     "test:watch": "vitest"
   },
@@ -43,6 +44,7 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.46.3",
     "vite": "^5.4.2",
-    "vitest": "^2.0.5"
+    "vitest": "^2.0.5",
+    "sharp": "^0.33.4"
   }
 }

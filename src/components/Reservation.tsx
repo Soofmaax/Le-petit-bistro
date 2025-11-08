@@ -448,16 +448,26 @@ const Reservation: React.FC = () => {
             </div>
 
             <div className="bg-white/90 rounded-xl p-6 shadow-lg">
-              <img 
-                src="/images/reservation_ambience_1200.jpg"
-                srcSet="/images/reservation_ambience_800.jpg 800w, /images/reservation_ambience_1200.jpg 1200w"
-                alt={t('reservation.ambience_alt')}
-                className="w-full h-40 sm:h-48 object-cover rounded-lg mb-4"
-                loading="lazy"
-                width="1200"
-                height="800"
-                sizes="(max-width: 640px) 100vw, 600px"
-              />
+              <picture>
+                <source
+                  type="image/avif"
+                  srcSet="/images/reservation_ambience_800.avif 800w, /images/reservation_ambience_1200.avif 1200w"
+                />
+                <source
+                  type="image/webp"
+                  srcSet="/images/reservation_ambience_800.webp 800w, /images/reservation_ambience_1200.webp 1200w"
+                />
+                <img 
+                  src="/images/reservation_ambience_1200.jpg"
+                  srcSet="/images/reservation_ambience_800.jpg 800w, /images/reservation_ambience_1200.jpg 1200w"
+                  alt={t('reservation.ambience_alt')}
+                  className="w-full h-40 sm:h-48 object-cover rounded-lg mb-4"
+                  loading="lazy"
+                  width="1200"
+                  height="800"
+                  sizes="(max-width: 640px) 100vw, 600px"
+                />
+              </picture>
               <p className="text-gray-600 text-sm text-center italic">
                 {t('reservation.ambience_quote')}
               </p>

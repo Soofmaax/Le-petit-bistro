@@ -7,6 +7,9 @@
 <a href="https://github.com/Soofmax/REPO/actions/workflows/ci.yml">
 <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmax/REPO/ci.yml?branch=main&label=CI&logo=github" />
 </a>
+<a href="https://github.com/Soofmax/REPO/actions/workflows/security-audit.yml">
+<img alt="Security Audit" src="https://img.shields.io/github/actions/workflow/status/Soofmax/REPO/security-audit.yml?branch=main&label=Security%20Audit&logo=github" />
+</a>
 <img alt="Vite" src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" />
 <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=061d2f" />
 <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" />
@@ -129,6 +132,8 @@ return <h1>{t('menu.title')}</h1>;
 
 - Local images live in `public/images`
 - Auto-fetch them with: `npm run setup:images`
+- Optimize them (WebP/AVIF) with: `npm run optimize:images` (génère `.webp` et `.avif` pour chaque `.jpg/.png`)
+- Components utilisent `<picture>` avec sources AVIF/WebP (fallback JPG)
 - Curated, free-to-use Pexels images to match the rustic/friendly style
 - Credits: see `CREDITS.md`
 
@@ -163,9 +168,10 @@ GitHub Actions: `.github/workflows/ci.yml`
 - `npm run build`
 - Upload the `dist/` artifact
 
-Badge:
+Badges:
 ```
 [![CI](https://github.com/Soofmax/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/ci.yml)
+[![Security Audit](https://github.com/Soofmax/REPO/actions/workflows/security-audit.yml/badge.svg)](https://github.com/Soofmax/REPO/actions/workflows/security-audit.yml)
 ```
 
 Suggested hosting:
@@ -177,6 +183,15 @@ Suggested hosting:
   - Publish: `dist`
 
 ---
+
+## 📸 Captures & Démos
+
+Ajoutez vos captures/GIFs pour la vitrine:
+- Placez vos assets sous `public/` (ex: `public/screens/hero.png`, `public/screens/menu.gif`)
+- Référencez-les ici:
+  - ![Hero](./public/screens/hero.png)
+  - ![Menu](./public/screens/menu.gif)
+- Conseil: exportez en WebP/AVIF si possible, ou utilisez `npm run optimize:images` pour optimiser.
 
 ## 🧭 Roadmap
 
