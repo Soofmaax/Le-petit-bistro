@@ -4,11 +4,8 @@
 <p><strong>Vite + React + TypeScript + Tailwind</strong></p>
 
 <p>
-<a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml">
-<img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/ci.yml?branch=main&label=CI&logo=github" />
-</a>
-<a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/security-audit.yml">
-<img alt="Security Audit" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/security-audit.yml?branch=main&label=Security%20Audit&logo=github" />
+<a href="https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/pipeline.yml">
+<img alt="Pipeline" src="https://img.shields.io/github/actions/workflow/status/Soofmaax/Le-petit-bistro/pipeline.yml?branch=main&label=Pipeline&logo=github" />
 </a>
 <a href="https://codecov.io/gh/Soofmaax/Le-petit-bistro">
 <img alt="Coverage" src="https://codecov.io/gh/Soofmaax/Le-petit-bistro/branch/main/graph/badge.svg" />
@@ -163,16 +160,14 @@ return <h1>{t('menu.title')}</h1>;
 
 ## 🧪 CI & Deployment
 
-GitHub Actions: `.github/workflows/tests.yml`
-- `npm install`
-- `npm run lint`
-- `npx vitest --run --coverage` + upload artifact
-- Upload coverage to Codecov (public repos: token-less)
+GitHub Actions: `.github/workflows/pipeline.yml`
+- Tests + Lint + Build (matrix Node 18/20)
+- Security: npm audit (prod), Gitleaks secret scan, CodeQL analysis
+- Coverage upload to Codecov
 
 Badges:
 ```
-[![CI](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml/badge.svg)](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/ci.yml)
-[![Security Audit](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/security-audit.yml/badge.svg)](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/security-audit.yml)
+[![Pipeline](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Soofmaax/Le-petit-bistro/actions/workflows/pipeline.yml)
 [![codecov](https://codecov.io/gh/Soofmaax/Le-petit-bistro/branch/main/graph/badge.svg)](https://codecov.io/gh/Soofmaax/Le-petit-bistro)
 ```
 
