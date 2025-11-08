@@ -87,7 +87,8 @@ describe('useReservation hook', () => {
     // Second render: slot_full
     render(<TestComp input={input} />);
     await screen.findByText('error', { selector: '[data-testid="status"]' });
-    const err = screen.getByTestId('error').textContent;
-    expect(err).toBe('slot_full');
+    const errs = screen.getAllByTestId('error');
+    const lastErr = errs[errs.length - 1].textContent;
+    expect(lastErr).toBe('slot_full');
   });
 });
