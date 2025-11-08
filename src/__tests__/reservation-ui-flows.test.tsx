@@ -69,8 +69,7 @@ describe('Reservation UI flows', () => {
   });
 
   test('second booking cannot choose the same time; it is removed from options', async () => {
-    vi.useFakeTimers();
-    render(
+    const { unmount } = render(
       <I18nextProvider i18n={i18n}>
         <Reservation />
       </I18nextProvider>
@@ -95,12 +94,16 @@ describe('Reservation UI flows', () => {
     // booking completes immediately in test mode; ensure success appears
     await screen.findByText(/confirmée|confirmed/i);
 
-    // flush timers (reset delay is 0ms in test mode)
-    act(() => {
-      vi.runAllTimers();
-    });
+    // Unmount current instance, then render a new one (mock state persists across instances)
+    unmount();
 
-    // After reset, set same date again and check options
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Reservation />
+      </I18nextProvider>
+    );
+
+    // Set same date again and check that previously booked time is no longer available
     const dateInput2 = await screen.findByLabelText(/date/i) as HTMLInputElement;
     fireEvent.change(dateInput2, { target: { value: wednesday } });
     const timeSelect2 = await screen.findByLabelText(/heure|time/i) as HTMLSelectElement;
@@ -111,7 +114,5 @@ describe('Reservation UI flows', () => {
 
     // the select value should be empty (cannot choose the fully booked slot)
     expect(timeSelect2.value).toBe('');
-
-    vi.useRealTimers();
   });
 });
