@@ -46,13 +46,13 @@ jobs:
           path: coverage
 
       - name: Upload coverage to Codecov
+        if: ${{ github.event_name == 'push' || secrets.CODECOV_TOKEN != '' }}
         uses: codecov/codecov-action@v4
         with:
           files: ./coverage/lcov.info
           flags: node-${{ matrix.node }}
-          fail_ci_if_error: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Typecheck
         run: npx tsc --noEmit -p tsconfig.json
