@@ -19,11 +19,16 @@ jobs:
           fetch-depth: 0
 
       - name: Run Gitleaks
-        uses: zricethezav/gitleaks-action@v2
-        with:
-          args: detect --source . --report-format sarif --report-path gitleaks.sarif --verbose
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional for org licenses:
+          # GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+          # Optional report path (action creates one by default if supported):
+          GITLEAKS_REPORT_PATH: gitleaks.sarif
 
       - name: Upload SARIF report
+        if: hashFiles('gitleaks.sarif') != ''
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-report
