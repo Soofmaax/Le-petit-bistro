@@ -1,27 +1,27 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Calendar, Clock, Users, Phone, AlertTriangle } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
 import { motion } from 'framer-motion';
-import Lottie from 'lottie-react';
+import { useTranslation } from 'react-i18next';
 import { useMotionPreference } from '../hooks/useMotionPreference';
 import { createReservation, getAvailableTimes, isClosed, getBlockedServices } from '../services/reservationMock';
+import ReservationForm, { ReservationFormValues } from './reservation/ReservationForm';
+import ReservationSuccess from './reservation/ReservationSuccess';
+import PracticalInfo from './reservation/PracticalInfo';
 
 type LottieAnimationData = {
-  v: string; // version
-  fr: number; // frame rate
-  ip: number; // in point
-  op: number; // out point
-  w: number; // width
-  h: number; // height
-  nm: string; // name
-  [key: string]: unknown;
+  v: string; fr: number; ip: number; op: number; w: number; h: number; nm: string; [key: string]: unknown;
 };
 
 const Reservation: React.FC = () => {
   const { t, i18n } = useTranslation();
   const reduce = useMotionPreference();
-  const [formData, setFormData] = useState({
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [successAnim, setSuccessAnim] = useState<LottieAnimationData | null>(null);
+  const [times, setTimes] = useState<string[]>([]);
+  const [error, setError] = useState<string>('');
+  const [blocked, setBlocked] = useState<string[]>([]);
+  const [formValues, setFormValues] = useState<ReservationFormValues>({
     date: '',
     time: '',
     guests: '2',
@@ -30,28 +30,23 @@ const Reservation: React.FC = () => {
     phone: '',
     message: ''
   });
-  
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [successAnim, setSuccessAnim] = useState<LottieAnimationData | null>(null);
-  const [times, setTimes] = useState<string[]>([]);
-  const [error, setError] = useState<string>('');
-  const [blocked, setBlocked] = useState<string[]>([]);
+
   const timeoutRef = useRef<number | null>(null);
+
   // Load a lightweight success Lottie animation (external asset)
   useEffect(() => {
-    if (reduce) return; // skip fetching animation if reduced motion
+    if (reduce) return;
     fetch('https://lottie.host/4e3f5f45-0e1f-4f44-9a8c-0e1f7a6b7b9a/2D1vR5a5zB.json')
       .then((r) => r.json())
       .then(setSuccessAnim)
       .catch(() => setSuccessAnim(null));
   }, [reduce]);
 
+  // Confetti on submit
   useEffect(() => {
     if (!isSubmitted || reduce) return;
-    // Subtle, brand-colored confetti
     const duration = 900;
     const end = Date.now() + duration;
-
     const frame = () => {
       confetti({
         particleCount: 30,
@@ -61,131 +56,42 @@ const Reservation: React.FC = () => {
         scalar: 0.85,
         colors: ['#D2691E', '#F5E6D3', '#8B4513']
       });
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
+      if (Date.now() < end) requestAnimationFrame(frame);
     };
     frame();
   }, [isSubmitted, reduce]);
 
   // Update available times when date changes
   useEffect(() => {
-    if (!formData.date) {
+    const date = formValues.date;
+    if (!date) {
       setTimes([]);
       setBlocked([]);
       return;
     }
-    if (isClosed(formData.date)) {
+    if (isClosed(date)) {
       setTimes([]);
       setBlocked([]);
-      setError(
-        (i18n.language || 'fr').startsWith('en')
-          ? 'The restaurant is closed on the selected day.'
-          : 'Le restaurant est fermé le jour sélectionné.'
-      );
+      setError((i18n.language || 'fr').startsWith('en')
+        ? 'The restaurant is closed on the selected day.'
+        : 'Le restaurant est fermé le jour sélectionné.');
       return;
     }
-    const avail = getAvailableTimes(formData.date);
+    const avail = getAvailableTimes(date);
     setTimes(avail);
-    setBlocked(getBlockedServices(formData.date));
-    // If currently selected time is no longer available, reset it
-    if (formData.time && !avail.includes(formData.time)) {
-      setFormData((prev) => ({ ...prev, time: '' }));
+    setBlocked(getBlockedServices(date));
+    if (formValues.time && !avail.includes(formValues.time)) {
+      setFormValues((prev) => ({ ...prev, time: '' }));
     }
     setError('');
-  }, [formData.date, formData.time, i18n.language]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    // client-side guard
-    if (!formData.date || !formData.time) return;
-    if (isClosed(formData.date)) {
-      setError(
-        (i18n.language || 'fr').startsWith('en')
-          ? 'The restaurant is closed on the selected day.'
-          : 'Le restaurant est fermé le jour sélectionné.'
-      );
-      return;
-    }
-    try {
-      await createReservation({
-        date: formData.date,
-        time: formData.time,
-        guests: formData.guests === '10+' ? 10 : parseInt(formData.guests, 10),
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message
-      });
-      setIsSubmitted(true);
-      timeoutRef.current = window.setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({
-          date: '',
-          time: '',
-          guests: '2',
-          name: '',
-          email: '',
-          phone: '',
-          message: ''
-        });
-        setTimes([]);
-        setBlocked([]);
-        timeoutRef.current = null;
-      }, 3000);
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : 'unknown';
-      if (msg === 'slot_full') {
-        setError(
-          (i18n.language || 'fr').startsWith('en')
-            ? 'Selected time is fully booked. Please choose another slot.'
-            : 'Ce créneau est complet. Merci de choisir un autre horaire.'
-        );
-      } else if (msg === 'closed_day') {
-        setError(
-          (i18n.language || 'fr').startsWith('en')
-            ? 'The restaurant is closed on this day.'
-            : 'Le restaurant est fermé ce jour-là.'
-        );
-      } else {
-        setError(
-          (i18n.language || 'fr').startsWith('en')
-            ? 'An error occurred. Please try again.'
-            : 'Une erreur est survenue. Merci de réessayer.'
-        );
-      }
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  }, [formValues.date, formValues.time, i18n.language]);
 
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
-
-  const serviceBadge =
-    formData.date && blocked.length ? (
-      <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#F5E6D3] px-3 py-1 text-sm text-[#8B4513]">
-        <span className="inline-block w-2 h-2 rounded-full bg-[#D2691E]" />
-        {blocked.includes('lunch') && (
-          <span>{(i18n.language || 'fr').startsWith('en') ? 'Lunch service full' : 'Service déjeuner complet'}</span>
-        )}
-        {blocked.includes('dinner') && (
-          <span>{(i18n.language || 'fr').startsWith('en') ? 'Dinner service full' : 'Service dîner complet'}</span>
-        )}
-      </div>
-    ) : null;
 
   const underline = useMemo(
     () =>
@@ -203,38 +109,79 @@ const Reservation: React.FC = () => {
     [reduce]
   );
 
+  const minDate = new Date().toISOString().split('T')[0];
+
+  const onDateChange = (date: string) => {
+    setFormValues((prev) => ({ ...prev, date }));
+  };
+
+  const onSubmit = async (values: ReservationFormValues) => {
+    setError('');
+    if (!values.date || !values.time) return;
+    if (isClosed(values.date)) {
+      setError((i18n.language || 'fr').startsWith('en')
+        ? 'The restaurant is closed on the selected day.'
+        : 'Le restaurant est fermé le jour sélectionné.');
+      return;
+    }
+    try {
+      await createReservation({
+        date: values.date,
+        time: values.time,
+        guests: values.guests === '10+' ? 10 : parseInt(values.guests, 10),
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        message: values.message
+      });
+      setFormValues(values);
+      setIsSubmitted(true);
+      timeoutRef.current = window.setTimeout(() => {
+        setIsSubmitted(false);
+        setFormValues({
+          date: '',
+          time: '',
+          guests: '2',
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
+        });
+        setTimes([]);
+        setBlocked([]);
+        timeoutRef.current = null;
+      }, 3000);
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'unknown';
+      if (msg === 'slot_full') {
+        setError((i18n.language || 'fr').startsWith('en')
+          ? 'Selected time is fully booked. Please choose another slot.'
+          : 'Ce créneau est complet. Merci de choisir un autre horaire.');
+      } else if (msg === 'closed_day') {
+        setError((i18n.language || 'fr').startsWith('en')
+          ? 'The restaurant is closed on this day.'
+          : 'Le restaurant est fermé ce jour-là.');
+      } else {
+        setError((i18n.language || 'fr').startsWith('en')
+          ? 'An error occurred. Please try again.'
+          : 'Une erreur est survenue. Merci de réessayer.');
+      }
+    }
+  };
+
   if (isSubmitted) {
     return (
-      <section className="py-12 px-4">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-white/90 rounded-xl p-8 shadow-lg">
-            {!reduce && successAnim ? (
-              <Lottie animationData={successAnim} loop={false} style={{ width: 140, height: 140, margin: '0 auto' }} />
-            ) : (
-              <div className="w-16 h-16 rounded-full bg-green-500/15 border border-green-500/30 mx-auto mb-4" />
-            )}
-            <h2 className="text-3xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
-              {t('reservation.confirm_title')}
-            </h2>
-            <p className="text-lg text-gray-600 mb-4">
-              {t('reservation.confirm_text', {
-                name: formData.name,
-                guests: formData.guests,
-                date: formData.date,
-                time: formData.time
-              })}
-            </p>
-            <p className="text-gray-600">
-              {t('reservation.confirm_phone', { phone: formData.phone })}
-            </p>
-            <div className="mt-6 p-4 bg-[#F5E6D3] rounded-lg">
-              <p className="text-[#8B4513] font-semibold">
-                {t('reservation.confirm_ending')}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ReservationSuccess
+        reduceMotion={reduce}
+        successAnim={successAnim}
+        values={{
+          name: formValues.name,
+          guests: formValues.guests,
+          date: formValues.date,
+          time: formValues.time,
+          phone: formValues.phone
+        }}
+      />
     );
   }
 
@@ -257,197 +204,22 @@ const Reservation: React.FC = () => {
             <h3 className="text-2xl font-bold text-[#8B4513] mb-6 font-['Pacifico']">
               {t('reservation.your_info')}
             </h3>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                    <Calendar className="inline w-4 h-4 mr-1" />
-                    {t('reservation.date')}
-                  </label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleInputChange}
-                    required
-                    min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                    <Clock className="inline w-4 h-4 mr-1" />
-                    {t('reservation.time')}
-                  </label>
-                  <select
-                    name="time"
-                    value={formData.time}
-                    onChange={handleInputChange}
-                    required
-                    disabled={!formData.date || isClosed(formData.date)}
-                    className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all disabled:bg-gray-100 disabled:text-gray-400"
-                  >
-                    <option value="">{t('reservation.choose_time')}</option>
-                    {times.map((tme) => (
-                      <option key={tme} value={tme}>
-                        {tme}
-                      </option>
-                    ))}
-                  </select>
-                  {serviceBadge}
-                  {formData.date && !times.length && !isClosed(formData.date) && (
-                    <p className="text-sm text-[#B8551A] mt-1">
-                      {(i18n.language || 'fr').startsWith('en')
-                        ? 'Some days may be fully booked.'
-                        : 'Certains jours peuvent être complets.'}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                  <Users className="inline w-4 h-4 mr-1" />
-                  {t('reservation.guests')}
-                </label>
-                <select
-                  name="guests"
-                  value={formData.guests}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                >
-                  {[1,2,3,4,5,6,7,8,9,10].map(num => (
-                    <option key={num} value={num.toString()}>
-                      {t('reservation.person', { count: num })}
-                    </option>
-                  ))}
-                  <option value="10+">{t('reservation.more_than_ten')}</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                  {t('reservation.full_name')}
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  placeholder={t('reservation.full_name_ph') as string}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  placeholder="you@email.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                  <Phone className="inline w-4 h-4 mr-1" />
-                  {t('reservation.phone')}
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  placeholder={t('reservation.phone_ph') as string}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#8B4513] mb-2">
-                  {t('reservation.message_optional')}
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  rows={3}
-                  className="w-full px-4 py-2 border border-[#D2691E]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D2691E] transition-all"
-                  placeholder={t('reservation.message_ph') as string}
-                ></textarea>
-              </div>
-
-              {!!error && (
-                <div className="p-3 rounded-lg bg-[#F5E6D3] text-[#8B4513] flex items-start gap-2" role="alert" aria-live="assertive">
-                  <AlertTriangle size={18} className="mt-0.5" />
-                  <p className="text-sm">{error}</p>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                className="w-full bg-[#D2691E] hover:bg-[#B8551A] text-white py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-              >
-                {t('reservation.submit')}
-              </button>
-            </form>
+            <ReservationForm
+              times={times}
+              blockedBadges={blocked}
+              defaultValues={formValues}
+              minDate={minDate}
+              isClosed={!!formValues.date && isClosed(formValues.date)}
+              error={error}
+              onSubmit={onSubmit}
+              onDateChange={onDateChange}
+            />
           </div>
 
-          {/* Informations pratiques */}
-          <div className="space-y-6">
-            <div className="bg-white/90 rounded-xl p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-[#8B4513] mb-4 font-['Pacifico']">
-                {t('reservation.practical_info')}
-              </h3>
-              <div className="space-y-3 text-gray-600">
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-5 h-5 text-[#D2691E]" />
-                  <div>
-                    <p className="font-semibold">{t('reservation.opening_hours')}</p>
-                    <p className="text-sm">{t('reservation.hours_mon_sat')}</p>
-                    <p className="text-sm">{t('reservation.hours_sun')}</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Phone className="w-5 h-5 text-[#D2691E]" />
-                  <div>
-                    <p className="font-semibold">{t('reservation.phone_booking')}</p>
-                    <p className="text-sm">04 78 XX XX XX</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="w-5 h-5 text-[#D2691E]" />
-                  <div>
-                    <p className="font-semibold">{t('reservation.groups')}</p>
-                    <p className="text-sm">{t('reservation.groups_text')}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-r from-[#D2691E] to-[#B8551A] text-white rounded-xl p-6">
-              <h3 className="text-xl font-bold mb-3 font-['Pacifico']">{t('reservation.good_to_know')}</h3>
-              <ul className="text-sm space-y-2">
-                <li>• {t('reservation.tip_last_booking')}</li>
-                <li>• {t('reservation.tip_terrace')}</li>
-                <li>• {t('reservation.tip_kids')}</li>
-                <li>• {t('reservation.tip_high_chairs')}</li>
-                <li>• {t('reservation.tip_card_payment')}</li>
-              </ul>
-            </div>
-
-            <div className="bg-white/90 rounded-xl p-6 shadow-lg">
+          {/* Informations pratiques + image */}
+          <div>
+            <PracticalInfo />
+            <div className="bg-white/90 rounded-xl p-6 shadow-lg mt-6">
               <picture>
                 <source
                   type="image/avif"
@@ -457,7 +229,7 @@ const Reservation: React.FC = () => {
                   type="image/webp"
                   srcSet="/images/reservation_ambience_800.webp 800w, /images/reservation_ambience_1200.webp 1200w"
                 />
-                <img 
+                <img
                   src="/images/reservation_ambience_1200.jpg"
                   srcSet="/images/reservation_ambience_800.jpg 800w, /images/reservation_ambience_1200.jpg 1200w"
                   alt={t('reservation.ambience_alt')}
