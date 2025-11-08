@@ -136,6 +136,7 @@ const Reservation: React.FC = () => {
       });
       setFormValues(values);
       setIsSubmitted(true);
+      const resetDelay = import.meta.env.MODE === 'test' ? 0 : 3000;
       timeoutRef.current = window.setTimeout(() => {
         setIsSubmitted(false);
         setFormValues({
@@ -150,7 +151,7 @@ const Reservation: React.FC = () => {
         setTimes([]);
         setBlocked([]);
         timeoutRef.current = null;
-      }, 3000);
+      }, resetDelay);
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'unknown';
       if (msg === 'slot_full') {

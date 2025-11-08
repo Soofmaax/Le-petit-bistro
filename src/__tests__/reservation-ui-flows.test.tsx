@@ -95,9 +95,9 @@ describe('Reservation UI flows', () => {
     // booking completes immediately in test mode; ensure success appears
     await screen.findByText(/confirmée|confirmed/i);
 
-    // advance the 3s timer to reset back to form
+    // flush timers (reset delay is 0ms in test mode)
     act(() => {
-      vi.advanceTimersByTime(3000);
+      vi.runAllTimers();
     });
 
     // After reset, set same date again and check options
