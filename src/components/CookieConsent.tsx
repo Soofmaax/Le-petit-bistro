@@ -39,8 +39,9 @@ export function dispatchConsent(consent: Consent) {
 
 const CookieConsent: React.FC = () => {
   const { t } = useTranslation();
-  // Ne pas afficher la bannière en environnement test
-  const isTest = import.meta.env.MODE === 'test';
+  // Ne pas afficher la bannière en environnement test, sauf si override explicite
+  const isTestMode = import.meta.env.MODE === 'test';
+  const bannerDisabled = isTestMode && !import.meta.env.VITE_ENABLE_COOKIE_BANNER_IN_TEST;
 
   const [open, setOpen] = React.useState(false);
   const [showPrefs, setShowPrefs] = React.useState(false);
@@ -48,7 +49,7 @@ const CookieConsent: React.FC = () => {
   const [marketing, setMarketing] = React.useState(false);
 
   React.useEffect(() => {
-    if (isTest) return;
+    if (bannerDisabled) return;
     const existing = readConsent();
     if (!existing) {
       setOpen(true);
@@ -67,9 +68,9 @@ const CookieConsent: React.FC = () => {
     return () => {
       window.removeEventListener('cookie:open', handler as EventListener);
     };
-  }, [isTest]);
+  }, [bannerDisabled]);
 
-  if (isTest) return null;
+  if (bannerDisabled) return null;
   if (!open) return null;
 
   const acceptAll = () => {

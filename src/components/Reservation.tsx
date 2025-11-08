@@ -3,10 +3,11 @@ import confetti from 'canvas-confetti';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useMotionPreference } from '../hooks/useMotionPreference';
-import { createReservation, getAvailableTimes, isClosed, getBlockedServices } from '../services/reservationMock';
+import { getAvailableTimes, isClosed, getBlockedServices } from '../services/reservationMock';
 import ReservationForm, { ReservationFormValues } from './reservation/ReservationForm';
 import ReservationSuccess from './reservation/ReservationSuccess';
 import PracticalInfo from './reservation/PracticalInfo';
+import { useReservation } from '../hooks/useReservation';
 
 type LottieAnimationData = {
   v: string; fr: number; ip: number; op: number; w: number; h: number; nm: string; [key: string]: unknown;
@@ -16,11 +17,11 @@ const Reservation: React.FC = () => {
   const { t, i18n } = useTranslation();
   const reduce = useMotionPreference();
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [successAnim, setSuccessAnim] = useState<LottieAnimationData | null>(null);
   const [times, setTimes] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
   const [blocked, setBlocked] = useState<string[]>([]);
+  const { status, error: submitError, submit } = useReservation();
   const [formValues, setFormValues] = useState<ReservationFormValues>({
     date: '',
     time: '',
@@ -42,9 +43,9 @@ const Reservation: React.FC = () => {
       .catch(() => setSuccessAnim(null));
   }, [reduce]);
 
-  // Confetti on submit
+  // Confetti on submit success
   useEffect(() => {
-    if (!isSubmitted || reduce) return;
+    if (status !== 'success' || reduce) return;
     const duration = 900;
     const end = Date.now() + duration;
     const frame = () => {
@@ -59,7 +60,7 @@ const Reservation: React.FC = () => {
       if (Date.now() < end) requestAnimationFrame(frame);
     };
     frame();
-  }, [isSubmitted, reduce]);
+  }, [status, reduce]);
 
   // Update available times when date changes
   useEffect(() => {
@@ -125,20 +126,19 @@ const Reservation: React.FC = () => {
       return;
     }
     try {
-      await createReservation({
+      await submit({
         date: values.date,
         time: values.time,
         guests: values.guests === '10+' ? 10 : parseInt(values.guests, 10),
         name: values.name,
         email: values.email,
         phone: values.phone,
-        message: values.message
+        message: values.message || ''
       });
       setFormValues(values);
-      setIsSubmitted(true);
       const resetDelay = import.meta.env.MODE === 'test' ? 0 : 3000;
       timeoutRef.current = window.setTimeout(() => {
-        setIsSubmitted(false);
+        // reset form after success
         setFormValues({
           date: '',
           time: '',
@@ -170,7 +170,7 @@ const Reservation: React.FC = () => {
     }
   };
 
-  if (isSubmitted) {
+  if (status === 'success') {
     return (
       <ReservationSuccess
         reduceMotion={reduce}

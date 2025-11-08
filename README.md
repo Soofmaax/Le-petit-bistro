@@ -78,6 +78,7 @@ Scripts:
 - `preview` — Serve dist/ locally
 - `lint` — ESLint
 - `setup:images` — Downloads curated free images (Pexels) into `public/images`
+- `server:start` — Start optional Express backend baseline (`node --env-file=.env server/index.mjs`)
 
 ---
 
@@ -106,9 +107,35 @@ src/
     menu.ts             # Menu TS types
 scripts/
   fetch_images.js       # Image curation/downloader
+server/
+  index.mjs             # Optional Express backend baseline (secure-by-default)
 tailwind.config.js      # Dark mode enabled (class)
 vite.config.ts
 ```
+
+---
+
+## 🛡️ Backend (optional baseline)
+
+Start backend locally:
+- `npm run server:start` (reads environment from `.env`)
+
+Endpoints:
+- `GET /health` → `{ ok: true }`
+- `GET /ready` → `{ ready: true }`
+- `GET /v1/csrf` → `{ csrfToken: string }` (when using cookie-based auth)
+- `POST /v1/auth/login` (demo) → sets httpOnly cookie `session` and returns `{ ok: true }`
+- `POST /v1/reservations` (protected) → `{ id: string }` (requires Authorization: Bearer or `session` cookie)
+
+Security:
+- Helmet headers (COOP/COEP), JSON body limit, CORS allowlist, rate limiting, CSRF with cookies, structured logs (pino)
+
+Configure `.env`:
+- `CORS_ALLOWLIST=https://le-petit-bistro.netlify.app,https://localhost:5173`
+- `JWT_SECRET=change-me`
+- `RATE_LIMIT_WINDOW_MS=60000`
+- `RATE_LIMIT_MAX=100`
+- `COOKIE_SECURE=true` (set `false` for local http testing)
 
 ---
 
