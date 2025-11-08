@@ -24,14 +24,19 @@ describe('Reservation UI flows', () => {
       </I18nextProvider>
     );
 
-    const saturday = nextWeekdayISO(6); // Saturday (both lunch and dinner)
+    const friday = nextWeekdayISO(5); // Use Friday to ensure dinner times available
     const sunday = nextWeekdayISO(0);   // Sunday (lunch only)
 
     const dateInput = screen.getByLabelText(/date/i) as HTMLInputElement;
-    fireEvent.change(dateInput, { target: { value: saturday } });
+    fireEvent.change(dateInput, { target: { value: friday } });
 
-    // pick a dinner time that exists on Saturday (e.g., 19:00)
+    // wait for time options to populate and include a dinner time (e.g., 19:00)
     const timeSelect = await screen.findByLabelText(/heure|time/i) as HTMLSelectElement;
+    await waitFor(() => {
+      const options = Array.from(timeSelect.options).map((o) => o.value);
+      expect(options).toContain('19:00');
+    });
+
     fireEvent.change(timeSelect, { target: { value: '19:00' } });
     expect(timeSelect.value).toBe('19:00');
 
@@ -86,15 +91,20 @@ describe('Reservation UI flows', () => {
     // submit first time -> success screen
     fireEvent.click(screen.getByRole('button', { name: /confirmer|réserver|confirm/i }));
 
+    // advance latency (600ms) to complete booking
+    vi.advanceTimersByTime(600);
+
     // should show success title
     await screen.findByText(/confirmée|confirmed/i);
 
     // advance the 3s timer to reset back to form
-    vi.runAllTimers();
+    vi.advanceTimersByTime(3000);
 
-    // Fill again with same slot
-    fireEvent.change(dateInput, { target: { value: wednesday } });
-    fireEvent.change(screen.getByLabelText(/heure|time/i), { target: { value: '11:30' } });
+    // After reset, reacquire inputs
+    const dateInput2 = await screen.findByLabelText(/date/i) as HTMLInputElement;
+    fireEvent.change(dateInput2, { target: { value: wednesday } });
+    const timeSelect2 = await screen.findByLabelText(/heure|time/i) as HTMLSelectElement;
+    fireEvent.change(timeSelect2, { target: { value: '11:30' } });
     fireEvent.change(screen.getByPlaceholderText(/Votre nom|Your first/i), { target: { value: 'Jean Dupont' } });
     fireEvent.change(screen.getByPlaceholderText(/you@email/i), { target: { value: 'jean@example.com' } });
     fireEvent.change(screen.getByPlaceholderText(/06|33/i), { target: { value: '0600000000' } });
