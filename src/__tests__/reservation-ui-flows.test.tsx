@@ -111,6 +111,9 @@ describe('Reservation UI flows', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /confirmer|réserver|confirm/i }));
 
+    // advance latency (600ms) to allow second booking attempt to resolve with slot_full
+    vi.advanceTimersByTime(600);
+
     // Should display slot full error
     await screen.findByRole('alert');
     expect(screen.getByText(/créneau.*complet|fully booked/i)).toBeTruthy();
