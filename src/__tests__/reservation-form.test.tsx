@@ -44,6 +44,24 @@ describe('ReservationForm validation (zod + RHF)', () => {
     expect(props.onSubmit).not.toHaveBeenCalled();
   });
 
+  test('rejects invalid email and does not submit', async () => {
+    const today = new Date().toISOString().split('T')[0];
+    const { props } = renderForm({
+      defaultValues: {
+        date: today,
+        time: '11:30',
+        guests: '2',
+        name: 'John Doe',
+        email: 'not-an-email',
+        phone: '0600000000',
+        message: ''
+      }
+    });
+    const submitBtn = screen.getByRole('button', { name: /réserver|confirm/i });
+    fireEvent.click(submitBtn);
+    expect(props.onSubmit).not.toHaveBeenCalled();
+  });
+
   test('submits with minimal valid values', async () => {
     const today = new Date().toISOString().split('T')[0];
     const { props } = renderForm({
