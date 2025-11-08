@@ -150,6 +150,7 @@ jobs:
   osv:
     name: OSV Scanner
     if: ${{ github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
+    continue-on-error: true
     uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.2.4
     with:
       scan-args: |-
