@@ -13,7 +13,7 @@
     "test": "vitest --run",
     "test:watch": "vitest",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "sh -c \"if [ -d node_modules/husky ]; then npx husky install; else echo 'Skipping husky (dev deps omitted)'; fi\""
   },
   "dependencies": {
     "lucide-react": "^0.344.0",
