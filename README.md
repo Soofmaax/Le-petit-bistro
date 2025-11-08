@@ -218,6 +218,27 @@ Ajoutez vos captures/GIFs pour la vitrine:
 - Rapports de couverture générés (text + lcov) et uploadés comme artifacts
 - Seuils appliqués (lignes/fonctions/branches/statements) afin de maintenir la qualité
 
+## 🧪 Tests & Troubleshooting
+
+- Lancer la suite:
+  - `npm run test` (CI)
+  - `npm run test:watch` (dev)
+- Environnement: jsdom + @testing-library/react. Les animations (Lottie/confetti) sont mockées dans `vitest.setup.ts`.
+- Timers:
+  - Utilisez `vi.useFakeTimers()` et `vi.runAllTimers()` pour simuler les délais (ex: reset de 3s après succès).
+- Couverture:
+  - Seuils: lignes 75%, fonctions 75%, statements 75%, branches 65%.
+- Cookies:
+  - La bannière de consentement est désactivée en mode test (`import.meta.env.MODE === 'test'`).
+  - En prod/dev, pour rouvrir la modale, utilisez dans la console:
+    ```js
+    window.dispatchEvent(new CustomEvent('cookie:open'));
+    ```
+- i18n:
+  - Si un test dépend de libellés, attendez les éléments via `findBy*` et regex FR/EN.
+- Réseau:
+  - Les appels réseau réels sont inexistants; la logique réservation est mockée en local.
+
 ## 📚 Ressources & Documentation
 
 - [SECURITY.md](./SECURITY.md) — Politique de sécurité, CSP, gestion des secrets, RGPD

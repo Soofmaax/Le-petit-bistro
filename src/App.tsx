@@ -16,6 +16,7 @@ import Legal from './components/legal/Legal';
 import Privacy from './components/legal/Privacy';
 import Terms from './components/legal/Terms';
 import Cookies from './components/legal/Cookies';
+import CookieConsent from './components/CookieConsent';
 
 const Page: React.FC<{ children: React.ReactNode; reduce?: boolean }> = ({ children, reduce }) => (
   <motion.main
@@ -246,6 +247,7 @@ function App() {
         )}
       </AnimatePresence>
       <Footer />
+      <CookieConsent />
     </div>
   );
 }
