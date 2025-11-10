@@ -20,7 +20,7 @@
     "react-router-dom": "^6.26.1",
     "framer-motion": "^11.3.31",
     "i18next": "^25.4.1",
-    "react-i18next": "^15.7.3",
+    "react-i18next": "^16.2.4",
     "canvas-confetti": "^1.9.3",
     "lottie-react": "^2.4.1"
   },
